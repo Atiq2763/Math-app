@@ -2,31 +2,30 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#4f46e5">
-<script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js');
-  }
-</script>
-<title>My Math App</title>
+<title>Math Practice</title>
 <style>
   body { font-family: Arial, sans-serif; background: #f4f6fb; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; padding: 20px 0; }
-  .card { background: white; padding: 30px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); text-align: center; width: 320px; }
+  .card { background: white; padding: 30px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); text-align: center; width: 360px; }
   h1 { font-size: 20px; color: #333; }
   h2 { font-size: 17px; color: #333; line-height: 1.4; }
-  .subject-btn { display: block; width: 100%; text-align: left; background: #f9fafb; border: 2px solid #e5e7eb; border-radius: 10px; padding: 14px; margin-bottom: 12px; cursor: pointer; }
-  .subject-btn:hover { border-color: #4f46e5; }
-  .subject-name { font-weight: bold; font-size: 15px; color: #333; }
+  .chapter-btn, .subject-btn { display: block; width: 100%; text-align: left; background: #f9fafb; border: 2px solid #e5e7eb; border-radius: 10px; padding: 14px; margin-bottom: 12px; cursor: pointer; }
+  .chapter-btn:hover, .subject-btn:hover { border-color: #4f46e5; }
+  .chapter-name, .subject-name { font-weight: bold; font-size: 15px; color: #333; }
   .subject-stats { font-size: 13px; color: #666; margin-top: 4px; }
   .mastered-badge { display: inline-block; background: #d1fae5; color: #059669; font-size: 11px; font-weight: bold; padding: 2px 8px; border-radius: 10px; margin-left: 6px; }
   #topic { font-size: 12px; color: #4f46e5; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; }
   #progress { font-size: 13px; color: #666; margin-bottom: 6px; }
-  input { padding: 10px; font-size: 16px; width: 100px; text-align: center; margin-top: 10px; border: 2px solid #ccc; border-radius: 8px; }
-  button.action { display: block; width: 100%; margin: 10px auto 0; padding: 10px 20px; background: #4f46e5; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; }
+  .option-btn { display: block; width: 100%; text-align: left; background: #f9fafb; border: 2px solid #e5e7eb; border-radius: 8px; padding: 12px 14px; margin-top: 10px; font-size: 15px; cursor: pointer; color: #333; }
+  .option-btn:hover { border-color: #4f46e5; background: #eef2ff; }
+  .option-btn.correct { border-color: #059669; background: #d1fae5; color: #047857; }
+  .option-btn.wrong { border-color: #dc2626; background: #fee2e2; color: #b91c1c; }
+  .option-btn:disabled { cursor: default; }
+  button.action { display: block; width: 100%; margin: 14px auto 0; padding: 10px 20px; background: #4f46e5; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; }
   button.action:hover { background: #4338ca; }
   .back-btn { background: #6b7280; }
   .back-btn:hover { background: #4b5563; }
+  .next-btn { background: #059669; }
+  .next-btn:hover { background: #047857; }
   #result { margin-top: 15px; font-weight: bold; font-size: 15px; min-height: 20px; }
   .hidden { display: none; }
   .bonus-tag { color: #d97706; font-size: 12px; font-weight: bold; }
@@ -34,40 +33,144 @@
 </head>
 <body>
 
-  <div class="card" id="homeScreen">
-    <h1>Choose a Subject</h1>
-    <div id="subjectList"></div>
+  <!-- SCREEN 1: choose Algebra or Geometry -->
+  <div class="card" id="chapterScreen">
+    <h1>Choose a Chapter</h1>
+    <div id="chapterList"></div>
   </div>
 
+  <!-- SCREEN 2: choose a sub-chapter -->
+  <div class="card hidden" id="subjectScreen">
+    <h1 id="chapterTitle"></h1>
+    <div id="subjectList"></div>
+    <button class="action back-btn" onclick="goToChapters()">Back to Chapters</button>
+  </div>
+
+  <!-- SCREEN 3: practice a question -->
   <div class="card hidden" id="practiceScreen">
     <p id="progress"></p>
     <p id="topic"></p>
     <h2 id="question">Loading...</h2>
-    <input type="number" id="answerBox" placeholder="?" step="any">
-    <button class="action" id="checkBtn" onclick="checkAnswer()">Check Answer</button>
+    <div id="optionsList"></div>
     <p id="result"></p>
-    <button class="action back-btn" onclick="goHome()">Back to Subjects</button>
+    <button class="action next-btn hidden" id="nextBtn" onclick="goToNext()">Next</button>
+    <button class="action back-btn" onclick="goToSubjects()">Back to Sub-chapters</button>
   </div>
 
 <script>
-  var subjects = {
-    algebra:      { label: "Linear Equations", mastered: false },
-    quadratic:    { label: "Quadratic Equations", mastered: false },
-    wordproblems: { label: "Word Problems", mastered: false },
-    geometry:     { label: "Geometry", mastered: false },
-    functions:    { label: "Functions", mastered: false }
+  // ---- CHAPTER + SUB-CHAPTER STRUCTURE ----
+  var chapters = {
+    algebra: {
+      label: "Algebra",
+      subjects: {
+        linear:    { label: "Linear Equations", mastered: false },
+        quadratic: { label: "Quadratic Equations", mastered: false },
+        exponents: { label: "Exponents", mastered: false },
+        polynomials: { label: "Polynomials", mastered: false }
+      }
+    },
+    geometry: {
+      label: "Geometry",
+      subjects: {
+        angles:   { label: "Angles", mastered: false },
+        triangles:{ label: "Triangles", mastered: false },
+        circles:  { label: "Circles", mastered: false },
+        areaperimeter: { label: "Area & Perimeter", mastered: false }
+      }
+    }
   };
 
+  // ---- QUESTION BANKS ----
+  var questionBanks = {
+    linear: [
+      { q: "Solve for x: 2x + 3 = 11", a: "4", options: ["3", "4", "5", "7"] },
+      { q: "Solve for x: 5x - 4 = 16", a: "4", options: ["2", "4", "6", "8"] },
+      { q: "Solve for x: 3x + 7 = 22", a: "5", options: ["3", "5", "7", "9"] },
+      { q: "Solve for x: 4x - 2 = 18", a: "5", options: ["4", "5", "6", "8"] },
+      { q: "Solve for x: x + 9 = 20", a: "11", options: ["9", "10", "11", "12"] },
+      { q: "Solve for x: 6x = 30", a: "5", options: ["4", "5", "6", "7"] }
+    ],
+    quadratic: [
+      { q: "Find the smaller root: x² - 3x - 4 = 0", a: "-1", options: ["-1", "1", "4", "-4"] },
+      { q: "Find the smaller root: x² - 5x + 6 = 0", a: "2", options: ["1", "2", "3", "6"] },
+      { q: "Find the smaller root: x² + 2x - 8 = 0", a: "-4", options: ["-4", "2", "4", "-2"] },
+      { q: "Find the smaller root: x² - 7x + 10 = 0", a: "2", options: ["2", "5", "7", "10"] },
+      { q: "Find the smaller root: x² - x - 6 = 0", a: "-2", options: ["-2", "2", "3", "-3"] }
+    ],
+    exponents: [
+      { q: "What is 2³?", a: "8", options: ["6", "8", "9", "16"] },
+      { q: "What is 5²?", a: "25", options: ["10", "15", "25", "50"] },
+      { q: "What is 3⁴?", a: "81", options: ["12", "27", "64", "81"] },
+      { q: "What is 10²?", a: "100", options: ["20", "100", "1000", "10"] },
+      { q: "What is 4³?", a: "64", options: ["12", "16", "64", "48"] }
+    ],
+    polynomials: [
+      { q: "Simplify: (x + 2) + (x + 3)", a: "2x + 5", options: ["2x + 5", "x + 5", "2x + 6", "x² + 5"] },
+      { q: "Simplify: (3x + 1) - (x + 4)", a: "2x - 3", options: ["2x - 3", "2x + 3", "4x - 3", "2x - 5"] },
+      { q: "Expand: (x + 2)(x + 3)", a: "x² + 5x + 6", options: ["x² + 5x + 6", "x² + 6x + 5", "x² + 5", "2x² + 6"] },
+      { q: "Simplify: 2x + 3x", a: "5x", options: ["5x", "6x", "5x²", "23x"] }
+    ],
+    angles: [
+      { q: "How many degrees are in a right angle?", a: "90", options: ["45", "90", "180", "360"] },
+      { q: "How many degrees are in a straight angle?", a: "180", options: ["90", "120", "180", "360"] },
+      { q: "How many degrees are in a full circle?", a: "360", options: ["90", "180", "270", "360"] },
+      { q: "Two angles that add up to 90° are called what?", a: "Complementary", options: ["Supplementary", "Complementary", "Adjacent", "Vertical"] },
+      { q: "Two angles that add up to 180° are called what?", a: "Supplementary", options: ["Complementary", "Supplementary", "Right", "Acute"] }
+    ],
+    triangles: [
+      { q: "What is the sum of all angles in a triangle?", a: "180°", options: ["90°", "180°", "270°", "360°"] },
+      { q: "A triangle with all sides equal is called what?", a: "Equilateral", options: ["Scalene", "Isosceles", "Equilateral", "Right"] },
+      { q: "A triangle with exactly two equal sides is called what?", a: "Isosceles", options: ["Scalene", "Isosceles", "Equilateral", "Obtuse"] },
+      { q: "A triangle with one 90° angle is called what?", a: "Right triangle", options: ["Acute triangle", "Right triangle", "Obtuse triangle", "Equilateral triangle"] },
+      { q: "A right triangle has legs 3 and 4. What is the hypotenuse?", a: "5", options: ["5", "6", "7", "12"] }
+    ],
+    circles: [
+      { q: "What do you call the distance from the center of a circle to its edge?", a: "Radius", options: ["Diameter", "Radius", "Circumference", "Chord"] },
+      { q: "What do you call the distance across a circle through its center?", a: "Diameter", options: ["Radius", "Diameter", "Arc", "Sector"] },
+      { q: "What is the formula for the circumference of a circle?", a: "2πr", options: ["πr²", "2πr", "πd²", "r²"] },
+      { q: "What is the formula for the area of a circle?", a: "πr²", options: ["2πr", "πr²", "πd", "2r"] },
+      { q: "If the radius of a circle is 5, what is the diameter?", a: "10", options: ["5", "10", "15", "25"] }
+    ],
+    areaperimeter: [
+      { q: "A rectangle has width 4 and height 6. What is its area?", a: "24", options: ["10", "20", "24", "28"] },
+      { q: "A rectangle has width 4 and height 6. What is its perimeter?", a: "20", options: ["10", "20", "24", "28"] },
+      { q: "A square has side length 5. What is its area?", a: "25", options: ["10", "20", "25", "30"] },
+      { q: "A square has side length 5. What is its perimeter?", a: "20", options: ["15", "20", "25", "30"] },
+      { q: "A triangle has base 6 and height 4. What is its area?", a: "12", options: ["10", "12", "24", "20"] }
+    ]
+  };
+
+  var currentChapter = null;
   var currentSubject = null;
   var correctAnswer = null;
   var questionQueue = [];
   var currentIndex = 0;
   var masteryFailed = false;
+  var answered = false;
 
-  function goHome() {
-    document.getElementById("practiceScreen").classList.add("hidden");
-    document.getElementById("homeScreen").classList.remove("hidden");
+  // ---- SCREEN NAVIGATION ----
+  function goToChapters() {
+    hideAll();
+    document.getElementById("chapterScreen").classList.remove("hidden");
+    renderChapterList();
+  }
+
+  function goToSubjects() {
+    hideAll();
+    document.getElementById("subjectScreen").classList.remove("hidden");
+    document.getElementById("chapterTitle").innerHTML = chapters[currentChapter].label;
     renderSubjectList();
+  }
+
+  function hideAll() {
+    document.getElementById("chapterScreen").classList.add("hidden");
+    document.getElementById("subjectScreen").classList.add("hidden");
+    document.getElementById("practiceScreen").classList.add("hidden");
+  }
+
+  function openChapter(key) {
+    currentChapter = key;
+    goToSubjects();
   }
 
   function startSubject(key) {
@@ -76,23 +179,41 @@
     currentIndex = 0;
     masteryFailed = false;
 
-    for (var i = 0; i < 5; i++) {
-      questionQueue.push(generateQuestion(false));
+    var bank = questionBanks[key].slice();
+    shuffle(bank);
+
+    var count = Math.min(5, bank.length);
+    for (var i = 0; i < count; i++) {
+      questionQueue.push(makeQuestionObj(bank[i], false));
     }
 
-    document.getElementById("homeScreen").classList.add("hidden");
+    hideAll();
     document.getElementById("practiceScreen").classList.remove("hidden");
-    document.getElementById("checkBtn").classList.remove("hidden");
-    document.getElementById("answerBox").classList.remove("hidden");
     showCurrentQuestion();
+  }
+
+  // ---- RENDER LISTS ----
+  function renderChapterList() {
+    var container = document.getElementById("chapterList");
+    container.innerHTML = "";
+
+    for (var key in chapters) {
+      var ch = chapters[key];
+      var btn = document.createElement("button");
+      btn.className = "chapter-btn";
+      btn.onclick = (function(k) { return function() { openChapter(k); }; })(key);
+      btn.innerHTML = '<div class="chapter-name">' + ch.label + '</div>';
+      container.appendChild(btn);
+    }
   }
 
   function renderSubjectList() {
     var container = document.getElementById("subjectList");
     container.innerHTML = "";
+    var subs = chapters[currentChapter].subjects;
 
-    for (var key in subjects) {
-      var s = subjects[key];
+    for (var key in subs) {
+      var s = subs[key];
       var badge = s.mastered ? '<span class="mastered-badge">MASTERED</span>' : '';
 
       var btn = document.createElement("button");
@@ -107,141 +228,90 @@
     }
   }
 
-  // ---- QUESTION GENERATION ----
-  function generateQuestion(isBonus) {
-    var q = { text: "", answer: null, isBonus: isBonus };
+  // ---- QUESTION HELPERS ----
+  function makeQuestionObj(bankItem, isBonus) {
+    var opts = bankItem.options.slice();
+    shuffle(opts);
+    return { text: bankItem.q, answer: bankItem.a, options: opts, isBonus: isBonus };
+  }
 
-    if (currentSubject === "algebra") {
-      var a = Math.floor(Math.random() * 9) + 2;
-      var x = Math.floor(Math.random() * 15) + 1;
-      var b = Math.floor(Math.random() * 20) + 1;
-      var c = a * x + b;
-      q.answer = x;
-      q.text = "Solve for x: " + a + "x + " + b + " = " + c;
-
-    } else if (currentSubject === "quadratic") {
-      var r1 = Math.floor(Math.random() * 10) - 5;
-      var r2 = Math.floor(Math.random() * 10) - 5;
-      if (r1 === r2) { r2 = r2 + 1; }
-      var smaller = Math.min(r1, r2);
-      var bCoef = -(r1 + r2);
-      var cCoef = r1 * r2;
-      q.answer = smaller;
-      var bStr = bCoef >= 0 ? " + " + bCoef + "x" : " - " + Math.abs(bCoef) + "x";
-      var cStr = cCoef >= 0 ? " + " + cCoef : " - " + Math.abs(cCoef);
-      q.text = "Find the smaller root: x²" + bStr + cStr + " = 0";
-
-    } else if (currentSubject === "wordproblems") {
-      var templates = ["speed", "money", "age"];
-      var t = templates[Math.floor(Math.random() * templates.length)];
-
-      if (t === "speed") {
-        var speed = Math.floor(Math.random() * 60) + 20;
-        var time = Math.floor(Math.random() * 5) + 1;
-        q.answer = speed * time;
-        q.text = "A car travels at " + speed + " km/h for " + time + " hours. How far does it travel (in km)?";
-
-      } else if (t === "money") {
-        var price = Math.floor(Math.random() * 20) + 5;
-        var qty = Math.floor(Math.random() * 8) + 2;
-        q.answer = price * qty;
-        q.text = "Apples cost $" + price + " each. How much do " + qty + " apples cost (in $)?";
-
-      } else if (t === "age") {
-        var currentAge = Math.floor(Math.random() * 20) + 10;
-        var yearsAhead = Math.floor(Math.random() * 10) + 1;
-        q.answer = currentAge + yearsAhead;
-        q.text = "Sam is " + currentAge + " years old today. How old will Sam be in " + yearsAhead + " years?";
-      }
-
-    } else if (currentSubject === "geometry") {
-      var shapes = ["rectangleArea", "trianglePerimeter", "pythagoras"];
-      var shape = shapes[Math.floor(Math.random() * shapes.length)];
-
-      if (shape === "rectangleArea") {
-        var w = Math.floor(Math.random() * 12) + 2;
-        var h = Math.floor(Math.random() * 12) + 2;
-        q.answer = w * h;
-        q.text = "A rectangle has width " + w + " and height " + h + ". What is its area?";
-
-      } else if (shape === "trianglePerimeter") {
-        var s1 = Math.floor(Math.random() * 10) + 3;
-        var s2 = Math.floor(Math.random() * 10) + 3;
-        var s3 = Math.floor(Math.random() * 10) + 3;
-        q.answer = s1 + s2 + s3;
-        q.text = "A triangle has sides " + s1 + ", " + s2 + ", and " + s3 + ". What is its perimeter?";
-
-      } else if (shape === "pythagoras") {
-        var triples = [[3,4,5], [6,8,10], [5,12,13], [9,12,15], [8,15,17]];
-        var picked = triples[Math.floor(Math.random() * triples.length)];
-        q.answer = picked[2];
-        q.text = "A right triangle has legs " + picked[0] + " and " + picked[1] + ". What is the length of the hypotenuse?";
-      }
-
-    } else if (currentSubject === "functions") {
-      var a = Math.floor(Math.random() * 6) + 1;
-      var b = Math.floor(Math.random() * 10) + 1;
-      var k = Math.floor(Math.random() * 10) + 1;
-      var useSquare = Math.random() < 0.5;
-
-      if (useSquare) {
-        q.answer = a * k * k + b;
-        q.text = "f(x) = " + a + "x² + " + b + ".  Find f(" + k + ")";
-      } else {
-        q.answer = a * k + b;
-        q.text = "f(x) = " + a + "x + " + b + ".  Find f(" + k + ")";
-      }
+  function shuffle(arr) {
+    for (var i = arr.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var temp = arr[i];
+      arr[i] = arr[j];
+      arr[j] = temp;
     }
+  }
 
-    return q;
+  function pickBonusQuestion() {
+    var bank = questionBanks[currentSubject];
+    var picked = bank[Math.floor(Math.random() * bank.length)];
+    return makeQuestionObj(picked, true);
   }
 
   function showCurrentQuestion() {
     var q = questionQueue[currentIndex];
     correctAnswer = q.answer;
+    answered = false;
 
     var progressText = "Question " + (currentIndex + 1) + " of " + questionQueue.length;
     if (q.isBonus) progressText += ' <span class="bonus-tag">— BONUS</span>';
 
     document.getElementById("progress").innerHTML = progressText;
-    document.getElementById("topic").innerHTML = subjects[currentSubject].label;
+    document.getElementById("topic").innerHTML = chapters[currentChapter].subjects[currentSubject].label;
     document.getElementById("question").innerHTML = q.text;
-    document.getElementById("answerBox").value = "";
     document.getElementById("result").innerHTML = "";
+    document.getElementById("nextBtn").classList.add("hidden");
+
+    var optionsList = document.getElementById("optionsList");
+    optionsList.innerHTML = "";
+
+    for (var i = 0; i < q.options.length; i++) {
+      var optBtn = document.createElement("button");
+      optBtn.className = "option-btn";
+      optBtn.innerHTML = q.options[i];
+      optBtn.onclick = (function(choice, btnRef) {
+        return function() { selectOption(choice, btnRef); };
+      })(q.options[i], optBtn);
+      optionsList.appendChild(optBtn);
+    }
   }
 
-  function checkAnswer() {
-    var userAnswer = document.getElementById("answerBox").value;
-    var resultText = document.getElementById("result");
-
-    if (userAnswer === "") {
-      resultText.innerHTML = "Type an answer first!";
-      resultText.style.color = "#999";
-      return;
-    }
+  // ---- ANSWER SELECTION (no auto-advance — waits for Next click) ----
+  function selectOption(choice, btnRef) {
+    if (answered) return;
+    answered = true;
 
     var currentQ = questionQueue[currentIndex];
-    var wasCorrect = parseFloat(userAnswer) === correctAnswer;
+    var wasCorrect = choice === correctAnswer;
+    var resultText = document.getElementById("result");
+
+    var allButtons = document.querySelectorAll("#optionsList .option-btn");
+    for (var i = 0; i < allButtons.length; i++) {
+      allButtons[i].disabled = true;
+      if (allButtons[i].innerHTML === correctAnswer) {
+        allButtons[i].classList.add("correct");
+      }
+    }
 
     if (wasCorrect) {
       resultText.innerHTML = "✅ Correct!";
       resultText.style.color = "green";
     } else {
-      resultText.innerHTML = "❌ Wrong. Answer was " + correctAnswer + ".";
+      btnRef.classList.add("wrong");
+      resultText.innerHTML = "❌ Wrong. Correct answer highlighted above.";
       resultText.style.color = "red";
 
       if (currentQ.isBonus) {
         masteryFailed = true;
       } else {
-        questionQueue.push(generateQuestion(true));
+        questionQueue.push(pickBonusQuestion());
       }
     }
 
-    document.getElementById("checkBtn").disabled = true;
-    setTimeout(function() {
-      document.getElementById("checkBtn").disabled = false;
-      goToNext();
-    }, 1200);
+    // show the Next button instead of auto-advancing
+    document.getElementById("nextBtn").classList.remove("hidden");
   }
 
   function goToNext() {
@@ -255,25 +325,26 @@
 
   function finishSession() {
     var resultText = document.getElementById("result");
-    document.getElementById("checkBtn").classList.add("hidden");
-    document.getElementById("answerBox").classList.add("hidden");
+    document.getElementById("optionsList").innerHTML = "";
     document.getElementById("progress").innerHTML = "";
+    document.getElementById("nextBtn").classList.add("hidden");
 
     if (masteryFailed) {
       document.getElementById("topic").innerHTML = "";
       document.getElementById("question").innerHTML = "Not mastered this time.";
-      resultText.innerHTML = "Try the subject again to earn Mastery.";
+      resultText.innerHTML = "Try this sub-chapter again to earn Mastery.";
       resultText.style.color = "#d97706";
     } else {
-      subjects[currentSubject].mastered = true;
+      chapters[currentChapter].subjects[currentSubject].mastered = true;
       document.getElementById("topic").innerHTML = "";
-      document.getElementById("question").innerHTML = "🏆 Subject Mastered!";
+      document.getElementById("question").innerHTML = "🏆 Sub-chapter Mastered!";
       resultText.innerHTML = "You answered every question correctly.";
       resultText.style.color = "green";
     }
   }
 
-  renderSubjectList();
+  // ---- START THE APP ----
+  renderChapterList();
 </script>
 
 </body>
