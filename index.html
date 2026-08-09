@@ -150,11 +150,70 @@
   }
   .tab-btn .tab-icon { font-size: 20px; }
   .tab-btn.active { color: #4f46e5; font-weight: bold; }
+.auth-screen {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+.auth-card {
+  background: white;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+.auth-card h1 { text-align: center; margin-bottom: 20px; }
+.auth-input {
+  width: 100%;
+  padding: 12px;
+  font-size: 15px;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+.auth-error {
+  color: #dc2626;
+  font-size: 13px;
+  text-align: center;
+  min-height: 18px;
+  margin-bottom: 8px;
+}
+.auth-switch {
+  text-align: center;
+  font-size: 14px;
+  color: #666;
+  margin-top: 14px;
+}
+.auth-switch a { color: #4f46e5; cursor: pointer; font-weight: bold; }
+.logout-btn {
+  background: #f9fafb;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 13px;
+  cursor: pointer;
+  float: right;
+  margin-bottom: 10px;
+}
 </style>
 </head>
 <body>
 
-  <div class="content" id="mainContent"></div>
+ <div class="auth-screen" id="authScreen">
+  <div class="auth-card">
+    <h1 id="authTitle">Log In</h1>
+    <p class="auth-error" id="authError"></p>
+    <input type="email" id="authEmail" class="auth-input" placeholder="Email">
+    <input type="password" id="authPassword" class="auth-input" placeholder="Password">
+    <button class="action" id="authSubmitBtn" onclick="handleAuthSubmit()">Log In</button>
+    <p class="auth-switch" id="authSwitchText">
+      Don't have an account? <a onclick="toggleAuthMode()">Sign Up</a>
+    </p>
+  </div>
+</div>
+
+<div id="appScreen" class="hidden">
+<button class="logout-btn" onclick="handleLogout()">Log Out</button>
+ <div class="content" id="mainContent"></div>
 
   <div class="tab-bar">
     <button class="tab-btn active" id="tabFav" onclick="switchTab('favourites')">
@@ -166,6 +225,7 @@
     <button class="tab-btn" id="tabAll" onclick="switchTab('all')">
       <span class="tab-icon">🗂️</span> Total Courses
     </button>
+  </div>
   </div>
 
 <script>
@@ -488,6 +548,71 @@
   }
 
   switchTab("favourites");
+</script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } 
+    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDHc9vS_q2DFfr1rnGLyUkAfcp8QkAKyss",
+    authDomain: "mathflux-d3b47.firebaseapp.com",
+    projectId: "mathflux-d3b47",
+    storageBucket: "mathflux-d3b47.firebasestorage.app",
+    messagingSenderId: "280421081797",
+    appId: "1:280421081797:web:d7b70c925d4ab493e386ac",
+    measurementId: "G-J86YF92MZW"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  // make these available to the rest of our app's code
+  window.firebaseAuth = auth;
+  window.firebaseCreateUser = createUserWithEmailAndPassword;
+  window.firebaseSignIn = signInWithEmailAndPassword;
+  window.firebaseSignOut = signOut;
+  window.firebaseOnAuthChange = onAuthStateChanged;
+  var isSignUpMode = false;
+
+  window.toggleAuthMode = function() {
+    isSignUpMode = !isSignUpMode;
+    document.getElementById("authTitle").innerHTML = isSignUpMode ? "Sign Up" : "Log In";
+    document.getElementById("authSubmitBtn").innerHTML = isSignUpMode ? "Sign Up" : "Log In";
+    document.getElementById("authSwitchText").innerHTML = isSignUpMode
+      ? 'Already have an account? <a onclick="toggleAuthMode()">Log In</a>'
+      : "Don't have an account? <a onclick=\"toggleAuthMode()\">Sign Up</a>";
+    document.getElementById("authError").innerHTML = "";
+  };
+
+  window.handleAuthSubmit = function() {
+    var email = document.getElementById("authEmail").value;
+    var password = document.getElementById("authPassword").value;
+    var errorBox = document.getElementById("authError");
+    errorBox.innerHTML = "";
+
+    var action = isSignUpMode
+      ? window.firebaseCreateUser(window.firebaseAuth, email, password)
+      : window.firebaseSignIn(window.firebaseAuth, email, password);
+
+    action.catch(function(error) {
+      errorBox.innerHTML = error.message;
+    });
+  };
+
+  window.handleLogout = function() {
+    window.firebaseSignOut(window.firebaseAuth);
+  };
+
+  window.firebaseOnAuthChange(window.firebaseAuth, function(user) {
+    if (user) {
+      document.getElementById("authScreen").classList.add("hidden");
+      document.getElementById("appScreen").classList.remove("hidden");
+    } else {
+      document.getElementById("authScreen").classList.remove("hidden");
+      document.getElementById("appScreen").classList.add("hidden");
+    }
+  });
 </script>
 
 </body>
