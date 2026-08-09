@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#4f46e5">
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js');
+  }
+</script>
+<title>My Math App</title>
+<style>
+  body { font-family: Arial, sans-serif; background: #f4f6fb; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; padding: 20px 0; }
+  .card { background: white; padding: 30px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); text-align: center; width: 320px; }
+  h1 { font-size: 20px; color: #333; }
+  h2 { font-size: 17px; color: #333; line-height: 1.4; }
+  .subject-btn { display: block; width: 100%; text-align: left; background: #f9fafb; border: 2px solid #e5e7eb; border-radius: 10px; padding: 14px; margin-bottom: 12px; cursor: pointer; }
+  .subject-btn:hover { border-color: #4f46e5; }
+  .subject-name { font-weight: bold; font-size: 15px; color: #333; }
+  .subject-stats { font-size: 13px; color: #666; margin-top: 4px; }
+  .mastered-badge { display: inline-block; background: #d1fae5; color: #059669; font-size: 11px; font-weight: bold; padding: 2px 8px; border-radius: 10px; margin-left: 6px; }
+  #topic { font-size: 12px; color: #4f46e5; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; }
+  #progress { font-size: 13px; color: #666; margin-bottom: 6px; }
+  input { padding: 10px; font-size: 16px; width: 100px; text-align: center; margin-top: 10px; border: 2px solid #ccc; border-radius: 8px; }
+  button.action { display: block; width: 100%; margin: 10px auto 0; padding: 10px 20px; background: #4f46e5; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; }
+  button.action:hover { background: #4338ca; }
+  .back-btn { background: #6b7280; }
+  .back-btn:hover { background: #4b5563; }
+  #result { margin-top: 15px; font-weight: bold; font-size: 15px; min-height: 20px; }
+  .hidden { display: none; }
+  .bonus-tag { color: #d97706; font-size: 12px; font-weight: bold; }
+</style>
+</head>
+<body>
+
+  <div class="card" id="homeScreen">
+    <h1>Choose a Subject</h1>
+    <div id="subjectList"></div>
+  </div>
+
+  <div class="card hidden" id="practiceScreen">
+    <p id="progress"></p>
+    <p id="topic"></p>
+    <h2 id="question">Loading...</h2>
+    <input type="number" id="answerBox" placeholder="?" step="any">
+    <button class="action" id="checkBtn" onclick="checkAnswer()">Check Answer</button>
+    <p id="result"></p>
+    <button class="action back-btn" onclick="goHome()">Back to Subjects</button>
+  </div>
+
+<script>
+  var subjects = {
+    algebra:      { label: "Linear Equations", mastered: false },
+    quadratic:    { label: "Quadratic Equations", mastered: false },
+    wordproblems: { label: "Word Problems", mastered: false },
+    geometry:     { label: "Geometry", mastered: false },
+    functions:    { label: "Functions", mastered: false }
+  };
+
+  var currentSubject = null;
+  var correctAnswer = null;
+  var questionQueue = [];
+  var currentIndex = 0;
+  var masteryFailed = false;
+
+  function goHome() {
+    document.getElementById("practiceScreen").classList.add("hidden");
+    document.getElementById("homeScreen").classList.remove("hidden");
+    renderSubjectList();
+  }
+
+  function startSubject(key) {
+    currentSubject = key;
+    questionQueue = [];
+    currentIndex = 0;
+    masteryFailed = false;
+
+    for (var i = 0; i < 5; i++) {
+      questionQueue.push(generateQuestion(false));
+    }
+
+    document.getElementById("homeScreen").classList.add("hidden");
+    document.getElementById("practiceScreen").classList.remove("hidden");
+    document.getElementById("checkBtn").classList.remove("hidden");
+    document.getElementById("answerBox").classList.remove("hidden");
+    showCurrentQuestion();
+  }
+
+  function renderSubjectList() {
+    var container = document.getElementById("subjectList");
+    container.innerHTML = "";
+
+    for (var key in subjects) {
+      var s = subjects[key];
+      var badge = s.mastered ? '<span class="mastered-badge">MASTERED</span>' : '';
+
+      var btn = document.createElement("button");
+      btn.className = "subject-btn";
+      btn.onclick = (function(k) { return function() { startSubject(k); }; })(key);
+
+      btn.innerHTML =
+        '<div class="subject-name">' + s.label + badge + '</div>' +
+        '<div class="subject-stats">' + (s.mastered ? "Completed" : "Not mastered yet") + '</div>';
+
+      container.appendChild(btn);
+    }
+  }
+
+  // ---- QUESTION GENERATION ----
+  function generateQuestion(isBonus) {
+    var q = { text: "", answer: null, isBonus: isBonus };
+
+    if (currentSubject === "algebra") {
+      var a = Math.floor(Math.random() * 9) + 2;
+      var x = Math.floor(Math.random() * 15) + 1;
+      var b = Math.floor(Math.random() * 20) + 1;
+      var c = a * x + b;
+      q.answer = x;
+      q.text = "Solve for x: " + a + "x + " + b + " = " + c;
+
+    } else if (currentSubject === "quadratic") {
+      var r1 = Math.floor(Math.random() * 10) - 5;
+      var r2 = Math.floor(Math.random() * 10) - 5;
+      if (r1 === r2) { r2 = r2 + 1; }
+      var smaller = Math.min(r1, r2);
+      var bCoef = -(r1 + r2);
+      var cCoef = r1 * r2;
+      q.answer = smaller;
+      var bStr = bCoef >= 0 ? " + " + bCoef + "x" : " - " + Math.abs(bCoef) + "x";
+      var cStr = cCoef >= 0 ? " + " + cCoef : " - " + Math.abs(cCoef);
+      q.text = "Find the smaller root: x²" + bStr + cStr + " = 0";
+
+    } else if (currentSubject === "wordproblems") {
+      var templates = ["speed", "money", "age"];
+      var t = templates[Math.floor(Math.random() * templates.length)];
+
+      if (t === "speed") {
+        var speed = Math.floor(Math.random() * 60) + 20;
+        var time = Math.floor(Math.random() * 5) + 1;
+        q.answer = speed * time;
+        q.text = "A car travels at " + speed + " km/h for " + time + " hours. How far does it travel (in km)?";
+
+      } else if (t === "money") {
+        var price = Math.floor(Math.random() * 20) + 5;
+        var qty = Math.floor(Math.random() * 8) + 2;
+        q.answer = price * qty;
+        q.text = "Apples cost $" + price + " each. How much do " + qty + " apples cost (in $)?";
+
+      } else if (t === "age") {
+        var currentAge = Math.floor(Math.random() * 20) + 10;
+        var yearsAhead = Math.floor(Math.random() * 10) + 1;
+        q.answer = currentAge + yearsAhead;
+        q.text = "Sam is " + currentAge + " years old today. How old will Sam be in " + yearsAhead + " years?";
+      }
+
+    } else if (currentSubject === "geometry") {
+      var shapes = ["rectangleArea", "trianglePerimeter", "pythagoras"];
+      var shape = shapes[Math.floor(Math.random() * shapes.length)];
+
+      if (shape === "rectangleArea") {
+        var w = Math.floor(Math.random() * 12) + 2;
+        var h = Math.floor(Math.random() * 12) + 2;
+        q.answer = w * h;
+        q.text = "A rectangle has width " + w + " and height " + h + ". What is its area?";
+
+      } else if (shape === "trianglePerimeter") {
+        var s1 = Math.floor(Math.random() * 10) + 3;
+        var s2 = Math.floor(Math.random() * 10) + 3;
+        var s3 = Math.floor(Math.random() * 10) + 3;
+        q.answer = s1 + s2 + s3;
+        q.text = "A triangle has sides " + s1 + ", " + s2 + ", and " + s3 + ". What is its perimeter?";
+
+      } else if (shape === "pythagoras") {
+        var triples = [[3,4,5], [6,8,10], [5,12,13], [9,12,15], [8,15,17]];
+        var picked = triples[Math.floor(Math.random() * triples.length)];
+        q.answer = picked[2];
+        q.text = "A right triangle has legs " + picked[0] + " and " + picked[1] + ". What is the length of the hypotenuse?";
+      }
+
+    } else if (currentSubject === "functions") {
+      var a = Math.floor(Math.random() * 6) + 1;
+      var b = Math.floor(Math.random() * 10) + 1;
+      var k = Math.floor(Math.random() * 10) + 1;
+      var useSquare = Math.random() < 0.5;
+
+      if (useSquare) {
+        q.answer = a * k * k + b;
+        q.text = "f(x) = " + a + "x² + " + b + ".  Find f(" + k + ")";
+      } else {
+        q.answer = a * k + b;
+        q.text = "f(x) = " + a + "x + " + b + ".  Find f(" + k + ")";
+      }
+    }
+
+    return q;
+  }
+
+  function showCurrentQuestion() {
+    var q = questionQueue[currentIndex];
+    correctAnswer = q.answer;
+
+    var progressText = "Question " + (currentIndex + 1) + " of " + questionQueue.length;
+    if (q.isBonus) progressText += ' <span class="bonus-tag">— BONUS</span>';
+
+    document.getElementById("progress").innerHTML = progressText;
+    document.getElementById("topic").innerHTML = subjects[currentSubject].label;
+    document.getElementById("question").innerHTML = q.text;
+    document.getElementById("answerBox").value = "";
+    document.getElementById("result").innerHTML = "";
+  }
+
+  function checkAnswer() {
+    var userAnswer = document.getElementById("answerBox").value;
+    var resultText = document.getElementById("result");
+
+    if (userAnswer === "") {
+      resultText.innerHTML = "Type an answer first!";
+      resultText.style.color = "#999";
+      return;
+    }
+
+    var currentQ = questionQueue[currentIndex];
+    var wasCorrect = parseFloat(userAnswer) === correctAnswer;
+
+    if (wasCorrect) {
+      resultText.innerHTML = "✅ Correct!";
+      resultText.style.color = "green";
+    } else {
+      resultText.innerHTML = "❌ Wrong. Answer was " + correctAnswer + ".";
+      resultText.style.color = "red";
+
+      if (currentQ.isBonus) {
+        masteryFailed = true;
+      } else {
+        questionQueue.push(generateQuestion(true));
+      }
+    }
+
+    document.getElementById("checkBtn").disabled = true;
+    setTimeout(function() {
+      document.getElementById("checkBtn").disabled = false;
+      goToNext();
+    }, 1200);
+  }
+
+  function goToNext() {
+    currentIndex++;
+    if (currentIndex >= questionQueue.length) {
+      finishSession();
+      return;
+    }
+    showCurrentQuestion();
+  }
+
+  function finishSession() {
+    var resultText = document.getElementById("result");
+    document.getElementById("checkBtn").classList.add("hidden");
+    document.getElementById("answerBox").classList.add("hidden");
+    document.getElementById("progress").innerHTML = "";
+
+    if (masteryFailed) {
+      document.getElementById("topic").innerHTML = "";
+      document.getElementById("question").innerHTML = "Not mastered this time.";
+      resultText.innerHTML = "Try the subject again to earn Mastery.";
+      resultText.style.color = "#d97706";
+    } else {
+      subjects[currentSubject].mastered = true;
+      document.getElementById("topic").innerHTML = "";
+      document.getElementById("question").innerHTML = "🏆 Subject Mastered!";
+      resultText.innerHTML = "You answered every question correctly.";
+      resultText.style.color = "green";
+    }
+  }
+
+  renderSubjectList();
+</script>
+
+</body>
+</html>
