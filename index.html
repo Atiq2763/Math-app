@@ -2,233 +2,392 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Math Practice</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Test Prep App</title>
 <style>
-  body { font-family: Arial, sans-serif; background: #f4f6fb; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; padding: 20px 0; }
-  .card { background: white; padding: 30px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); text-align: center; width: 360px; }
-  h1 { font-size: 20px; color: #333; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: Arial, sans-serif;
+    background: #f4f6fb;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  .content {
+    flex: 1;
+    padding: 16px;
+    padding-bottom: 80px;
+    max-width: 480px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  h1 { font-size: 20px; color: #333; margin-top: 8px; }
   h2 { font-size: 17px; color: #333; line-height: 1.4; }
-  .chapter-btn, .subject-btn { display: block; width: 100%; text-align: left; background: #f9fafb; border: 2px solid #e5e7eb; border-radius: 10px; padding: 14px; margin-bottom: 12px; cursor: pointer; }
-  .chapter-btn:hover, .subject-btn:hover { border-color: #4f46e5; }
-  .chapter-name, .subject-name { font-weight: bold; font-size: 15px; color: #333; }
+
+  .course-card {
+    background: white;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .course-info { flex: 1; cursor: pointer; }
+  .course-name { font-weight: bold; font-size: 16px; color: #333; }
+  .course-sub { font-size: 13px; color: #666; margin-top: 3px; }
+  .course-actions { display: flex; gap: 8px; margin-left: 10px; }
+  .icon-btn {
+    background: #f9fafb;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .icon-btn.active { background: #fee2e2; border-color: #dc2626; }
+  .icon-btn.added { background: #d1fae5; border-color: #059669; }
+
+  .subject-btn {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: white;
+    border: 2px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 14px;
+    margin-bottom: 12px;
+    cursor: pointer;
+  }
+  .subject-btn:hover { border-color: #4f46e5; }
+  .subject-name { font-weight: bold; font-size: 15px; color: #333; }
   .subject-stats { font-size: 13px; color: #666; margin-top: 4px; }
   .mastered-badge { display: inline-block; background: #d1fae5; color: #059669; font-size: 11px; font-weight: bold; padding: 2px 8px; border-radius: 10px; margin-left: 6px; }
+  .soon-badge { display: inline-block; background: #fef3c7; color: #b45309; font-size: 11px; font-weight: bold; padding: 2px 8px; border-radius: 10px; margin-left: 6px; }
+
+  .card {
+    background: white;
+    padding: 24px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    text-align: center;
+  }
+
   #topic { font-size: 12px; color: #4f46e5; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; }
   #progress { font-size: 13px; color: #666; margin-bottom: 6px; }
-  .option-btn { display: block; width: 100%; text-align: left; background: #f9fafb; border: 2px solid #e5e7eb; border-radius: 8px; padding: 12px 14px; margin-top: 10px; font-size: 15px; cursor: pointer; color: #333; }
+
+  .option-btn {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: #f9fafb;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin-top: 10px;
+    font-size: 15px;
+    cursor: pointer;
+    color: #333;
+  }
   .option-btn:hover { border-color: #4f46e5; background: #eef2ff; }
   .option-btn.correct { border-color: #059669; background: #d1fae5; color: #047857; }
   .option-btn.wrong { border-color: #dc2626; background: #fee2e2; color: #b91c1c; }
   .option-btn:disabled { cursor: default; }
-  button.action { display: block; width: 100%; margin: 14px auto 0; padding: 10px 20px; background: #4f46e5; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; }
+
+  button.action {
+    display: block;
+    width: 100%;
+    margin: 14px auto 0;
+    padding: 12px 20px;
+    background: #4f46e5;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+  }
   button.action:hover { background: #4338ca; }
   .back-btn { background: #6b7280; }
   .back-btn:hover { background: #4b5563; }
   .next-btn { background: #059669; }
   .next-btn:hover { background: #047857; }
+
   #result { margin-top: 15px; font-weight: bold; font-size: 15px; min-height: 20px; }
   .hidden { display: none; }
   .bonus-tag { color: #d97706; font-size: 12px; font-weight: bold; }
+  .empty-msg { color: #999; font-size: 14px; text-align: center; margin-top: 30px; }
+
+  .tab-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    border-top: 1px solid #e5e7eb;
+    display: flex;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+  .tab-btn {
+    flex: 1;
+    background: none;
+    border: none;
+    padding: 12px 4px 10px;
+    font-size: 12px;
+    color: #999;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+  .tab-btn .tab-icon { font-size: 20px; }
+  .tab-btn.active { color: #4f46e5; font-weight: bold; }
 </style>
 </head>
 <body>
 
-  <!-- SCREEN 1: choose Algebra or Geometry -->
-  <div class="card" id="chapterScreen">
-    <h1>Choose a Chapter</h1>
-    <div id="chapterList"></div>
-  </div>
+  <div class="content" id="mainContent"></div>
 
-  <!-- SCREEN 2: choose a sub-chapter -->
-  <div class="card hidden" id="subjectScreen">
-    <h1 id="chapterTitle"></h1>
-    <div id="subjectList"></div>
-    <button class="action back-btn" onclick="goToChapters()">Back to Chapters</button>
-  </div>
-
-  <!-- SCREEN 3: practice a question -->
-  <div class="card hidden" id="practiceScreen">
-    <p id="progress"></p>
-    <p id="topic"></p>
-    <h2 id="question">Loading...</h2>
-    <div id="optionsList"></div>
-    <p id="result"></p>
-    <button class="action next-btn hidden" id="nextBtn" onclick="goToNext()">Next</button>
-    <button class="action back-btn" onclick="goToSubjects()">Back to Sub-chapters</button>
+  <div class="tab-bar">
+    <button class="tab-btn active" id="tabFav" onclick="switchTab('favourites')">
+      <span class="tab-icon">★</span> Favourites
+    </button>
+    <button class="tab-btn" id="tabMy" onclick="switchTab('mycourses')">
+      <span class="tab-icon">📘</span> My Courses
+    </button>
+    <button class="tab-btn" id="tabAll" onclick="switchTab('all')">
+      <span class="tab-icon">🗂️</span> Total Courses
+    </button>
   </div>
 
 <script>
-  // ---- CHAPTER + SUB-CHAPTER STRUCTURE ----
-  var chapters = {
-    algebra: {
-      label: "Algebra",
+  var courses = {
+    mdcat: {
+      label: "MDCAT",
       subjects: {
-        linear:    { label: "Linear Equations", mastered: false },
-        quadratic: { label: "Quadratic Equations", mastered: false },
-        exponents: { label: "Exponents", mastered: false },
-        polynomials: { label: "Polynomials", mastered: false }
+        biology:  { label: "Biology" },
+        physics:  { label: "Physics" },
+        chemistry:{ label: "Chemistry" },
+        logical:  { label: "Logical Reasoning" },
+        english:  { label: "English" }
       }
     },
-    geometry: {
-      label: "Geometry",
+    sat: {
+      label: "SAT",
       subjects: {
-        angles:   { label: "Angles", mastered: false },
-        triangles:{ label: "Triangles", mastered: false },
-        circles:  { label: "Circles", mastered: false },
-        areaperimeter: { label: "Area & Perimeter", mastered: false }
+        math:    { label: "Mathematics" },
+        english: { label: "English" }
+      }
+    },
+    fast: {
+      label: "FAST-NUCES Entry Test",
+      subjects: {
+        math: { label: "Mathematics" },
+        english: { label: "English" },
+        iq: { label: "IQ / Analytical" }
+      }
+    },
+    nust: {
+      label: "NUST Entry Test (NET)",
+      subjects: {
+        math: { label: "Mathematics" },
+        physics: { label: "Physics" },
+        chemistry: { label: "Chemistry" },
+        english: { label: "English" }
+      }
+    },
+    iba: {
+      label: "IBA Entry Test",
+      subjects: {
+        math: { label: "Mathematics" },
+        english: { label: "English" },
+        analytical: { label: "Analytical Reasoning" }
       }
     }
   };
 
-  // ---- QUESTION BANKS ----
+  var favourites = {};
+  var myCourses = {};
+  var subjectMastery = {};
+
+  var currentTab = "favourites";
+  var currentCourse = null;
+  var currentSubject = null;
+
   var questionBanks = {
-    linear: [
+    biology: [
+      { q: "Which organelle is known as the 'powerhouse of the cell'?", a: "Mitochondria", options: ["Nucleus", "Mitochondria", "Ribosome", "Golgi apparatus"] },
+      { q: "What is the basic structural unit of life?", a: "Cell", options: ["Cell", "Tissue", "Organ", "Atom"] },
+      { q: "DNA is found mainly inside which cell structure?", a: "Nucleus", options: ["Nucleus", "Cytoplasm", "Cell wall", "Vacuole"] },
+      { q: "Which blood cells are responsible for carrying oxygen?", a: "Red blood cells", options: ["White blood cells", "Red blood cells", "Platelets", "Plasma"] },
+      { q: "Photosynthesis mainly occurs in which organelle?", a: "Chloroplast", options: ["Mitochondria", "Chloroplast", "Nucleus", "Ribosome"] }
+    ],
+    math: [
       { q: "Solve for x: 2x + 3 = 11", a: "4", options: ["3", "4", "5", "7"] },
-      { q: "Solve for x: 5x - 4 = 16", a: "4", options: ["2", "4", "6", "8"] },
-      { q: "Solve for x: 3x + 7 = 22", a: "5", options: ["3", "5", "7", "9"] },
-      { q: "Solve for x: 4x - 2 = 18", a: "5", options: ["4", "5", "6", "8"] },
-      { q: "Solve for x: x + 9 = 20", a: "11", options: ["9", "10", "11", "12"] },
-      { q: "Solve for x: 6x = 30", a: "5", options: ["4", "5", "6", "7"] }
-    ],
-    quadratic: [
-      { q: "Find the smaller root: x² - 3x - 4 = 0", a: "-1", options: ["-1", "1", "4", "-4"] },
-      { q: "Find the smaller root: x² - 5x + 6 = 0", a: "2", options: ["1", "2", "3", "6"] },
-      { q: "Find the smaller root: x² + 2x - 8 = 0", a: "-4", options: ["-4", "2", "4", "-2"] },
-      { q: "Find the smaller root: x² - 7x + 10 = 0", a: "2", options: ["2", "5", "7", "10"] },
-      { q: "Find the smaller root: x² - x - 6 = 0", a: "-2", options: ["-2", "2", "3", "-3"] }
-    ],
-    exponents: [
-      { q: "What is 2³?", a: "8", options: ["6", "8", "9", "16"] },
-      { q: "What is 5²?", a: "25", options: ["10", "15", "25", "50"] },
-      { q: "What is 3⁴?", a: "81", options: ["12", "27", "64", "81"] },
-      { q: "What is 10²?", a: "100", options: ["20", "100", "1000", "10"] },
-      { q: "What is 4³?", a: "64", options: ["12", "16", "64", "48"] }
-    ],
-    polynomials: [
-      { q: "Simplify: (x + 2) + (x + 3)", a: "2x + 5", options: ["2x + 5", "x + 5", "2x + 6", "x² + 5"] },
-      { q: "Simplify: (3x + 1) - (x + 4)", a: "2x - 3", options: ["2x - 3", "2x + 3", "4x - 3", "2x - 5"] },
-      { q: "Expand: (x + 2)(x + 3)", a: "x² + 5x + 6", options: ["x² + 5x + 6", "x² + 6x + 5", "x² + 5", "2x² + 6"] },
-      { q: "Simplify: 2x + 3x", a: "5x", options: ["5x", "6x", "5x²", "23x"] }
-    ],
-    angles: [
-      { q: "How many degrees are in a right angle?", a: "90", options: ["45", "90", "180", "360"] },
-      { q: "How many degrees are in a straight angle?", a: "180", options: ["90", "120", "180", "360"] },
-      { q: "How many degrees are in a full circle?", a: "360", options: ["90", "180", "270", "360"] },
-      { q: "Two angles that add up to 90° are called what?", a: "Complementary", options: ["Supplementary", "Complementary", "Adjacent", "Vertical"] },
-      { q: "Two angles that add up to 180° are called what?", a: "Supplementary", options: ["Complementary", "Supplementary", "Right", "Acute"] }
-    ],
-    triangles: [
-      { q: "What is the sum of all angles in a triangle?", a: "180°", options: ["90°", "180°", "270°", "360°"] },
-      { q: "A triangle with all sides equal is called what?", a: "Equilateral", options: ["Scalene", "Isosceles", "Equilateral", "Right"] },
-      { q: "A triangle with exactly two equal sides is called what?", a: "Isosceles", options: ["Scalene", "Isosceles", "Equilateral", "Obtuse"] },
-      { q: "A triangle with one 90° angle is called what?", a: "Right triangle", options: ["Acute triangle", "Right triangle", "Obtuse triangle", "Equilateral triangle"] },
-      { q: "A right triangle has legs 3 and 4. What is the hypotenuse?", a: "5", options: ["5", "6", "7", "12"] }
-    ],
-    circles: [
-      { q: "What do you call the distance from the center of a circle to its edge?", a: "Radius", options: ["Diameter", "Radius", "Circumference", "Chord"] },
-      { q: "What do you call the distance across a circle through its center?", a: "Diameter", options: ["Radius", "Diameter", "Arc", "Sector"] },
-      { q: "What is the formula for the circumference of a circle?", a: "2πr", options: ["πr²", "2πr", "πd²", "r²"] },
-      { q: "What is the formula for the area of a circle?", a: "πr²", options: ["2πr", "πr²", "πd", "2r"] },
-      { q: "If the radius of a circle is 5, what is the diameter?", a: "10", options: ["5", "10", "15", "25"] }
-    ],
-    areaperimeter: [
-      { q: "A rectangle has width 4 and height 6. What is its area?", a: "24", options: ["10", "20", "24", "28"] },
-      { q: "A rectangle has width 4 and height 6. What is its perimeter?", a: "20", options: ["10", "20", "24", "28"] },
-      { q: "A square has side length 5. What is its area?", a: "25", options: ["10", "20", "25", "30"] },
-      { q: "A square has side length 5. What is its perimeter?", a: "20", options: ["15", "20", "25", "30"] },
-      { q: "A triangle has base 6 and height 4. What is its area?", a: "12", options: ["10", "12", "24", "20"] }
+      { q: "What is 15% of 200?", a: "30", options: ["20", "25", "30", "35"] },
+      { q: "If a triangle has angles 60° and 70°, what is the third angle?", a: "50°", options: ["40°", "50°", "60°", "70°"] },
+      { q: "What is the value of 7²?", a: "49", options: ["14", "36", "49", "56"] },
+      { q: "Simplify: 3(x + 2)", a: "3x + 6", options: ["3x + 2", "3x + 6", "x + 6", "3x + 5"] }
     ]
   };
 
-  var currentChapter = null;
-  var currentSubject = null;
-  var correctAnswer = null;
-  var questionQueue = [];
-  var currentIndex = 0;
-  var masteryFailed = false;
-  var answered = false;
+  function switchTab(tab) {
+    currentTab = tab;
+    currentCourse = null;
+    currentSubject = null;
 
-  // ---- SCREEN NAVIGATION ----
-  function goToChapters() {
-    hideAll();
-    document.getElementById("chapterScreen").classList.remove("hidden");
-    renderChapterList();
+    document.getElementById("tabFav").classList.toggle("active", tab === "favourites");
+    document.getElementById("tabMy").classList.toggle("active", tab === "mycourses");
+    document.getElementById("tabAll").classList.toggle("active", tab === "all");
+
+    renderCourseList();
   }
 
-  function goToSubjects() {
-    hideAll();
-    document.getElementById("subjectScreen").classList.remove("hidden");
-    document.getElementById("chapterTitle").innerHTML = chapters[currentChapter].label;
-    renderSubjectList();
+  function renderCourseList() {
+    var container = document.getElementById("mainContent");
+    var html = "<h1>" + tabTitle() + "</h1>";
+
+    var keysToShow = [];
+    for (var key in courses) {
+      if (currentTab === "all") { keysToShow.push(key); }
+      else if (currentTab === "favourites" && favourites[key]) { keysToShow.push(key); }
+      else if (currentTab === "mycourses" && myCourses[key]) { keysToShow.push(key); }
+    }
+
+    if (keysToShow.length === 0) {
+      html += '<p class="empty-msg">' + emptyMessage() + '</p>';
+      container.innerHTML = html;
+      return;
+    }
+
+    container.innerHTML = html;
+
+    for (var i = 0; i < keysToShow.length; i++) {
+      var key = keysToShow[i];
+      var c = courses[key];
+      var subjectCount = Object.keys(c.subjects).length;
+
+      var card = document.createElement("div");
+      card.className = "course-card";
+
+      var info = document.createElement("div");
+      info.className = "course-info";
+      info.innerHTML = '<div class="course-name">' + c.label + '</div><div class="course-sub">' + subjectCount + ' subjects</div>';
+      info.onclick = (function(k) { return function() { openCourse(k); }; })(key);
+
+      var actions = document.createElement("div");
+      actions.className = "course-actions";
+
+      var favBtn = document.createElement("button");
+      favBtn.className = "icon-btn" + (favourites[key] ? " active" : "");
+      favBtn.innerHTML = "★";
+      favBtn.onclick = (function(k) { return function(e) { e.stopPropagation(); toggleFavourite(k); }; })(key);
+
+      var addBtn = document.createElement("button");
+      addBtn.className = "icon-btn" + (myCourses[key] ? " added" : "");
+      addBtn.innerHTML = myCourses[key] ? "✓" : "+";
+      addBtn.onclick = (function(k) { return function(e) { e.stopPropagation(); toggleMyCourse(k); }; })(key);
+
+      actions.appendChild(favBtn);
+      actions.appendChild(addBtn);
+      card.appendChild(info);
+      card.appendChild(actions);
+      container.appendChild(card);
+    }
   }
 
-  function hideAll() {
-    document.getElementById("chapterScreen").classList.add("hidden");
-    document.getElementById("subjectScreen").classList.add("hidden");
-    document.getElementById("practiceScreen").classList.add("hidden");
+  function tabTitle() {
+    if (currentTab === "favourites") return "★ Favourites";
+    if (currentTab === "mycourses") return "📘 My Courses";
+    return "🗂️ Total Courses";
   }
 
-  function openChapter(key) {
-    currentChapter = key;
-    goToSubjects();
+  function emptyMessage() {
+    if (currentTab === "favourites") return "No favourites yet. Tap ★ on any course to add it here.";
+    if (currentTab === "mycourses") return "You haven't added any courses yet. Tap + on any course to add it here.";
+    return "No courses available.";
   }
 
-  function startSubject(key) {
-    currentSubject = key;
+  function toggleFavourite(key) {
+    favourites[key] = !favourites[key];
+    renderCourseList();
+  }
+
+  function toggleMyCourse(key) {
+    myCourses[key] = !myCourses[key];
+    renderCourseList();
+  }
+
+  function openCourse(key) {
+    currentCourse = key;
+    var container = document.getElementById("mainContent");
+    var c = courses[key];
+
+    var html = '<button class="action back-btn" onclick="renderCourseList()" style="margin-bottom:16px;">← Back</button>';
+    html += "<h1>" + c.label + "</h1>";
+    container.innerHTML = html;
+
+    for (var subKey in c.subjects) {
+      var s = c.subjects[subKey];
+      var hasQuestions = questionBanks[subKey] !== undefined;
+      var badge = subjectMastery[subKey] ? '<span class="mastered-badge">MASTERED</span>' : (!hasQuestions ? '<span class="soon-badge">COMING SOON</span>' : '');
+
+      var btn = document.createElement("button");
+      btn.className = "subject-btn";
+      btn.innerHTML = '<div class="subject-name">' + s.label + badge + '</div>' +
+        '<div class="subject-stats">' + (hasQuestions ? (subjectMastery[subKey] ? "Completed" : "Tap to practice") : "Question bank not added yet") + '</div>';
+
+      if (hasQuestions) {
+        btn.onclick = (function(sk) { return function() { startSubject(sk); }; })(subKey);
+      } else {
+        btn.style.opacity = "0.6";
+      }
+
+      container.appendChild(btn);
+    }
+  }
+
+  var correctAnswer, questionQueue = [], currentIndex = 0, masteryFailed = false, answered = false;
+
+  function startSubject(subKey) {
+    currentSubject = subKey;
     questionQueue = [];
     currentIndex = 0;
     masteryFailed = false;
 
-    var bank = questionBanks[key].slice();
+    var bank = questionBanks[subKey].slice();
     shuffle(bank);
-
     var count = Math.min(5, bank.length);
     for (var i = 0; i < count; i++) {
       questionQueue.push(makeQuestionObj(bank[i], false));
     }
 
-    hideAll();
-    document.getElementById("practiceScreen").classList.remove("hidden");
+    renderPracticeScreen();
     showCurrentQuestion();
   }
 
-  // ---- RENDER LISTS ----
-  function renderChapterList() {
-    var container = document.getElementById("chapterList");
-    container.innerHTML = "";
-
-    for (var key in chapters) {
-      var ch = chapters[key];
-      var btn = document.createElement("button");
-      btn.className = "chapter-btn";
-      btn.onclick = (function(k) { return function() { openChapter(k); }; })(key);
-      btn.innerHTML = '<div class="chapter-name">' + ch.label + '</div>';
-      container.appendChild(btn);
-    }
+  function renderPracticeScreen() {
+    var container = document.getElementById("mainContent");
+    container.innerHTML =
+      '<div class="card">' +
+      '<p id="progress"></p>' +
+      '<p id="topic"></p>' +
+      '<h2 id="question">Loading...</h2>' +
+      '<div id="optionsList"></div>' +
+      '<p id="result"></p>' +
+      '<button class="action next-btn hidden" id="nextBtn" onclick="goToNext()">Next</button>' +
+      '<button class="action back-btn" onclick="openCourse(currentCourse)">Back to Subjects</button>' +
+      '</div>';
   }
 
-  function renderSubjectList() {
-    var container = document.getElementById("subjectList");
-    container.innerHTML = "";
-    var subs = chapters[currentChapter].subjects;
-
-    for (var key in subs) {
-      var s = subs[key];
-      var badge = s.mastered ? '<span class="mastered-badge">MASTERED</span>' : '';
-
-      var btn = document.createElement("button");
-      btn.className = "subject-btn";
-      btn.onclick = (function(k) { return function() { startSubject(k); }; })(key);
-
-      btn.innerHTML =
-        '<div class="subject-name">' + s.label + badge + '</div>' +
-        '<div class="subject-stats">' + (s.mastered ? "Completed" : "Not mastered yet") + '</div>';
-
-      container.appendChild(btn);
-    }
-  }
-
-  // ---- QUESTION HELPERS ----
   function makeQuestionObj(bankItem, isBonus) {
     var opts = bankItem.options.slice();
     shuffle(opts);
@@ -238,9 +397,7 @@
   function shuffle(arr) {
     for (var i = arr.length - 1; i > 0; i--) {
       var j = Math.floor(Math.random() * (i + 1));
-      var temp = arr[i];
-      arr[i] = arr[j];
-      arr[j] = temp;
+      var t = arr[i]; arr[i] = arr[j]; arr[j] = t;
     }
   }
 
@@ -259,7 +416,7 @@
     if (q.isBonus) progressText += ' <span class="bonus-tag">— BONUS</span>';
 
     document.getElementById("progress").innerHTML = progressText;
-    document.getElementById("topic").innerHTML = chapters[currentChapter].subjects[currentSubject].label;
+    document.getElementById("topic").innerHTML = courses[currentCourse].subjects[currentSubject].label;
     document.getElementById("question").innerHTML = q.text;
     document.getElementById("result").innerHTML = "";
     document.getElementById("nextBtn").classList.add("hidden");
@@ -271,14 +428,11 @@
       var optBtn = document.createElement("button");
       optBtn.className = "option-btn";
       optBtn.innerHTML = q.options[i];
-      optBtn.onclick = (function(choice, btnRef) {
-        return function() { selectOption(choice, btnRef); };
-      })(q.options[i], optBtn);
+      optBtn.onclick = (function(choice, btnRef) { return function() { selectOption(choice, btnRef); }; })(q.options[i], optBtn);
       optionsList.appendChild(optBtn);
     }
   }
 
-  // ---- ANSWER SELECTION (no auto-advance — waits for Next click) ----
   function selectOption(choice, btnRef) {
     if (answered) return;
     answered = true;
@@ -290,9 +444,7 @@
     var allButtons = document.querySelectorAll("#optionsList .option-btn");
     for (var i = 0; i < allButtons.length; i++) {
       allButtons[i].disabled = true;
-      if (allButtons[i].innerHTML === correctAnswer) {
-        allButtons[i].classList.add("correct");
-      }
+      if (allButtons[i].innerHTML === correctAnswer) allButtons[i].classList.add("correct");
     }
 
     if (wasCorrect) {
@@ -302,24 +454,16 @@
       btnRef.classList.add("wrong");
       resultText.innerHTML = "❌ Wrong. Correct answer highlighted above.";
       resultText.style.color = "red";
-
-      if (currentQ.isBonus) {
-        masteryFailed = true;
-      } else {
-        questionQueue.push(pickBonusQuestion());
-      }
+      if (currentQ.isBonus) { masteryFailed = true; }
+      else { questionQueue.push(pickBonusQuestion()); }
     }
 
-    // show the Next button instead of auto-advancing
     document.getElementById("nextBtn").classList.remove("hidden");
   }
 
   function goToNext() {
     currentIndex++;
-    if (currentIndex >= questionQueue.length) {
-      finishSession();
-      return;
-    }
+    if (currentIndex >= questionQueue.length) { finishSession(); return; }
     showCurrentQuestion();
   }
 
@@ -332,19 +476,18 @@
     if (masteryFailed) {
       document.getElementById("topic").innerHTML = "";
       document.getElementById("question").innerHTML = "Not mastered this time.";
-      resultText.innerHTML = "Try this sub-chapter again to earn Mastery.";
+      resultText.innerHTML = "Try this subject again to earn Mastery.";
       resultText.style.color = "#d97706";
     } else {
-      chapters[currentChapter].subjects[currentSubject].mastered = true;
+      subjectMastery[currentSubject] = true;
       document.getElementById("topic").innerHTML = "";
-      document.getElementById("question").innerHTML = "🏆 Sub-chapter Mastered!";
+      document.getElementById("question").innerHTML = "🏆 Subject Mastered!";
       resultText.innerHTML = "You answered every question correctly.";
       resultText.style.color = "green";
     }
   }
 
-  // ---- START THE APP ----
-  renderChapterList();
+  switchTab("favourites");
 </script>
 
 </body>
