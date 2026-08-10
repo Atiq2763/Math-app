@@ -2,618 +2,1089 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Test Prep App</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+<title>Merit — Test Prep</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon.png">
+<link rel="apple-touch-icon" href="icon.png">
+<meta name="theme-color" content="#12182B">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
-  * { box-sizing: border-box; }
-  body {
-    font-family: Arial, sans-serif;
-    background: #f4f6fb;
-    margin: 0;
-    padding: 0;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-  }
-  .content {
-    flex: 1;
-    padding: 16px;
-    padding-bottom: 80px;
-    max-width: 480px;
-    margin: 0 auto;
-    width: 100%;
-  }
-  h1 { font-size: 20px; color: #333; margin-top: 8px; }
-  h2 { font-size: 17px; color: #333; line-height: 1.4; }
-
-  .course-card {
-    background: white;
-    border: 2px solid #e5e7eb;
-    border-radius: 12px;
-    padding: 16px;
-    margin-bottom: 14px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .course-info { flex: 1; cursor: pointer; }
-  .course-name { font-weight: bold; font-size: 16px; color: #333; }
-  .course-sub { font-size: 13px; color: #666; margin-top: 3px; }
-  .course-actions { display: flex; gap: 8px; margin-left: 10px; }
-  .icon-btn {
-    background: #f9fafb;
-    border: 2px solid #e5e7eb;
-    border-radius: 8px;
-    width: 40px;
-    height: 40px;
-    font-size: 18px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .icon-btn.active { background: #fee2e2; border-color: #dc2626; }
-  .icon-btn.added { background: #d1fae5; border-color: #059669; }
-
-  .subject-btn {
-    display: block;
-    width: 100%;
-    text-align: left;
-    background: white;
-    border: 2px solid #e5e7eb;
-    border-radius: 10px;
-    padding: 14px;
-    margin-bottom: 12px;
-    cursor: pointer;
-  }
-  .subject-btn:hover { border-color: #4f46e5; }
-  .subject-name { font-weight: bold; font-size: 15px; color: #333; }
-  .subject-stats { font-size: 13px; color: #666; margin-top: 4px; }
-  .mastered-badge { display: inline-block; background: #d1fae5; color: #059669; font-size: 11px; font-weight: bold; padding: 2px 8px; border-radius: 10px; margin-left: 6px; }
-  .soon-badge { display: inline-block; background: #fef3c7; color: #b45309; font-size: 11px; font-weight: bold; padding: 2px 8px; border-radius: 10px; margin-left: 6px; }
-
-  .card {
-    background: white;
-    padding: 24px;
-    border-radius: 16px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-    text-align: center;
-  }
-
-  #topic { font-size: 12px; color: #4f46e5; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; }
-  #progress { font-size: 13px; color: #666; margin-bottom: 6px; }
-
-  .option-btn {
-    display: block;
-    width: 100%;
-    text-align: left;
-    background: #f9fafb;
-    border: 2px solid #e5e7eb;
-    border-radius: 8px;
-    padding: 12px 14px;
-    margin-top: 10px;
-    font-size: 15px;
-    cursor: pointer;
-    color: #333;
-  }
-  .option-btn:hover { border-color: #4f46e5; background: #eef2ff; }
-  .option-btn.correct { border-color: #059669; background: #d1fae5; color: #047857; }
-  .option-btn.wrong { border-color: #dc2626; background: #fee2e2; color: #b91c1c; }
-  .option-btn:disabled { cursor: default; }
-
-  button.action {
-    display: block;
-    width: 100%;
-    margin: 14px auto 0;
-    padding: 12px 20px;
-    background: #4f46e5;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    cursor: pointer;
-  }
-  button.action:hover { background: #4338ca; }
-  .back-btn { background: #6b7280; }
-  .back-btn:hover { background: #4b5563; }
-  .next-btn { background: #059669; }
-  .next-btn:hover { background: #047857; }
-
-  #result { margin-top: 15px; font-weight: bold; font-size: 15px; min-height: 20px; }
-  .hidden { display: none; }
-  .bonus-tag { color: #d97706; font-size: 12px; font-weight: bold; }
-  .empty-msg { color: #999; font-size: 14px; text-align: center; margin-top: 30px; }
-
-  .tab-bar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: white;
-    border-top: 1px solid #e5e7eb;
-    display: flex;
-    max-width: 480px;
-    margin: 0 auto;
-  }
-  .tab-btn {
-    flex: 1;
-    background: none;
-    border: none;
-    padding: 12px 4px 10px;
-    font-size: 12px;
-    color: #999;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-  }
-  .tab-btn .tab-icon { font-size: 20px; }
-  .tab-btn.active { color: #4f46e5; font-weight: bold; }
-.auth-screen {
-  max-width: 480px;
-  margin: 0 auto;
-  padding: 40px 20px;
+/* ============================================================
+   DESIGN TOKENS
+   Palette: exam-ledger navy ink, warm paper background, brass
+   "mastery" gold, hairline rule, correct/incorrect signal colors.
+   Type: Source Serif 4 (display/headings) + Inter (body/UI) +
+   IBM Plex Mono (scores, percentages, counters — the "data" face).
+   Signature: course cards styled like admit cards / roll-number
+   slips with a perforated edge and a corner progress stub, since
+   this product's whole world is entrance-test admission.
+   ============================================================ */
+:root{
+  --ink:#12182B;
+  --ink-soft:#4A5169;
+  --paper:#F6F3EA;
+  --paper-raised:#FFFFFF;
+  --rule:#DBD3BF;
+  --gold:#AD8A2E;
+  --gold-soft:#F1E6C8;
+  --correct:#2F7D5C;
+  --correct-soft:#E4F1EA;
+  --incorrect:#B3401E;
+  --incorrect-soft:#F7E6DE;
+  --shadow: 0 1px 2px rgba(18,24,43,.06), 0 8px 24px -12px rgba(18,24,43,.18);
+  --radius: 14px;
 }
-.auth-card {
-  background: white;
-  padding: 30px;
-  border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+html,body{margin:0;padding:0;}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'Inter',system-ui,sans-serif;
+  min-height:100vh;
+  padding-bottom:76px;
 }
-.auth-card h1 { text-align: center; margin-bottom: 20px; }
-.auth-input {
-  width: 100%;
-  padding: 12px;
-  font-size: 15px;
-  border: 2px solid #e5e7eb;
-  border-radius: 8px;
-  margin-bottom: 12px;
+h1,h2,h3,.serif{ font-family:'Source Serif 4', Georgia, serif; }
+.mono{ font-family:'IBM Plex Mono', monospace; }
+button{ font-family:inherit; cursor:pointer; }
+a{color:inherit;}
+::selection{ background:var(--gold-soft); }
+:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
+
+@media (prefers-reduced-motion: reduce){
+  *{ animation-duration:.001ms !important; transition-duration:.001ms !important; }
 }
-.auth-error {
-  color: #dc2626;
-  font-size: 13px;
-  text-align: center;
-  min-height: 18px;
-  margin-bottom: 8px;
+
+/* ---------- App shell ---------- */
+#app{ max-width:640px; margin:0 auto; min-height:100vh; position:relative; background:var(--paper); }
+
+header.topbar{
+  position:sticky; top:0; z-index:20;
+  background:var(--paper); border-bottom:1px solid var(--rule);
+  padding:18px 18px 14px;
 }
-.auth-switch {
-  text-align: center;
-  font-size: 14px;
-  color: #666;
-  margin-top: 14px;
+.brand{ display:flex; align-items:center; justify-content:space-between; }
+.brand-mark{ display:flex; align-items:center; gap:10px; }
+.brand-badge{
+  width:34px;height:34px;border-radius:9px;
+  background:var(--ink); color:var(--gold-soft);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Source Serif 4',serif; font-weight:700; font-size:17px;
 }
-.auth-switch a { color: #4f46e5; cursor: pointer; font-weight: bold; }
-.logout-btn {
-  background: #f9fafb;
-  border: 2px solid #e5e7eb;
-  border-radius: 8px;
-  padding: 8px 14px;
-  font-size: 13px;
-  cursor: pointer;
-  float: right;
-  margin-bottom: 10px;
+.brand-name{ font-family:'Source Serif 4',serif; font-weight:700; font-size:20px; letter-spacing:.2px; }
+.brand-tag{ font-size:11px; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.12em; margin-top:1px;}
+.stat-pill{
+  font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:600;
+  background:var(--paper-raised); border:1px solid var(--rule); border-radius:20px;
+  padding:6px 10px; color:var(--ink-soft);
 }
+
+.breadcrumbs{
+  display:flex; align-items:center; gap:6px; flex-wrap:wrap;
+  font-size:12.5px; color:var(--ink-soft); margin-top:12px;
+}
+.breadcrumbs button{
+  background:none;border:none;color:var(--ink-soft);font-size:12.5px;padding:2px 0;
+  border-bottom:1px solid transparent;
+}
+.breadcrumbs button:hover{ color:var(--ink); border-color:var(--rule); }
+.breadcrumbs .sep{ color:var(--rule); }
+.breadcrumbs .current{ color:var(--ink); font-weight:600; }
+
+main{ padding:16px 18px 28px; }
+
+/* ---------- Tab bar ---------- */
+nav.tabbar{
+  position:fixed; left:0; right:0; bottom:0; z-index:30;
+  background:var(--paper-raised); border-top:1px solid var(--rule);
+}
+.tabbar-inner{
+  max-width:640px; margin:0 auto;
+  display:grid; grid-template-columns:repeat(3,1fr);
+}
+.tab-btn{
+  background:none; border:none; padding:10px 4px 12px;
+  display:flex; flex-direction:column; align-items:center; gap:4px;
+  color:var(--ink-soft); font-size:11.5px; font-weight:600;
+  letter-spacing:.02em;
+}
+.tab-btn svg{ width:21px; height:21px; }
+.tab-btn.active{ color:var(--ink); }
+.tab-btn.active svg{ stroke:var(--gold); }
+.tab-btn .dot{ width:4px;height:4px;border-radius:50%; background:var(--gold); opacity:0; margin-top:-2px; }
+.tab-btn.active .dot{ opacity:1; }
+
+/* ---------- Section heading ---------- */
+.section-head{ margin:4px 0 14px; }
+.section-eyebrow{ font-size:11px; text-transform:uppercase; letter-spacing:.14em; color:var(--gold); font-weight:700; }
+.section-title{ font-size:23px; font-weight:600; margin:3px 0 2px; }
+.section-sub{ font-size:13.5px; color:var(--ink-soft); }
+
+/* ---------- Course cards: "admit card" signature ---------- */
+.course-grid{ display:flex; flex-direction:column; gap:14px; }
+.admit-card{
+  position:relative;
+  background:var(--paper-raised);
+  border:1px solid var(--rule);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  display:flex;
+  overflow:hidden;
+  text-align:left;
+  width:100%;
+  padding:0;
+}
+.admit-main{ flex:1; padding:16px 14px 15px 16px; display:flex; flex-direction:column; gap:8px; min-width:0; }
+.admit-top{ display:flex; align-items:flex-start; justify-content:space-between; gap:8px; }
+.admit-course-name{ font-family:'Source Serif 4',serif; font-weight:600; font-size:17px; line-height:1.2; }
+.admit-course-full{ font-size:11.5px; color:var(--ink-soft); margin-top:2px; }
+.star-btn{ background:none; border:none; padding:4px; flex-shrink:0; color:var(--rule); }
+.star-btn.active{ color:var(--gold); }
+.star-btn svg{ width:19px; height:19px; }
+.admit-meta{ display:flex; align-items:center; gap:10px; font-size:11.5px; color:var(--ink-soft); }
+.progress-track{ flex:1; height:6px; border-radius:4px; background:var(--rule); overflow:hidden; }
+.progress-fill{ height:100%; background:var(--gold); border-radius:4px; }
+.progress-pct{ font-family:'IBM Plex Mono',monospace; font-size:11.5px; font-weight:600; color:var(--ink); min-width:30px; text-align:right; }
+.admit-stub{
+  width:64px; flex-shrink:0;
+  background:var(--ink); color:var(--gold-soft);
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px;
+  border-left:2px dashed var(--rule);
+  position:relative;
+}
+.admit-stub::before, .admit-stub::after{
+  content:''; position:absolute; left:-6px; width:12px; height:12px; border-radius:50%;
+  background:var(--paper);
+}
+.admit-stub::before{ top:-6px; }
+.admit-stub::after{ bottom:-6px; }
+.admit-stub-num{ font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:15px; }
+.admit-stub-label{ font-size:8.5px; text-transform:uppercase; letter-spacing:.08em; opacity:.75; }
+
+/* ---------- Generic list rows (subjects, chapters, topics) ---------- */
+.row-list{ display:flex; flex-direction:column; gap:10px; }
+.row-card{
+  background:var(--paper-raised); border:1px solid var(--rule); border-radius:12px;
+  padding:14px 14px; display:flex; align-items:center; gap:12px;
+  text-align:left; width:100%; box-shadow:var(--shadow);
+}
+.row-icon{
+  width:38px;height:38px;border-radius:10px; flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--gold-soft); color:var(--gold); font-weight:700; font-family:'Source Serif 4',serif;
+}
+.row-body{ flex:1; min-width:0; }
+.row-title{ font-weight:600; font-size:14.5px; }
+.row-sub{ font-size:12px; color:var(--ink-soft); margin-top:2px; }
+.row-chev{ color:var(--rule); flex-shrink:0; }
+.row-chev svg{ width:18px;height:18px; }
+.row-card.mastered .row-icon{ background:var(--correct-soft); color:var(--correct); }
+.badge{
+  font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600; padding:3px 7px; border-radius:20px;
+  border:1px solid var(--rule); color:var(--ink-soft); flex-shrink:0;
+}
+.badge.mastered{ background:var(--correct-soft); color:var(--correct); border-color:transparent; }
+.badge.practicing{ background:var(--gold-soft); color:var(--gold); border-color:transparent; }
+
+/* mastery block at end of topic list */
+.mastery-block{
+  margin-top:18px; padding:18px; border-radius:var(--radius);
+  background:var(--ink); color:var(--paper);
+  display:flex; flex-direction:column; gap:10px;
+  border:1px solid var(--ink);
+}
+.mastery-block .m-eyebrow{ font-size:10.5px; text-transform:uppercase; letter-spacing:.14em; color:var(--gold); font-weight:700; }
+.mastery-block h3{ margin:0; font-size:18px; }
+.mastery-block p{ margin:0; font-size:12.5px; color:#C9CBD8; line-height:1.5; }
+.mastery-block .m-row{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:4px; }
+.btn-primary{
+  background:var(--gold); color:var(--ink); border:none; border-radius:10px;
+  padding:11px 18px; font-weight:700; font-size:13.5px; white-space:nowrap;
+}
+.btn-primary:disabled{ opacity:.5; }
+.btn-ghost{
+  background:transparent; color:inherit; border:1px solid var(--rule); border-radius:10px;
+  padding:10px 16px; font-weight:600; font-size:13.5px;
+}
+.mastery-block .btn-ghost{ border-color:#3A4058; color:var(--paper); }
+
+/* ---------- Empty state ---------- */
+.empty{ text-align:center; padding:56px 20px; color:var(--ink-soft); }
+.empty svg{ width:38px;height:38px; color:var(--rule); margin-bottom:10px; }
+.empty p{ font-size:13.5px; max-width:260px; margin:0 auto; line-height:1.5; }
+.empty strong{ color:var(--ink); }
+
+/* ---------- Quiz ---------- */
+.quiz-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
+.quiz-progress-track{ flex:1; height:6px; background:var(--rule); border-radius:4px; margin:0 12px; overflow:hidden; }
+.quiz-progress-fill{ height:100%; background:var(--gold); }
+.quiz-count{ font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:600; color:var(--ink-soft); white-space:nowrap; }
+.bonus-flag{
+  display:inline-flex; align-items:center; gap:5px; background:var(--gold-soft); color:var(--gold);
+  font-size:11px; font-weight:700; padding:4px 9px; border-radius:20px; margin-bottom:10px;
+}
+.q-card{
+  background:var(--paper-raised); border:1px solid var(--rule); border-radius:var(--radius);
+  padding:20px 18px; box-shadow:var(--shadow);
+}
+.q-text{ font-size:16.5px; font-weight:600; line-height:1.4; margin:0 0 16px; font-family:'Source Serif 4',serif; }
+.options{ display:flex; flex-direction:column; gap:9px; }
+.option-btn{
+  text-align:left; background:var(--paper); border:1.5px solid var(--rule); border-radius:11px;
+  padding:12px 14px; font-size:14px; display:flex; align-items:center; gap:11px; line-height:1.4;
+  width:100%;
+}
+.option-letter{
+  width:24px;height:24px;border-radius:50%; border:1.5px solid var(--rule); flex-shrink:0;
+  display:flex;align-items:center;justify-content:center; font-size:12px; font-weight:700; color:var(--ink-soft);
+  font-family:'IBM Plex Mono',monospace;
+}
+.option-btn:not(:disabled):hover{ border-color:var(--gold); }
+.option-btn.correct{ background:var(--correct-soft); border-color:var(--correct); }
+.option-btn.correct .option-letter{ background:var(--correct); border-color:var(--correct); color:#fff; }
+.option-btn.incorrect{ background:var(--incorrect-soft); border-color:var(--incorrect); }
+.option-btn.incorrect .option-letter{ background:var(--incorrect); border-color:var(--incorrect); color:#fff; }
+.option-btn:disabled{ opacity:.72; }
+.option-btn:disabled.correct, .option-btn:disabled.incorrect{ opacity:1; }
+
+.explain{
+  margin-top:14px; padding:12px 14px; border-radius:10px; font-size:13px; line-height:1.5;
+  background:var(--paper); border:1px solid var(--rule); color:var(--ink-soft);
+}
+.explain strong{ color:var(--ink); }
+.q-footer{ margin-top:16px; display:flex; justify-content:flex-end; }
+
+/* ---------- Results ---------- */
+.result-card{
+  background:var(--ink); color:var(--paper); border-radius:var(--radius); padding:28px 22px;
+  text-align:center; box-shadow:var(--shadow);
+}
+.result-ring{
+  width:112px;height:112px;border-radius:50%; margin:0 auto 14px;
+  display:flex;align-items:center;justify-content:center;
+  background:conic-gradient(var(--gold) calc(var(--pct)*1%), #2A3050 0);
+  position:relative;
+}
+.result-ring::before{ content:''; position:absolute; inset:8px; border-radius:50%; background:var(--ink); }
+.result-ring-label{ position:relative; font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:22px; }
+.result-title{ font-size:19px; font-weight:600; margin:0 0 4px; }
+.result-sub{ font-size:13px; color:#C9CBD8; margin:0 0 18px; }
+.result-actions{ display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+.result-card .btn-ghost{ border-color:#3A4058; color:var(--paper); }
+
+/* misc */
+.top-actions{ display:flex; justify-content:flex-end; margin-bottom:4px; }
+.icon-btn{ background:none; border:none; color:var(--ink-soft); display:flex; align-items:center; gap:5px; font-size:12.5px; font-weight:600; padding:6px; }
 </style>
 </head>
 <body>
-
- <div class="auth-screen" id="authScreen">
-  <div class="auth-card">
-    <h1 id="authTitle">Log In</h1>
-    <p class="auth-error" id="authError"></p>
-    <input type="email" id="authEmail" class="auth-input" placeholder="Email">
-    <input type="password" id="authPassword" class="auth-input" placeholder="Password">
-    <button class="action" id="authSubmitBtn" onclick="handleAuthSubmit()">Log In</button>
-    <p class="auth-switch" id="authSwitchText">
-      Don't have an account? <a onclick="toggleAuthMode()">Sign Up</a>
-    </p>
-  </div>
-</div>
-
-<div id="appScreen" class="hidden">
-<button class="logout-btn" onclick="handleLogout()">Log Out</button>
- <div class="content" id="mainContent"></div>
-
-  <div class="tab-bar">
-    <button class="tab-btn active" id="tabFav" onclick="switchTab('favourites')">
-      <span class="tab-icon">★</span> Favourites
-    </button>
-    <button class="tab-btn" id="tabMy" onclick="switchTab('mycourses')">
-      <span class="tab-icon">📘</span> My Courses
-    </button>
-    <button class="tab-btn" id="tabAll" onclick="switchTab('all')">
-      <span class="tab-icon">🗂️</span> Total Courses
-    </button>
-  </div>
-  </div>
+<div id="app"></div>
 
 <script>
-  var courses = {
-    mdcat: {
-      label: "MDCAT",
-      subjects: {
-        biology:  { label: "Biology" },
-        physics:  { label: "Physics" },
-        chemistry:{ label: "Chemistry" },
-        logical:  { label: "Logical Reasoning" },
-        english:  { label: "English" }
-      }
-    },
-    sat: {
-      label: "SAT",
-      subjects: {
-        math:    { label: "Mathematics" },
-        english: { label: "English" }
-      }
-    },
-    fast: {
-      label: "FAST-NUCES Entry Test",
-      subjects: {
-        math: { label: "Mathematics" },
-        english: { label: "English" },
-        iq: { label: "IQ / Analytical" }
-      }
-    },
-    nust: {
-      label: "NUST Entry Test (NET)",
-      subjects: {
-        math: { label: "Mathematics" },
-        physics: { label: "Physics" },
-        chemistry: { label: "Chemistry" },
-        english: { label: "English" }
-      }
-    },
-    iba: {
-      label: "IBA Entry Test",
-      subjects: {
-        math: { label: "Mathematics" },
-        english: { label: "English" },
-        analytical: { label: "Analytical Reasoning" }
-      }
-    }
-  };
+/* ================================================================
+   DATA MODEL
+   Course -> Subjects -> Chapters -> Topics. Every object has a
+   stable `id` used as the progress-tracking key. Each subject has
+   a `type` that selects which question-template set is used to
+   generate its practice questions.
+   ================================================================ */
 
-  var favourites = {};
-  var myCourses = {};
-  var subjectMastery = {};
+const CUSTOM_QUESTION_BANKS = {}; // topicId -> array of 15 hand-authored {q, options, correct, explain} (optional override)
 
-  var currentTab = "favourites";
-  var currentCourse = null;
-  var currentSubject = null;
-
-  var questionBanks = {
-    biology: [
-      { q: "Which organelle is known as the 'powerhouse of the cell'?", a: "Mitochondria", options: ["Nucleus", "Mitochondria", "Ribosome", "Golgi apparatus"] },
-      { q: "What is the basic structural unit of life?", a: "Cell", options: ["Cell", "Tissue", "Organ", "Atom"] },
-      { q: "DNA is found mainly inside which cell structure?", a: "Nucleus", options: ["Nucleus", "Cytoplasm", "Cell wall", "Vacuole"] },
-      { q: "Which blood cells are responsible for carrying oxygen?", a: "Red blood cells", options: ["White blood cells", "Red blood cells", "Platelets", "Plasma"] },
-      { q: "Photosynthesis mainly occurs in which organelle?", a: "Chloroplast", options: ["Mitochondria", "Chloroplast", "Nucleus", "Ribosome"] }
-    ],
-    math: [
-      { q: "Solve for x: 2x + 3 = 11", a: "4", options: ["3", "4", "5", "7"] },
-      { q: "What is 15% of 200?", a: "30", options: ["20", "25", "30", "35"] },
-      { q: "If a triangle has angles 60° and 70°, what is the third angle?", a: "50°", options: ["40°", "50°", "60°", "70°"] },
-      { q: "What is the value of 7²?", a: "49", options: ["14", "36", "49", "56"] },
-      { q: "Simplify: 3(x + 2)", a: "3x + 6", options: ["3x + 2", "3x + 6", "x + 6", "3x + 5"] }
+const COURSES = [
+  {
+    id:'mdcat', name:'MDCAT', full:'Medical & Dental College Admission Test', icon:'M',
+    subjects:[
+      { id:'mdcat-bio', name:'Biology', type:'biology', chapters:[
+        { id:'mdcat-bio-cell', name:'Cell Structure and Function', topics:[
+          {id:'mdcat-bio-cell-membrane', name:'Cell Membrane'},
+          {id:'mdcat-bio-cell-organelles', name:'Organelles'},
+          {id:'mdcat-bio-cell-prokeuk', name:'Prokaryotic vs Eukaryotic Cells'},
+          {id:'mdcat-bio-cell-transport', name:'Cell Transport'},
+        ]},
+        { id:'mdcat-bio-molecules', name:'Biological Molecules', topics:[
+          {id:'mdcat-bio-mol-carbs', name:'Carbohydrates'},
+          {id:'mdcat-bio-mol-proteins', name:'Proteins'},
+          {id:'mdcat-bio-mol-lipids', name:'Lipids'},
+          {id:'mdcat-bio-mol-nucleic', name:'Nucleic Acids'},
+        ]},
+        { id:'mdcat-bio-enzymes', name:'Enzymes', topics:[
+          {id:'mdcat-bio-enz-structure', name:'Enzyme Structure'},
+          {id:'mdcat-bio-enz-mechanism', name:'Mechanism of Action'},
+          {id:'mdcat-bio-enz-factors', name:'Factors Affecting Activity'},
+          {id:'mdcat-bio-enz-inhibition', name:'Enzyme Inhibition'},
+        ]},
+      ]},
+      { id:'mdcat-phy', name:'Physics', type:'physics', chapters:[
+        { id:'mdcat-phy-kinematics', name:'Kinematics', topics:[
+          {id:'mdcat-phy-kin-1d', name:'Motion in One Dimension'},
+          {id:'mdcat-phy-kin-2d', name:'Motion in Two Dimensions'},
+          {id:'mdcat-phy-kin-projectile', name:'Projectile Motion'},
+        ]},
+        { id:'mdcat-phy-forces', name:"Forces and Newton's Laws", topics:[
+          {id:'mdcat-phy-force-first', name:"Newton's First Law"},
+          {id:'mdcat-phy-force-second', name:"Newton's Second Law"},
+          {id:'mdcat-phy-force-friction', name:'Friction'},
+        ]},
+      ]},
+      { id:'mdcat-chem', name:'Chemistry', type:'chemistry', chapters:[
+        { id:'mdcat-chem-atomic', name:'Atomic Structure', topics:[
+          {id:'mdcat-chem-at-particles', name:'Subatomic Particles'},
+          {id:'mdcat-chem-at-config', name:'Electron Configuration'},
+          {id:'mdcat-chem-at-quantum', name:'Quantum Numbers'},
+        ]},
+        { id:'mdcat-chem-bonding', name:'Chemical Bonding', topics:[
+          {id:'mdcat-chem-bond-ionic', name:'Ionic Bonding'},
+          {id:'mdcat-chem-bond-covalent', name:'Covalent Bonding'},
+          {id:'mdcat-chem-bond-geometry', name:'Molecular Geometry'},
+        ]},
+      ]},
+      { id:'mdcat-eng', name:'English', type:'english', chapters:[
+        { id:'mdcat-eng-grammar', name:'Grammar', topics:[
+          {id:'mdcat-eng-gr-pos', name:'Parts of Speech'},
+          {id:'mdcat-eng-gr-tenses', name:'Tenses'},
+          {id:'mdcat-eng-gr-sentence', name:'Sentence Structure'},
+        ]},
+        { id:'mdcat-eng-vocab', name:'Vocabulary', topics:[
+          {id:'mdcat-eng-voc-synant', name:'Synonyms and Antonyms'},
+          {id:'mdcat-eng-voc-analogy', name:'Analogies'},
+          {id:'mdcat-eng-voc-context', name:'Contextual Usage'},
+        ]},
+      ]},
+      { id:'mdcat-logic', name:'Logical Reasoning', type:'logical', chapters:[
+        { id:'mdcat-logic-verbal', name:'Verbal Reasoning', topics:[
+          {id:'mdcat-lg-syllogism', name:'Syllogisms'},
+          {id:'mdcat-lg-analogy', name:'Analogies'},
+          {id:'mdcat-lg-assumption', name:'Statement and Assumption'},
+          {id:'mdcat-lg-blood', name:'Blood Relations'},
+        ]},
+      ]},
     ]
+  },
+  {
+    id:'ecat', name:'ECAT', full:'Engineering College Admission Test', icon:'E',
+    subjects:[
+      { id:'ecat-phy', name:'Physics', type:'physics', chapters:[
+        { id:'ecat-phy-work', name:'Work, Energy and Power', topics:[
+          {id:'ecat-phy-work-theorem', name:'Work-Energy Theorem'},
+          {id:'ecat-phy-work-conservation', name:'Conservation of Energy'},
+          {id:'ecat-phy-work-power', name:'Power'},
+        ]},
+        { id:'ecat-phy-electro', name:'Electrostatics', topics:[
+          {id:'ecat-phy-es-coulomb', name:"Coulomb's Law"},
+          {id:'ecat-phy-es-field', name:'Electric Field'},
+          {id:'ecat-phy-es-potential', name:'Electric Potential'},
+        ]},
+      ]},
+      { id:'ecat-math', name:'Mathematics', type:'math', chapters:[
+        { id:'ecat-math-algebra', name:'Algebra', topics:[
+          {id:'ecat-math-alg-quad', name:'Quadratic Equations'},
+          {id:'ecat-math-alg-seq', name:'Sequences and Series'},
+          {id:'ecat-math-alg-matrices', name:'Matrices'},
+        ]},
+        { id:'ecat-math-calc', name:'Calculus', topics:[
+          {id:'ecat-math-calc-limits', name:'Limits and Continuity'},
+          {id:'ecat-math-calc-diff', name:'Differentiation'},
+          {id:'ecat-math-calc-int', name:'Integration'},
+        ]},
+      ]},
+      { id:'ecat-chem', name:'Chemistry', type:'chemistry', chapters:[
+        { id:'ecat-chem-stoich', name:'Stoichiometry', topics:[
+          {id:'ecat-chem-st-mole', name:'Mole Concept'},
+          {id:'ecat-chem-st-balance', name:'Balancing Equations'},
+          {id:'ecat-chem-st-limiting', name:'Limiting Reagent'},
+        ]},
+      ]},
+    ]
+  },
+  {
+    id:'nts', name:'NTS', full:'National Testing Service — General Ability', icon:'N',
+    subjects:[
+      { id:'nts-quant', name:'Quantitative', type:'math', chapters:[
+        { id:'nts-quant-arith', name:'Arithmetic', topics:[
+          {id:'nts-quant-ratio', name:'Ratio and Proportion'},
+          {id:'nts-quant-percent', name:'Percentages'},
+          {id:'nts-quant-avg', name:'Averages'},
+        ]},
+      ]},
+      { id:'nts-verbal', name:'Verbal', type:'english', chapters:[
+        { id:'nts-verbal-vocab', name:'Vocabulary', topics:[
+          {id:'nts-verbal-synant', name:'Synonyms and Antonyms'},
+          {id:'nts-verbal-idioms', name:'Idioms'},
+        ]},
+      ]},
+      { id:'nts-analytical', name:'Analytical', type:'logical', chapters:[
+        { id:'nts-analytical-reasoning', name:'Analytical Reasoning', topics:[
+          {id:'nts-an-seating', name:'Seating Arrangements'},
+          {id:'nts-an-sequence', name:'Number Sequences'},
+        ]},
+      ]},
+    ]
+  },
+];
+
+/* ================================================================
+   QUESTION GENERATION
+   Every topic gets a deterministic bank of 15 MCQs, seeded on the
+   topic id so the same topic always produces the same questions —
+   progress stays stable across sessions. This is placeholder
+   practice content, not vetted exam material — replace any topic's
+   bank with real questions via CUSTOM_QUESTION_BANKS[topicId].
+   ================================================================ */
+
+function hashStr(s){
+  let h = 0;
+  for(let i=0;i<s.length;i++){ h = (Math.imul(31,h) + s.charCodeAt(i)) | 0; }
+  return h >>> 0;
+}
+function mulberry32(seed){
+  return function(){
+    seed |= 0; seed = (seed + 0x6D2B79F5) | 0;
+    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
   };
-
-  function switchTab(tab) {
-    currentTab = tab;
-    currentCourse = null;
-    currentSubject = null;
-
-    document.getElementById("tabFav").classList.toggle("active", tab === "favourites");
-    document.getElementById("tabMy").classList.toggle("active", tab === "mycourses");
-    document.getElementById("tabAll").classList.toggle("active", tab === "all");
-
-    renderCourseList();
+}
+function mcq(rng, q, correctText, distractorPool, explain){
+  const pool = distractorPool.slice();
+  const chosen = [];
+  while(chosen.length < 3 && pool.length){
+    const i = Math.floor(rng() * pool.length);
+    chosen.push(pool.splice(i,1)[0]);
   }
-
-  function renderCourseList() {
-    var container = document.getElementById("mainContent");
-    var html = "<h1>" + tabTitle() + "</h1>";
-
-    var keysToShow = [];
-    for (var key in courses) {
-      if (currentTab === "all") { keysToShow.push(key); }
-      else if (currentTab === "favourites" && favourites[key]) { keysToShow.push(key); }
-      else if (currentTab === "mycourses" && myCourses[key]) { keysToShow.push(key); }
-    }
-
-    if (keysToShow.length === 0) {
-      html += '<p class="empty-msg">' + emptyMessage() + '</p>';
-      container.innerHTML = html;
-      return;
-    }
-
-    container.innerHTML = html;
-
-    for (var i = 0; i < keysToShow.length; i++) {
-      var key = keysToShow[i];
-      var c = courses[key];
-      var subjectCount = Object.keys(c.subjects).length;
-
-      var card = document.createElement("div");
-      card.className = "course-card";
-
-      var info = document.createElement("div");
-      info.className = "course-info";
-      info.innerHTML = '<div class="course-name">' + c.label + '</div><div class="course-sub">' + subjectCount + ' subjects</div>';
-      info.onclick = (function(k) { return function() { openCourse(k); }; })(key);
-
-      var actions = document.createElement("div");
-      actions.className = "course-actions";
-
-      var favBtn = document.createElement("button");
-      favBtn.className = "icon-btn" + (favourites[key] ? " active" : "");
-      favBtn.innerHTML = "★";
-      favBtn.onclick = (function(k) { return function(e) { e.stopPropagation(); toggleFavourite(k); }; })(key);
-
-      var addBtn = document.createElement("button");
-      addBtn.className = "icon-btn" + (myCourses[key] ? " added" : "");
-      addBtn.innerHTML = myCourses[key] ? "✓" : "+";
-      addBtn.onclick = (function(k) { return function(e) { e.stopPropagation(); toggleMyCourse(k); }; })(key);
-
-      actions.appendChild(favBtn);
-      actions.appendChild(addBtn);
-      card.appendChild(info);
-      card.appendChild(actions);
-      container.appendChild(card);
-    }
+  const options = [correctText, ...chosen];
+  for(let i=options.length-1;i>0;i--){
+    const j = Math.floor(rng() * (i+1));
+    [options[i], options[j]] = [options[j], options[i]];
   }
+  return { q, options, correct: options.indexOf(correctText), explain };
+}
 
-  function tabTitle() {
-    if (currentTab === "favourites") return "★ Favourites";
-    if (currentTab === "mycourses") return "📘 My Courses";
-    return "🗂️ Total Courses";
+const TEMPLATES = {
+  biology: [
+    (t,r)=>mcq(r, `Which of the following best describes the primary function of ${t.toLowerCase()}?`, 'Maintaining structural and functional integrity of the cell', ['Generating electrical impulses only','Producing sound waves','Absorbing sunlight for photosynthesis in animals'], `${t} plays a core structural or functional role within the cell, which is why it's tested heavily in this section.`),
+    (t,r)=>mcq(r, `${t} is most closely studied under which branch of biology?`, 'Cell and molecular biology', ['Paleontology','Geology','Meteorology'], `Topics like ${t} fall under cell and molecular biology, the branch dealing with structures and processes at the cellular level.`),
+    (t,r)=>mcq(r, `A malfunction related to ${t.toLowerCase()} would most directly affect:`, 'Normal cellular processes', ['Weather patterns','Plate tectonics','Currency exchange rates'], `Because ${t.toLowerCase()} is a cellular-level structure or process, disruption affects normal cellular function first.`),
+    (t,r)=>mcq(r, `Which statement about ${t.toLowerCase()} is most accurate?`, `It plays an essential, well-defined role in biological systems`, ['It has no known biological role','It only exists in plants','It was discovered in the 21st century'], `${t} has a defined, well-studied role in biological systems — a key MDCAT-style fact to remember.`),
+    (t,r)=>mcq(r, `${t} is typically introduced to students alongside which related concept?`, 'Core cell biology principles', ['Astrophysics','Macroeconomics','Music theory'], `${t} is conventionally taught as part of core cell/molecular biology coursework.`),
+    (t,r)=>mcq(r, `In an exam context, questions about ${t.toLowerCase()} most often test:`, 'Conceptual understanding of structure and function', ['Memorization of historical dates','Currency conversion','Grammar rules'], `MDCAT-style biology questions on ${t.toLowerCase()} usually test structure-function relationships.`),
+    (t,r)=>mcq(r, `Which of these is a reasonable study strategy for mastering ${t.toLowerCase()}?`, 'Relating structure to function with diagrams', ['Skipping diagrams entirely','Memorizing unrelated vocabulary','Ignoring past paper questions'], `Diagram-based, structure-to-function study is the most effective approach for topics like ${t.toLowerCase()}.`),
+    (t,r)=>mcq(r, `${t} is relevant to which broader biological theme?`, 'Homeostasis and cellular regulation', ['International trade','Weather forecasting','Architectural design'], `${t} connects to the broader theme of homeostasis — a recurring MDCAT concept.`),
+    (t,r)=>mcq(r, `A common misconception students have about ${t.toLowerCase()} is that it:`, 'Works in isolation from other cell components', ['Is too simple to be tested','Only appears in animals','Has been disproven'], `${t} interacts with other cellular components — treating it in isolation is a common exam pitfall.`),
+    (t,r)=>mcq(r, `Which resource type is most useful when reviewing ${t.toLowerCase()}?`, 'Labeled diagrams and process flowcharts', ['Unrelated case law','Financial statements','Sports statistics'], `Visual, process-based resources work best for structural/functional topics like ${t.toLowerCase()}.`),
+  ],
+  physics: [
+    (t,r)=>mcq(r, `${t} primarily deals with the relationship between:`, 'Force, motion, and energy', ['Supply and demand','Grammar and syntax','Color theory and pigments'], `${t} is a mechanics/electromagnetism topic centered on force, motion, and energy relationships.`),
+    (t,r)=>mcq(r, `Which SI-based approach is most appropriate when solving problems on ${t.toLowerCase()}?`, 'Consistent use of SI units throughout the calculation', ['Mixing units freely','Ignoring units entirely','Using currency units'], `Using consistent SI units is essential to avoid errors when solving ${t.toLowerCase()} problems.`),
+    (t,r)=>mcq(r, `${t} is best understood using which type of representation?`, 'Vector diagrams and equations of motion', ['Pie charts of unrelated data','Poetry','Musical notation'], `Vector diagrams and relevant equations are the standard way to represent ${t.toLowerCase()}.`),
+    (t,r)=>mcq(r, `A key variable typically involved in ${t.toLowerCase()} problems is:`, 'Time, velocity, or force (depending on context)', ['Population size','Literacy rate','Exchange rate'], `${t} problems usually involve kinematic or dynamic variables like time, velocity, or force.`),
+    (t,r)=>mcq(r, `Which law or principle is most directly connected to ${t.toLowerCase()}?`, "Newton's laws of motion or conservation principles", ['Law of supply and demand','a rule of grammar','a banking regulation'], `${t} connects most directly to Newtonian mechanics or a relevant conservation principle.`),
+    (t,r)=>mcq(r, `In problems involving ${t.toLowerCase()}, a frequent source of error is:`, 'Sign convention or direction errors', ['Spelling mistakes','Currency conversion','Historical dating'], `Sign and direction errors are the most common mistake in ${t.toLowerCase()} calculations.`),
+    (t,r)=>mcq(r, `${t} is typically covered in which stage of physics coursework?`, 'Foundational mechanics or electromagnetism units', ['Advanced quantum field theory only','Art history','Culinary training'], `${t} is a foundational topic covered early in mechanics or electromagnetism.`),
+    (t,r)=>mcq(r, `Which tool is most useful for visualizing ${t.toLowerCase()}?`, 'Free-body or field diagrams', ['Tarot cards','Weather maps','Family trees'], `Free-body or field diagrams are the standard visualization tool for ${t.toLowerCase()}.`),
+    (t,r)=>mcq(r, `A real-world application most closely tied to ${t.toLowerCase()} is:`, 'Engineering design and motion analysis', ['Literary criticism','Tax filing','Fashion design'], `${t} has direct applications in engineering and motion analysis.`),
+    (t,r)=>mcq(r, `When reviewing ${t.toLowerCase()}, students should prioritize:`, 'Deriving and applying the relevant equations correctly', ['Memorizing unrelated trivia','Skipping practice problems','Ignoring units'], `Correct derivation and application of equations is the priority when studying ${t.toLowerCase()}.`),
+  ],
+  chemistry: [
+    (t,r)=>mcq(r, `${t} is fundamentally concerned with:`, 'The behavior and arrangement of atoms or molecules', ['Historical timelines','Literary devices','Currency markets'], `${t} deals with atomic or molecular-level behavior, a core chemistry theme.`),
+    (t,r)=>mcq(r, `Which periodic trend is most relevant when studying ${t.toLowerCase()}?`, 'Electronegativity and atomic size trends', ['Population growth trends','Stock market trends','Weather trends'], `Periodic trends like electronegativity are frequently relevant to ${t.toLowerCase()}.`),
+    (t,r)=>mcq(r, `A common exam focus within ${t.toLowerCase()} is:`, 'Correctly predicting structure or reaction outcomes', ['Memorizing unrelated dates','Currency exchange','Grammar rules'], `Exam questions on ${t.toLowerCase()} usually test prediction of structure or outcomes.`),
+    (t,r)=>mcq(r, `${t} is best studied alongside which supporting concept?`, 'Atomic structure and bonding fundamentals', ['World history','Music composition','Sports rules'], `${t} builds directly on atomic structure and bonding fundamentals.`),
+    (t,r)=>mcq(r, `Which representation is most useful for understanding ${t.toLowerCase()}?`, 'Structural or Lewis dot diagrams', ['Bar graphs of unrelated data','Family trees','Weather symbols'], `Structural or Lewis dot diagrams are the standard way to represent ${t.toLowerCase()}.`),
+    (t,r)=>mcq(r, `A frequent student error when solving ${t.toLowerCase()} problems is:`, 'Miscounting valence electrons or unbalanced equations', ['Using a calculator','Reading the question twice','Writing units'], `Miscounted valence electrons or unbalanced equations are the most common ${t.toLowerCase()} errors.`),
+    (t,r)=>mcq(r, `${t} has direct relevance to which applied field?`, 'Pharmaceuticals and materials science', ['Textile weaving patterns','Culinary plating','Interior design'], `${t} has real applications in fields like pharmaceuticals and materials science.`),
+    (t,r)=>mcq(r, `Which approach helps most when memorizing content related to ${t.toLowerCase()}?`, 'Understanding underlying patterns rather than rote memorization', ['Memorizing without understanding why','Skipping practice questions','Ignoring the periodic table'], `Pattern-based understanding outperforms rote memorization for ${t.toLowerCase()}.`),
+    (t,r)=>mcq(r, `${t} typically appears in exams in combination with:`, 'Stoichiometry or bonding-related calculations', ['Poetry analysis','Currency conversion','Map reading'], `${t} is frequently paired with stoichiometry or bonding calculations in exams.`),
+    (t,r)=>mcq(r, `The most reliable way to verify an answer involving ${t.toLowerCase()} is to:`, 'Check that the equation or structure is balanced and consistent', ["Guess based on the answer's length",'Pick the first option','Skip verification'], `Checking for balance and internal consistency is the reliable way to verify ${t.toLowerCase()} answers.`),
+  ],
+  english: [
+    (t,r)=>mcq(r, `${t} is a skill most directly tested through:`, 'Reading and sentence-level comprehension questions', ['Numerical calculations','Chemical equations','Physical diagrams'], `${t} is assessed through comprehension and sentence-level questions in most admission tests.`),
+    (t,r)=>mcq(r, `Which strategy improves performance on ${t.toLowerCase()} questions most reliably?`, 'Reading the full sentence or passage carefully before answering', ['Answering based on the first word only','Skipping the passage','Guessing randomly'], `Careful, full reading before answering is the most reliable strategy for ${t.toLowerCase()}.`),
+    (t,r)=>mcq(r, `${t} questions typically require the test-taker to:`, 'Identify meaning, structure, or usage in context', ['Solve an equation','Balance a chemical formula','Calculate velocity'], `${t} questions center on identifying meaning, structure, or correct usage in context.`),
+    (t,r)=>mcq(r, `A common trap in ${t.toLowerCase()} questions is:`, 'Choosing an option that sounds right but changes the meaning', ['Choosing the shortest option automatically','Reading too carefully','Using a dictionary'], `A frequent trap in ${t.toLowerCase()} is picking an option that sounds plausible but shifts the intended meaning.`),
+    (t,r)=>mcq(r, `${t} is best practiced using:`, 'Varied reading passages and timed practice sets', ['Only single-word flashcards','Watching unrelated videos','Skipping practice entirely'], `Varied reading combined with timed practice builds the skills needed for ${t.toLowerCase()}.`),
+    (t,r)=>mcq(r, `Which skill underlies strong performance in ${t.toLowerCase()}?`, 'Vocabulary in context and grammatical awareness', ['Mental arithmetic','Chemical formula recall','Spatial reasoning'], `${t} performance relies on contextual vocabulary and grammatical awareness.`),
+    (t,r)=>mcq(r, `${t} sections typically penalize:`, 'Answers based on assumption rather than the given text', ['Careful reading','Reviewing answers','Managing time well'], `${t} sections are designed to penalize assumptions not supported by the given text.`),
+    (t,r)=>mcq(r, `The most effective way to review mistakes in ${t.toLowerCase()} is to:`, 'Understand why the correct option fits better than your choice', ['Ignore the mistake and move on', 'Memorize the question itself', 'Blame the test design'], `Understanding *why* the correct answer fits is the most effective way to improve on ${t.toLowerCase()}.`),
+    (t,r)=>mcq(r, `${t} is closely related to which other English skill area?`, 'Reading comprehension', ['Numerical estimation','Spatial rotation','Unit conversion'], `${t} and reading comprehension reinforce each other, since both rely on understanding context.`),
+    (t,r)=>mcq(r, `When short on time in a ${t.toLowerCase()} section, the best approach is to:`, "Answer questions you're confident about first, then return to harder ones", ['Answer strictly in order no matter what', 'Leave everything blank', 'Guess the same letter for every question'], `Triaging questions by confidence level is a standard time-management strategy for ${t.toLowerCase()}.`),
+  ],
+  logical: [
+    (t,r)=>mcq(r, `${t} problems primarily test a candidate's ability to:`, 'Draw valid conclusions from given premises', ['Recall historical facts','Perform long division','Identify chemical compounds'], `${t} is about drawing logically valid conclusions strictly from the given premises.`),
+    (t,r)=>mcq(r, `The safest approach when solving ${t.toLowerCase()} questions is to:`, 'Rely only on the information explicitly stated', ['Use outside knowledge freely','Assume missing details','Guess based on gut feeling'], `${t} questions must be solved using only the explicitly stated information, not outside assumptions.`),
+    (t,r)=>mcq(r, `${t} is a core component of which test section?`, 'Analytical or logical reasoning', ['Physical sciences','Creative writing','Foreign language'], `${t} belongs to the analytical/logical reasoning section of most admission tests.`),
+    (t,r)=>mcq(r, `A common mistake in ${t.toLowerCase()} is:`, 'Introducing an assumption not supported by the premises', ['Reading the premises twice','Drawing a diagram','Working step by step'], `Introducing unsupported assumptions is the most common error in ${t.toLowerCase()}.`),
+    (t,r)=>mcq(r, `Which technique helps most when solving ${t.toLowerCase()} problems?`, 'Sketching a diagram or table of the given relationships', ['Skipping the setup step','Memorizing prior answers','Answering instinctively'], `Diagramming the given relationships is the most effective technique for ${t.toLowerCase()}.`),
+    (t,r)=>mcq(r, `${t} questions are considered difficult mainly because they:`, 'Require careful, multi-step logical tracking', ['Involve advanced mathematics','Require memorized formulas','Test vocabulary size'], `${t} is challenging due to the need for careful, multi-step logical tracking rather than formulas.`),
+    (t,r)=>mcq(r, `In ${t.toLowerCase()}, an option should be eliminated if it:`, 'Contradicts any of the given statements', ['Is the longest option','Uses simple language','Appears first'], `In ${t.toLowerCase()}, any option contradicting a given statement can be eliminated immediately.`),
+    (t,r)=>mcq(r, `${t} skills are useful outside of testing because they build:`, 'Structured, evidence-based reasoning', ['Faster typing speed','Better handwriting','Memorization of trivia'], `${t} builds structured, evidence-based reasoning that's broadly useful beyond the exam.`),
+    (t,r)=>mcq(r, `The best way to double-check a ${t.toLowerCase()} answer is to:`, 'Re-verify it against every given premise', ['Trust your first instinct only','Skip verification to save time','Pick a different answer at random'], `Re-checking the chosen answer against every premise is the reliable way to confirm ${t.toLowerCase()} answers.`),
+    (t,r)=>mcq(r, `${t} is typically practiced using:`, 'Timed sets of varied logic puzzles', ['Single repeated puzzles only','Unrelated reading passages','Physical experiments'], `Timed, varied puzzle sets are the standard way to build proficiency in ${t.toLowerCase()}.`),
+  ],
+  math: [
+    (t,r)=>mcq(r, `${t} primarily involves working with:`, 'Numerical relationships and structured equations', ['Historical events','Grammar rules','Chemical reactions'], `${t} centers on numerical relationships expressed through structured equations.`),
+    (t,r)=>mcq(r, `A reliable first step when solving ${t.toLowerCase()} problems is to:`, 'Identify what is given and what is being asked', ['Guess an answer immediately','Skip to the last step','Ignore the units'], `Clearly identifying givens and unknowns is the reliable first step for ${t.toLowerCase()}.`),
+    (t,r)=>mcq(r, `${t} is most closely connected to which foundational topic?`, 'Algebraic manipulation and functions', ['World geography','Art history','Music theory'], `${t} builds directly on algebraic manipulation and function concepts.`),
+    (t,r)=>mcq(r, `A frequent source of error in ${t.toLowerCase()} is:`, 'Arithmetic slips or misapplied formulas', ['Reading the question twice','Checking units','Writing neatly'], `Arithmetic slips and misapplied formulas are the most common errors in ${t.toLowerCase()}.`),
+    (t,r)=>mcq(r, `Which practice habit improves ${t.toLowerCase()} performance most?`, 'Working through problems step by step without skipping steps', ['Memorizing answers to past papers only','Solving without writing anything down','Avoiding timed practice'], `Careful, step-by-step working builds the accuracy needed for ${t.toLowerCase()}.`),
+    (t,r)=>mcq(r, `${t} questions in admission tests are usually designed to test:`, 'Applied problem-solving under time constraints', ['Memorized trivia','Spelling accuracy','Historical knowledge'], `${t} tests applied problem-solving ability, often under time pressure.`),
+    (t,r)=>mcq(r, `The most effective way to verify a ${t.toLowerCase()} answer is to:`, 'Substitute the result back into the original problem', ['Assume it is correct','Pick the most common-looking option','Skip verification'], `Substituting the result back into the original problem is the standard way to verify ${t.toLowerCase()} answers.`),
+    (t,r)=>mcq(r, `${t} is a prerequisite for understanding which later topic?`, 'More advanced algebra or calculus concepts', ['Literary analysis','Historical dating methods','Foreign vocabulary'], `${t} lays groundwork needed for more advanced algebra or calculus topics.`),
+    (t,r)=>mcq(r, `When short on time, the best approach to a ${t.toLowerCase()} section is to:`, 'Solve the most familiar problem types first', ['Attempt problems in random order','Leave the whole section blank','Guess without reading'], `Tackling familiar problem types first is a standard time-management approach for ${t.toLowerCase()}.`),
+    (t,r)=>mcq(r, `${t} problems are best organized using:`, 'A clear, labeled step-by-step layout', ['No written work at all','Random scratch notes','Memorized shortcuts only'], `A clear, labeled layout reduces errors and helps review ${t.toLowerCase()} problems afterward.`),
+  ],
+};
+
+function generateQuestionBank(topic, type){
+  if(CUSTOM_QUESTION_BANKS[topic.id]) return CUSTOM_QUESTION_BANKS[topic.id];
+  const rng = mulberry32(hashStr(topic.id));
+  const templates = TEMPLATES[type] || TEMPLATES.logical;
+  const bank = [];
+  for(let i=0;i<15;i++){
+    bank.push(templates[i % templates.length](topic.name, rng));
   }
+  return bank;
+}
 
-  function emptyMessage() {
-    if (currentTab === "favourites") return "No favourites yet. Tap ★ on any course to add it here.";
-    if (currentTab === "mycourses") return "You haven't added any courses yet. Tap + on any course to add it here.";
-    return "No courses available.";
+/* ================================================================
+   PROGRESS STORAGE
+   ================================================================ */
+const STORAGE_KEY = 'merit_progress_v1';
+const STAR_KEY = 'merit_starred_v1';
+const MASTERY_THRESHOLD = 80; // percent
+
+function loadProgress(){
+  try{ return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }
+  catch(e){ return {}; }
+}
+function saveProgress(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(progress)); }
+function loadStarred(){
+  try{ return new Set(JSON.parse(localStorage.getItem(STAR_KEY)) || []); }
+  catch(e){ return new Set(); }
+}
+function saveStarred(){ localStorage.setItem(STAR_KEY, JSON.stringify([...starred])); }
+
+let progress = loadProgress(); // topicId -> { bestScore, attempts, mastered }
+let starred = loadStarred();   // Set of courseId
+
+/* ================================================================
+   LOOKUPS
+   ================================================================ */
+function findCourse(id){ return COURSES.find(c=>c.id===id); }
+function findSubject(course,id){ return course.subjects.find(s=>s.id===id); }
+function findChapter(subject,id){ return subject.chapters.find(c=>c.id===id); }
+function findTopic(chapter,id){ return chapter.topics.find(t=>t.id===id); }
+
+function allTopicsOfCourse(course){
+  const out = [];
+  course.subjects.forEach(s=>s.chapters.forEach(c=>c.topics.forEach(t=>out.push(t))));
+  return out;
+}
+function allTopicsOfSubject(subject){
+  const out = [];
+  subject.chapters.forEach(c=>c.topics.forEach(t=>out.push(t)));
+  return out;
+}
+function courseProgressPct(course){
+  const topics = allTopicsOfCourse(course);
+  if(!topics.length) return 0;
+  const mastered = topics.filter(t=>progress[t.id]?.mastered).length;
+  return Math.round((mastered/topics.length)*100);
+}
+function subjectProgressPct(subject){
+  const topics = allTopicsOfSubject(subject);
+  if(!topics.length) return 0;
+  const mastered = topics.filter(t=>progress[t.id]?.mastered).length;
+  return Math.round((mastered/topics.length)*100);
+}
+function chapterProgressPct(chapter){
+  if(!chapter.topics.length) return 0;
+  const mastered = chapter.topics.filter(t=>progress[t.id]?.mastered).length;
+  return Math.round((mastered/chapter.topics.length)*100);
+}
+
+/* ================================================================
+   ICONS (inline SVG, stroke = currentColor)
+   ================================================================ */
+const ICONS = {
+  book: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>`,
+  chart: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>`,
+  bookmark: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>`,
+  chevron: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>`,
+  star: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`,
+  starFilled: `<svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`,
+  back: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>`,
+  empty: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9 10h.01M15 10h.01M8 16s1.5-2 4-2 4 2 4 2"/></svg>`,
+};
+
+/* ================================================================
+   APP STATE + ROUTING
+   ================================================================ */
+const state = {
+  tab: 'courses',       // courses | progress | saved
+  view: 'courses',      // courses | subjects | chapters | topics | quiz | results
+  courseId: null,
+  subjectId: null,
+  chapterId: null,
+  topicId: null,
+  quiz: null,            // { bank, index, correctCount, answered, locked }
+};
+
+function go(view, patch){
+  Object.assign(state, patch||{});
+  state.view = view;
+  render();
+  window.scrollTo({top:0, behavior:'instant' in window.scrollTo ? 'instant' : 'auto'});
+}
+function goTab(tab){
+  state.tab = tab;
+  state.view = tab === 'progress' ? 'progressView' : tab === 'saved' ? 'savedView' : 'courses';
+  state.courseId = null; state.subjectId = null; state.chapterId = null; state.topicId = null; state.quiz = null;
+  render();
+}
+
+function startQuiz(topicId, courseId, subjectId, chapterId){
+  const course = findCourse(courseId);
+  const subject = findSubject(course, subjectId);
+  const chapter = findChapter(subject, chapterId);
+  const topic = findTopic(chapter, topicId);
+  const bank = generateQuestionBank(topic, subject.type);
+  state.quiz = { bank, index:0, correctCount:0, answered:null, locked:false };
+  go('quiz', { courseId, subjectId, chapterId, topicId });
+}
+
+function answerQuiz(optionIndex){
+  const q = state.quiz;
+  if(q.locked) return;
+  q.locked = true;
+  q.answered = optionIndex;
+  const question = q.bank[q.index];
+  if(optionIndex === question.correct) q.correctCount++;
+  render();
+}
+function nextQuiz(){
+  const q = state.quiz;
+  if(q.index < q.bank.length-1){
+    q.index++; q.answered = null; q.locked = false;
+    render();
+  } else {
+    finishQuiz();
   }
+}
+function finishQuiz(){
+  const q = state.quiz;
+  const pct = Math.round((q.correctCount / q.bank.length) * 100);
+  const existing = progress[state.topicId] || { bestScore:0, attempts:0, mastered:false };
+  existing.attempts += 1;
+  existing.bestScore = Math.max(existing.bestScore, pct);
+  existing.mastered = existing.bestScore >= MASTERY_THRESHOLD;
+  progress[state.topicId] = existing;
+  saveProgress();
+  state.lastScore = pct;
+  go('results');
+}
+function retryQuiz(){
+  startQuiz(state.topicId, state.courseId, state.subjectId, state.chapterId);
+}
+function toggleStar(courseId){
+  if(starred.has(courseId)) starred.delete(courseId); else starred.add(courseId);
+  saveStarred();
+  render();
+}
 
-  function toggleFavourite(key) {
-    favourites[key] = !favourites[key];
-    renderCourseList();
+/* ================================================================
+   RENDER HELPERS
+   ================================================================ */
+function esc(s){
+  return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function renderBreadcrumbs(){
+  const crumbs = [{label:'Courses', action:"data-nav='courses'"}];
+  const course = state.courseId ? findCourse(state.courseId) : null;
+  const subject = course && state.subjectId ? findSubject(course, state.subjectId) : null;
+  const chapter = subject && state.chapterId ? findChapter(subject, state.chapterId) : null;
+
+  if(course) crumbs.push({label:course.name, action:`data-nav="subjects" data-course="${course.id}"`});
+  if(subject) crumbs.push({label:subject.name, action:`data-nav="chapters" data-course="${course.id}" data-subject="${subject.id}"`});
+  if(chapter) crumbs.push({label:chapter.name, action:`data-nav="topics" data-course="${course.id}" data-subject="${subject.id}" data-chapter="${chapter.id}"`});
+
+  if(crumbs.length<=1 && !['quiz','results'].includes(state.view)) return '';
+
+  return `<div class="breadcrumbs">${crumbs.map((c,i)=>{
+    const isLast = i===crumbs.length-1 && !['quiz','results'].includes(state.view);
+    if(isLast) return `<span class="current">${esc(c.label)}</span>`;
+    return `<button ${c.action}>${esc(c.label)}</button><span class="sep">/</span>`;
+  }).join('')}</div>`;
+}
+
+function renderTopbar(){
+  const totalMastered = Object.values(progress).filter(p=>p.mastered).length;
+  return `
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">
+        <div class="brand-badge">M</div>
+        <div>
+          <div class="brand-name">Merit</div>
+          <div class="brand-tag">Test Prep</div>
+        </div>
+      </div>
+      <div class="stat-pill mono">${totalMastered} mastered</div>
+    </div>
+    ${renderBreadcrumbs()}
+  </header>`;
+}
+
+function renderTabbar(){
+  const tabs = [
+    {id:'courses', label:'Courses', icon:ICONS.book},
+    {id:'progress', label:'Progress', icon:ICONS.chart},
+    {id:'saved', label:'Saved', icon:ICONS.bookmark},
+  ];
+  return `<nav class="tabbar"><div class="tabbar-inner">
+    ${tabs.map(t=>`
+      <button class="tab-btn ${state.tab===t.id?'active':''}" data-tab="${t.id}">
+        ${t.icon}
+        <span>${t.label}</span>
+        <span class="dot"></span>
+      </button>`).join('')}
+  </div></nav>`;
+}
+
+function renderCoursesView(){
+  const list = COURSES;
+  return `
+  <div class="section-head">
+    <div class="section-eyebrow">Admit Cards</div>
+    <div class="section-title">Your Courses</div>
+    <div class="section-sub">Pick a course to start practicing.</div>
+  </div>
+  <div class="course-grid">
+    ${list.map(c=>{
+      const pct = courseProgressPct(c);
+      const isStarred = starred.has(c.id);
+      return `
+      <div class="admit-card">
+        <button class="admit-main" data-nav="subjects" data-course="${c.id}" style="background:none;border:none;">
+          <div class="admit-top">
+            <div>
+              <div class="admit-course-name">${esc(c.name)}</div>
+              <div class="admit-course-full">${esc(c.full)}</div>
+            </div>
+            <span class="star-btn ${isStarred?'active':''}" data-star="${c.id}">${isStarred?ICONS.starFilled:ICONS.star}</span>
+          </div>
+          <div class="admit-meta">
+            <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
+            <div class="progress-pct mono">${pct}%</div>
+          </div>
+        </button>
+        <div class="admit-stub">
+          <div class="admit-stub-num">${c.subjects.length}</div>
+          <div class="admit-stub-label">Subjects</div>
+        </div>
+      </div>`;
+    }).join('')}
+  </div>`;
+}
+
+function renderSubjectsView(){
+  const course = findCourse(state.courseId);
+  return `
+  <div class="section-head">
+    <div class="section-eyebrow">${esc(course.full)}</div>
+    <div class="section-title">${esc(course.name)} Subjects</div>
+    <div class="section-sub">${course.subjects.length} subjects to master.</div>
+  </div>
+  <div class="row-list">
+    ${course.subjects.map(s=>{
+      const pct = subjectProgressPct(s);
+      const mastered = pct===100;
+      return `
+      <button class="row-card ${mastered?'mastered':''}" data-nav="chapters" data-course="${course.id}" data-subject="${s.id}">
+        <div class="row-icon">${esc(s.name[0])}</div>
+        <div class="row-body">
+          <div class="row-title">${esc(s.name)}</div>
+          <div class="row-sub">${s.chapters.length} chapters · ${pct}% mastered</div>
+        </div>
+        <span class="row-chev">${ICONS.chevron}</span>
+      </button>`;
+    }).join('')}
+  </div>`;
+}
+
+function renderChaptersView(){
+  const course = findCourse(state.courseId);
+  const subject = findSubject(course, state.subjectId);
+  return `
+  <div class="section-head">
+    <div class="section-eyebrow">${esc(course.name)} · ${esc(subject.name)}</div>
+    <div class="section-title">Chapters</div>
+    <div class="section-sub">${subject.chapters.length} chapters in this subject.</div>
+  </div>
+  <div class="row-list">
+    ${subject.chapters.map(ch=>{
+      const pct = chapterProgressPct(ch);
+      const mastered = pct===100;
+      return `
+      <button class="row-card ${mastered?'mastered':''}" data-nav="topics" data-course="${course.id}" data-subject="${subject.id}" data-chapter="${ch.id}">
+        <div class="row-icon">${mastered ? '✓' : esc(String(ch.topics.length))}</div>
+        <div class="row-body">
+          <div class="row-title">${esc(ch.name)}</div>
+          <div class="row-sub">${ch.topics.length} topics · ${pct}% mastered</div>
+        </div>
+        <span class="row-chev">${ICONS.chevron}</span>
+      </button>`;
+    }).join('')}
+  </div>`;
+}
+
+function renderTopicsView(){
+  const course = findCourse(state.courseId);
+  const subject = findSubject(course, state.subjectId);
+  const chapter = findChapter(subject, state.chapterId);
+  const pct = chapterProgressPct(chapter);
+  const firstUnmastered = chapter.topics.find(t=>!progress[t.id]?.mastered) || chapter.topics[0];
+
+  return `
+  <div class="section-head">
+    <div class="section-eyebrow">${esc(subject.name)}</div>
+    <div class="section-title">${esc(chapter.name)}</div>
+    <div class="section-sub">${chapter.topics.length} topics · 15 questions each.</div>
+  </div>
+  <div class="row-list">
+    ${chapter.topics.map(t=>{
+      const p = progress[t.id];
+      const mastered = p?.mastered;
+      const started = p && p.attempts > 0;
+      return `
+      <button class="row-card ${mastered?'mastered':''}" data-quiz="${t.id}" data-course="${course.id}" data-subject="${subject.id}" data-chapter="${chapter.id}">
+        <div class="row-icon">${mastered ? '✓' : ICONS.book}</div>
+        <div class="row-body">
+          <div class="row-title">${esc(t.name)}</div>
+          <div class="row-sub">${started ? `Best score: ${p.bestScore}%` : 'Not started yet'}</div>
+        </div>
+        ${mastered ? '<span class="badge mastered">Mastered</span>' : started ? '<span class="badge practicing">Practicing</span>' : ''}
+      </button>`;
+    }).join('')}
+  </div>
+  <div class="mastery-block">
+    <div class="m-eyebrow">Chapter Mastery</div>
+    <h3>${pct}% complete</h3>
+    <p>Master every topic in this chapter by scoring ${MASTERY_THRESHOLD}% or higher on its quiz.</p>
+    <div class="m-row">
+      <button class="btn-ghost" data-nav="chapters" data-course="${course.id}" data-subject="${subject.id}">Back to chapters</button>
+      <button class="btn-primary" data-quiz="${firstUnmastered.id}" data-course="${course.id}" data-subject="${subject.id}" data-chapter="${chapter.id}">${pct===100 ? 'Review Again' : 'Continue Practice'}</button>
+    </div>
+  </div>`;
+}
+
+function renderQuizView(){
+  const q = state.quiz;
+  const question = q.bank[q.index];
+  const pctThroughQuiz = Math.round(((q.index) / q.bank.length) * 100);
+  const isBonus = (q.index+1) % 5 === 0;
+
+  return `
+  <div class="quiz-head">
+    <button class="icon-btn" data-nav="topics" data-course="${state.courseId}" data-subject="${state.subjectId}" data-chapter="${state.chapterId}">${ICONS.back} Exit</button>
+    <div class="quiz-progress-track"><div class="quiz-progress-fill" style="width:${pctThroughQuiz}%"></div></div>
+    <div class="quiz-count mono">${q.index+1}/${q.bank.length}</div>
+  </div>
+  ${isBonus ? `<div class="bonus-flag">★ Milestone question</div>` : ''}
+  <div class="q-card">
+    <div class="q-text">${esc(question.q)}</div>
+    <div class="options">
+      ${question.options.map((opt,i)=>{
+        let cls = '';
+        if(q.locked){
+          if(i===question.correct) cls = 'correct';
+          else if(i===q.answered) cls = 'incorrect';
+        }
+        return `
+        <button class="option-btn ${cls}" data-answer="${i}" ${q.locked?'disabled':''}>
+          <span class="option-letter">${String.fromCharCode(65+i)}</span>
+          <span>${esc(opt)}</span>
+        </button>`;
+      }).join('')}
+    </div>
+    ${q.locked ? `<div class="explain"><strong>${q.answered===question.correct?'Correct.':'Not quite.'}</strong> ${esc(question.explain)}</div>` : ''}
+    <div class="q-footer">
+      ${q.locked ? `<button class="btn-primary" data-next="1">${q.index<q.bank.length-1?'Next Question':'See Results'}</button>` : ''}
+    </div>
+  </div>`;
+}
+
+function renderResultsView(){
+  const pct = state.lastScore;
+  const course = findCourse(state.courseId);
+  const subject = findSubject(course, state.subjectId);
+  const chapter = findChapter(subject, state.chapterId);
+  const topic = findTopic(chapter, state.topicId);
+  const mastered = pct >= MASTERY_THRESHOLD;
+
+  return `
+  <div class="result-card" style="--pct:${pct}">
+    <div class="result-ring"><span class="result-ring-label mono">${pct}%</span></div>
+    <div class="result-title">${mastered ? 'Topic Mastered' : 'Keep Practicing'}</div>
+    <div class="result-sub">${esc(topic.name)} · ${mastered ? `You've cleared the ${MASTERY_THRESHOLD}% mastery bar.` : `Score ${MASTERY_THRESHOLD}% or higher to master this topic.`}</div>
+    <div class="result-actions">
+      <button class="btn-ghost" data-nav="topics" data-course="${course.id}" data-subject="${subject.id}" data-chapter="${chapter.id}">Back to Topics</button>
+      <button class="btn-primary" data-retry="1">Retry Quiz</button>
+    </div>
+  </div>`;
+}
+
+function renderProgressView(){
+  const allTopics = COURSES.flatMap(c=>allTopicsOfCourse(c));
+  const masteredCount = allTopics.filter(t=>progress[t.id]?.mastered).length;
+  const startedCount = allTopics.filter(t=>progress[t.id]?.attempts>0).length;
+  const overallPct = allTopics.length ? Math.round((masteredCount/allTopics.length)*100) : 0;
+
+  return `
+  <div class="section-head">
+    <div class="section-eyebrow">Overview</div>
+    <div class="section-title">Your Progress</div>
+    <div class="section-sub">Across all courses.</div>
+  </div>
+  <div class="mastery-block">
+    <div class="m-eyebrow">Overall Mastery</div>
+    <h3>${overallPct}%</h3>
+    <p>${masteredCount} of ${allTopics.length} topics mastered · ${startedCount} topics started.</p>
+  </div>
+  <div class="row-list" style="margin-top:16px;">
+    ${COURSES.map(c=>{
+      const pct = courseProgressPct(c);
+      return `
+      <button class="row-card" data-nav="subjects" data-course="${c.id}">
+        <div class="row-icon">${esc(c.icon)}</div>
+        <div class="row-body">
+          <div class="row-title">${esc(c.name)}</div>
+          <div class="row-sub">${pct}% mastered</div>
+        </div>
+        <span class="row-chev">${ICONS.chevron}</span>
+      </button>`;
+    }).join('')}
+  </div>`;
+}
+
+function renderSavedView(){
+  const list = COURSES.filter(c=>starred.has(c.id));
+  if(!list.length){
+    return `
+    <div class="section-head">
+      <div class="section-eyebrow">Saved</div>
+      <div class="section-title">Saved Courses</div>
+    </div>
+    <div class="empty">
+      ${ICONS.empty}
+      <p><strong>No saved courses yet.</strong><br>Tap the star on any course to pin it here.</p>
+    </div>`;
   }
+  return `
+  <div class="section-head">
+    <div class="section-eyebrow">Saved</div>
+    <div class="section-title">Saved Courses</div>
+  </div>
+  <div class="course-grid">
+    ${list.map(c=>{
+      const pct = courseProgressPct(c);
+      return `
+      <div class="admit-card">
+        <button class="admit-main" data-nav="subjects" data-course="${c.id}" style="background:none;border:none;">
+          <div class="admit-top">
+            <div>
+              <div class="admit-course-name">${esc(c.name)}</div>
+              <div class="admit-course-full">${esc(c.full)}</div>
+            </div>
+            <span class="star-btn active" data-star="${c.id}">${ICONS.starFilled}</span>
+          </div>
+          <div class="admit-meta">
+            <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
+            <div class="progress-pct mono">${pct}%</div>
+          </div>
+        </button>
+        <div class="admit-stub">
+          <div class="admit-stub-num">${c.subjects.length}</div>
+          <div class="admit-stub-label">Subjects</div>
+        </div>
+      </div>`;
+    }).join('')}
+  </div>`;
+}
 
-  function toggleMyCourse(key) {
-    myCourses[key] = !myCourses[key];
-    renderCourseList();
+function renderMain(){
+  switch(state.view){
+    case 'courses': return renderCoursesView();
+    case 'subjects': return renderSubjectsView();
+    case 'chapters': return renderChaptersView();
+    case 'topics': return renderTopicsView();
+    case 'quiz': return renderQuizView();
+    case 'results': return renderResultsView();
+    case 'progressView': return renderProgressView();
+    case 'savedView': return renderSavedView();
+    default: return renderCoursesView();
   }
+}
 
-  function openCourse(key) {
-    currentCourse = key;
-    var container = document.getElementById("mainContent");
-    var c = courses[key];
+function render(){
+  const showTabbar = !['quiz','results'].includes(state.view);
+  document.getElementById('app').innerHTML = `
+    ${renderTopbar()}
+    <main>${renderMain()}</main>
+    ${showTabbar ? renderTabbar() : ''}
+  `;
+}
 
-    var html = '<button class="action back-btn" onclick="renderCourseList()" style="margin-bottom:16px;">← Back</button>';
-    html += "<h1>" + c.label + "</h1>";
-    container.innerHTML = html;
+/* ================================================================
+   EVENT DELEGATION
+   ================================================================ */
+document.getElementById('app').addEventListener('click', (e)=>{
+  const tabBtn = e.target.closest('[data-tab]');
+  if(tabBtn){ goTab(tabBtn.dataset.tab); return; }
 
-    for (var subKey in c.subjects) {
-      var s = c.subjects[subKey];
-      var hasQuestions = questionBanks[subKey] !== undefined;
-      var badge = subjectMastery[subKey] ? '<span class="mastered-badge">MASTERED</span>' : (!hasQuestions ? '<span class="soon-badge">COMING SOON</span>' : '');
+  const starBtn = e.target.closest('[data-star]');
+  if(starBtn){ e.stopPropagation(); toggleStar(starBtn.dataset.star); return; }
 
-      var btn = document.createElement("button");
-      btn.className = "subject-btn";
-      btn.innerHTML = '<div class="subject-name">' + s.label + badge + '</div>' +
-        '<div class="subject-stats">' + (hasQuestions ? (subjectMastery[subKey] ? "Completed" : "Tap to practice") : "Question bank not added yet") + '</div>';
-
-      if (hasQuestions) {
-        btn.onclick = (function(sk) { return function() { startSubject(sk); }; })(subKey);
-      } else {
-        btn.style.opacity = "0.6";
-      }
-
-      container.appendChild(btn);
-    }
-  }
-
-  var correctAnswer, questionQueue = [], currentIndex = 0, masteryFailed = false, answered = false;
-
-  function startSubject(subKey) {
-    currentSubject = subKey;
-    questionQueue = [];
-    currentIndex = 0;
-    masteryFailed = false;
-
-    var bank = questionBanks[subKey].slice();
-    shuffle(bank);
-    var count = Math.min(5, bank.length);
-    for (var i = 0; i < count; i++) {
-      questionQueue.push(makeQuestionObj(bank[i], false));
-    }
-
-    renderPracticeScreen();
-    showCurrentQuestion();
-  }
-
-  function renderPracticeScreen() {
-    var container = document.getElementById("mainContent");
-    container.innerHTML =
-      '<div class="card">' +
-      '<p id="progress"></p>' +
-      '<p id="topic"></p>' +
-      '<h2 id="question">Loading...</h2>' +
-      '<div id="optionsList"></div>' +
-      '<p id="result"></p>' +
-      '<button class="action next-btn hidden" id="nextBtn" onclick="goToNext()">Next</button>' +
-      '<button class="action back-btn" onclick="openCourse(currentCourse)">Back to Subjects</button>' +
-      '</div>';
-  }
-
-  function makeQuestionObj(bankItem, isBonus) {
-    var opts = bankItem.options.slice();
-    shuffle(opts);
-    return { text: bankItem.q, answer: bankItem.a, options: opts, isBonus: isBonus };
-  }
-
-  function shuffle(arr) {
-    for (var i = arr.length - 1; i > 0; i--) {
-      var j = Math.floor(Math.random() * (i + 1));
-      var t = arr[i]; arr[i] = arr[j]; arr[j] = t;
-    }
-  }
-
-  function pickBonusQuestion() {
-    var bank = questionBanks[currentSubject];
-    var picked = bank[Math.floor(Math.random() * bank.length)];
-    return makeQuestionObj(picked, true);
-  }
-
-  function showCurrentQuestion() {
-    var q = questionQueue[currentIndex];
-    correctAnswer = q.answer;
-    answered = false;
-
-    var progressText = "Question " + (currentIndex + 1) + " of " + questionQueue.length;
-    if (q.isBonus) progressText += ' <span class="bonus-tag">— BONUS</span>';
-
-    document.getElementById("progress").innerHTML = progressText;
-    document.getElementById("topic").innerHTML = courses[currentCourse].subjects[currentSubject].label;
-    document.getElementById("question").innerHTML = q.text;
-    document.getElementById("result").innerHTML = "";
-    document.getElementById("nextBtn").classList.add("hidden");
-
-    var optionsList = document.getElementById("optionsList");
-    optionsList.innerHTML = "";
-
-    for (var i = 0; i < q.options.length; i++) {
-      var optBtn = document.createElement("button");
-      optBtn.className = "option-btn";
-      optBtn.innerHTML = q.options[i];
-      optBtn.onclick = (function(choice, btnRef) { return function() { selectOption(choice, btnRef); }; })(q.options[i], optBtn);
-      optionsList.appendChild(optBtn);
-    }
-  }
-
-  function selectOption(choice, btnRef) {
-    if (answered) return;
-    answered = true;
-
-    var currentQ = questionQueue[currentIndex];
-    var wasCorrect = choice === correctAnswer;
-    var resultText = document.getElementById("result");
-
-    var allButtons = document.querySelectorAll("#optionsList .option-btn");
-    for (var i = 0; i < allButtons.length; i++) {
-      allButtons[i].disabled = true;
-      if (allButtons[i].innerHTML === correctAnswer) allButtons[i].classList.add("correct");
-    }
-
-    if (wasCorrect) {
-      resultText.innerHTML = "✅ Correct!";
-      resultText.style.color = "green";
-    } else {
-      btnRef.classList.add("wrong");
-      resultText.innerHTML = "❌ Wrong. Correct answer highlighted above.";
-      resultText.style.color = "red";
-      if (currentQ.isBonus) { masteryFailed = true; }
-      else { questionQueue.push(pickBonusQuestion()); }
-    }
-
-    document.getElementById("nextBtn").classList.remove("hidden");
-  }
-
-  function goToNext() {
-    currentIndex++;
-    if (currentIndex >= questionQueue.length) { finishSession(); return; }
-    showCurrentQuestion();
-  }
-
-  function finishSession() {
-    var resultText = document.getElementById("result");
-    document.getElementById("optionsList").innerHTML = "";
-    document.getElementById("progress").innerHTML = "";
-    document.getElementById("nextBtn").classList.add("hidden");
-
-    if (masteryFailed) {
-      document.getElementById("topic").innerHTML = "";
-      document.getElementById("question").innerHTML = "Not mastered this time.";
-      resultText.innerHTML = "Try this subject again to earn Mastery.";
-      resultText.style.color = "#d97706";
-    } else {
-      subjectMastery[currentSubject] = true;
-      document.getElementById("topic").innerHTML = "";
-      document.getElementById("question").innerHTML = "🏆 Subject Mastered!";
-      resultText.innerHTML = "You answered every question correctly.";
-      resultText.style.color = "green";
-    }
-  }
-
-  switchTab("favourites");
-</script>
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } 
-    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyDHc9vS_q2DFfr1rnGLyUkAfcp8QkAKyss",
-    authDomain: "mathflux-d3b47.firebaseapp.com",
-    projectId: "mathflux-d3b47",
-    storageBucket: "mathflux-d3b47.firebasestorage.app",
-    messagingSenderId: "280421081797",
-    appId: "1:280421081797:web:d7b70c925d4ab493e386ac",
-    measurementId: "G-J86YF92MZW"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-
-  // make these available to the rest of our app's code
-  window.firebaseAuth = auth;
-  window.firebaseCreateUser = createUserWithEmailAndPassword;
-  window.firebaseSignIn = signInWithEmailAndPassword;
-  window.firebaseSignOut = signOut;
-  window.firebaseOnAuthChange = onAuthStateChanged;
-  var isSignUpMode = false;
-
-  window.toggleAuthMode = function() {
-    isSignUpMode = !isSignUpMode;
-    document.getElementById("authTitle").innerHTML = isSignUpMode ? "Sign Up" : "Log In";
-    document.getElementById("authSubmitBtn").innerHTML = isSignUpMode ? "Sign Up" : "Log In";
-    document.getElementById("authSwitchText").innerHTML = isSignUpMode
-      ? 'Already have an account? <a onclick="toggleAuthMode()">Log In</a>'
-      : "Don't have an account? <a onclick=\"toggleAuthMode()\">Sign Up</a>";
-    document.getElementById("authError").innerHTML = "";
-  };
-
-  window.handleAuthSubmit = function() {
-    var email = document.getElementById("authEmail").value;
-    var password = document.getElementById("authPassword").value;
-    var errorBox = document.getElementById("authError");
-    errorBox.innerHTML = "";
-
-    var action = isSignUpMode
-      ? window.firebaseCreateUser(window.firebaseAuth, email, password)
-      : window.firebaseSignIn(window.firebaseAuth, email, password);
-
-    action.catch(function(error) {
-      errorBox.innerHTML = error.message;
+  const navBtn = e.target.closest('[data-nav]');
+  if(navBtn){
+    const view = navBtn.dataset.nav;
+    go(view, {
+      courseId: navBtn.dataset.course || null,
+      subjectId: navBtn.dataset.subject || null,
+      chapterId: navBtn.dataset.chapter || null,
     });
-  };
+    return;
+  }
 
-  window.handleLogout = function() {
-    window.firebaseSignOut(window.firebaseAuth);
-  };
+  const quizBtn = e.target.closest('[data-quiz]');
+  if(quizBtn){
+    startQuiz(quizBtn.dataset.quiz, quizBtn.dataset.course, quizBtn.dataset.subject, quizBtn.dataset.chapter);
+    return;
+  }
 
-  window.firebaseOnAuthChange(window.firebaseAuth, function(user) {
-    if (user) {
-      document.getElementById("authScreen").classList.add("hidden");
-      document.getElementById("appScreen").classList.remove("hidden");
-    } else {
-      document.getElementById("authScreen").classList.remove("hidden");
-      document.getElementById("appScreen").classList.add("hidden");
-    }
+  const answerBtn = e.target.closest('[data-answer]');
+  if(answerBtn){ answerQuiz(Number(answerBtn.dataset.answer)); return; }
+
+  const nextBtn = e.target.closest('[data-next]');
+  if(nextBtn){ nextQuiz(); return; }
+
+  const retryBtn = e.target.closest('[data-retry]');
+  if(retryBtn){ retryQuiz(); return; }
+});
+
+/* ================================================================
+   INIT
+   ================================================================ */
+render();
+
+/* ---- PWA: register service worker for offline support ---- */
+if('serviceWorker' in navigator){
+  window.addEventListener('load', ()=>{
+    navigator.serviceWorker.register('sw.js').catch(()=>{ /* offline support unavailable — app still works online */ });
   });
+}
 </script>
-
 </body>
 </html>
