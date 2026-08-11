@@ -21,7 +21,7 @@
    slips with a perforated edge and a corner progress stub, since
    this product's whole world is entrance-test admission.
    ============================================================ */
-:root{
+:root{   
   --ink:#12182B;
   --ink-soft:#4A5169;
   --paper:#F6F3EA;
@@ -30,8 +30,8 @@
   --gold:#AD8A2E;
   --gold-soft:#F1E6C8;
   --correct:#2F7D5C;
-  --correct-soft:#E4F1EA;
-  --incorrect:#B3401E;
+  --correct-soft:#00b5b5;
+  --incorrect:#ff0011;
   --incorrect-soft:#F7E6DE;
   --shadow: 0 1px 2px rgba(18,24,43,.06), 0 8px 24px -12px rgba(18,24,43,.18);
   --radius: 14px;
@@ -294,72 +294,79 @@ const CUSTOM_QUESTION_BANKS = {}; // topicId -> array of 15 hand-authored {q, op
 
 const COURSES = [
   {
-    id:'mdcat', name:'MDCAT', full:'Medical & Dental College Admission Test', icon:'M',
+    id:'mdcat', name:'MDCAT', full:'Medical & Dental College Admission Test (PMDC 2025 Syllabus)', icon:'M',
     subjects:[
       { id:'mdcat-bio', name:'Biology', type:'biology', chapters:[
-        { id:'mdcat-bio-cell', name:'Cell Structure and Function', topics:[
-          {id:'mdcat-bio-cell-membrane', name:'Cell Membrane'},
-          {id:'mdcat-bio-cell-organelles', name:'Organelles'},
-          {id:'mdcat-bio-cell-prokeuk', name:'Prokaryotic vs Eukaryotic Cells'},
-          {id:'mdcat-bio-cell-transport', name:'Cell Transport'},
-        ]},
-        { id:'mdcat-bio-molecules', name:'Biological Molecules', topics:[
-          {id:'mdcat-bio-mol-carbs', name:'Carbohydrates'},
-          {id:'mdcat-bio-mol-proteins', name:'Proteins'},
-          {id:'mdcat-bio-mol-lipids', name:'Lipids'},
-          {id:'mdcat-bio-mol-nucleic', name:'Nucleic Acids'},
-        ]},
-        { id:'mdcat-bio-enzymes', name:'Enzymes', topics:[
-          {id:'mdcat-bio-enz-structure', name:'Enzyme Structure'},
-          {id:'mdcat-bio-enz-mechanism', name:'Mechanism of Action'},
-          {id:'mdcat-bio-enz-factors', name:'Factors Affecting Activity'},
-          {id:'mdcat-bio-enz-inhibition', name:'Enzyme Inhibition'},
-        ]},
-      ]},
-      { id:'mdcat-phy', name:'Physics', type:'physics', chapters:[
-        { id:'mdcat-phy-kinematics', name:'Kinematics', topics:[
-          {id:'mdcat-phy-kin-1d', name:'Motion in One Dimension'},
-          {id:'mdcat-phy-kin-2d', name:'Motion in Two Dimensions'},
-          {id:'mdcat-phy-kin-projectile', name:'Projectile Motion'},
-        ]},
-        { id:'mdcat-phy-forces', name:"Forces and Newton's Laws", topics:[
-          {id:'mdcat-phy-force-first', name:"Newton's First Law"},
-          {id:'mdcat-phy-force-second', name:"Newton's Second Law"},
-          {id:'mdcat-phy-force-friction', name:'Friction'},
-        ]},
+        { id:'mdcat-bio-c1', name:'Acellular Life', topics:[{id:'mdcat-bio-c1-t1', name:'Viruses'}, {id:'mdcat-bio-c1-t2', name:'AIDS and HIV Infection'}] },
+        { id:'mdcat-bio-c2', name:'Bioenergetics', topics:[{id:'mdcat-bio-c2-t1', name:'Respiration'}] },
+        { id:'mdcat-bio-c3', name:'Biological Molecules', topics:[{id:'mdcat-bio-c3-t1', name:'Biological Molecules (Definition and Classification)'}, {id:'mdcat-bio-c3-t2', name:'Biological Importance of Water'}, {id:'mdcat-bio-c3-t3', name:'Carbohydrates'}, {id:'mdcat-bio-c3-t4', name:'Proteins'}, {id:'mdcat-bio-c3-t5', name:'Lipids'}, {id:'mdcat-bio-c3-t6', name:'Ribonucleic Acid (RNA)'}, {id:'mdcat-bio-c3-t7', name:'Conjugated Molecules'}, {id:'mdcat-bio-c3-t8', name:'Structure of DNA'}] },
+        { id:'mdcat-bio-c4', name:'Cell Structure and Function', topics:[{id:'mdcat-bio-c4-t1', name:'Cell Structure'}, {id:'mdcat-bio-c4-t2', name:'Prokaryotic and Eukaryotic Cells'}, {id:'mdcat-bio-c4-t3', name:'Cytoplasmic Organelles'}, {id:'mdcat-bio-c4-t4', name:'Chromosomes'}] },
+        { id:'mdcat-bio-c5', name:'Coordination and Control (Nervous and Chemical Coordination)', topics:[{id:'mdcat-bio-c5-t1', name:'Receptors'}, {id:'mdcat-bio-c5-t2', name:'Neurons'}, {id:'mdcat-bio-c5-t3', name:'Brain'}] },
+        { id:'mdcat-bio-c6', name:'Enzymes', topics:[{id:'mdcat-bio-c6-t1', name:'Enzymes'}, {id:'mdcat-bio-c6-t2', name:'Mode of Enzyme Action'}, {id:'mdcat-bio-c6-t3', name:'Factors Affecting Rate of Enzyme Reactions'}, {id:'mdcat-bio-c6-t4', name:'Enzyme Inhibitors'}] },
+        { id:'mdcat-bio-c7', name:'Evolution', topics:[{id:'mdcat-bio-c7-t1', name:'Concept of Evolution'}, {id:'mdcat-bio-c7-t2', name:'Lamarckism'}, {id:'mdcat-bio-c7-t3', name:'Darwinism'}] },
+        { id:'mdcat-bio-c8', name:'Reproduction', topics:[{id:'mdcat-bio-c8-t1', name:'Human Reproductive System'}, {id:'mdcat-bio-c8-t2', name:'Menstrual Cycle'}, {id:'mdcat-bio-c8-t3', name:'Sexually Transmitted Diseases'}] },
+        { id:'mdcat-bio-c9', name:'Support and Movement', topics:[{id:'mdcat-bio-c9-t1', name:'Human Skeleton'}, {id:'mdcat-bio-c9-t2', name:'Muscles'}, {id:'mdcat-bio-c9-t3', name:'Skeletal Muscles'}, {id:'mdcat-bio-c9-t4', name:'Muscle Contraction'}, {id:'mdcat-bio-c9-t5', name:'Joints'}, {id:'mdcat-bio-c9-t6', name:'Arthritis'}] },
+        { id:'mdcat-bio-c10', name:'Inheritance', topics:[{id:'mdcat-bio-c10-t1', name:'Mendel\'s Laws of Inheritance'}, {id:'mdcat-bio-c10-t2', name:'Gene Linkage and Crossing Over'}, {id:'mdcat-bio-c10-t3', name:'X-linked Recessive Inheritance'}] },
+        { id:'mdcat-bio-c11', name:'Circulation', topics:[{id:'mdcat-bio-c11-t1', name:'Human Heart'}, {id:'mdcat-bio-c11-t2', name:'Cardiac Cycle and Phases of Heartbeat'}, {id:'mdcat-bio-c11-t3', name:'Blood Vessels'}, {id:'mdcat-bio-c11-t4', name:'Lymphatic System'}] },
+        { id:'mdcat-bio-c12', name:'Immunity', topics:[{id:'mdcat-bio-c12-t1', name:'Specific Defense Mechanism'}] },
+        { id:'mdcat-bio-c13', name:'Respiration (Human Respiratory System)', topics:[{id:'mdcat-bio-c13-t1', name:'Human Respiratory System'}] },
+        { id:'mdcat-bio-c14', name:'Digestion', topics:[{id:'mdcat-bio-c14-t1', name:'Human Digestive System'}] },
+        { id:'mdcat-bio-c15', name:'Homeostasis', topics:[{id:'mdcat-bio-c15-t1', name:'Homeostasis (Kidney)'}, {id:'mdcat-bio-c15-t2', name:'Thermoregulation'}, {id:'mdcat-bio-c15-t3', name:'Excretion'}] },
+        { id:'mdcat-bio-c16', name:'Biotechnology', topics:[{id:'mdcat-bio-c16-t1', name:'Biotechnology and Health Care'}] }
       ]},
       { id:'mdcat-chem', name:'Chemistry', type:'chemistry', chapters:[
-        { id:'mdcat-chem-atomic', name:'Atomic Structure', topics:[
-          {id:'mdcat-chem-at-particles', name:'Subatomic Particles'},
-          {id:'mdcat-chem-at-config', name:'Electron Configuration'},
-          {id:'mdcat-chem-at-quantum', name:'Quantum Numbers'},
-        ]},
-        { id:'mdcat-chem-bonding', name:'Chemical Bonding', topics:[
-          {id:'mdcat-chem-bond-ionic', name:'Ionic Bonding'},
-          {id:'mdcat-chem-bond-covalent', name:'Covalent Bonding'},
-          {id:'mdcat-chem-bond-geometry', name:'Molecular Geometry'},
-        ]},
+        { id:'mdcat-chem-c1', name:'Introduction to Fundamental Concepts of Chemistry', topics:[{id:'mdcat-chem-c1-t1', name:'Moles and Avogadro\'s Number'}, {id:'mdcat-chem-c1-t2', name:'Limiting and Excess Reactants'}, {id:'mdcat-chem-c1-t3', name:'Yield'}] },
+        { id:'mdcat-chem-c2', name:'Atomic Structure', topics:[{id:'mdcat-chem-c2-t1', name:'Discovery of Proton and Planck\'s Quantum Theory'}, {id:'mdcat-chem-c2-t2', name:'Quantum Numbers'}, {id:'mdcat-chem-c2-t3', name:'Shapes of Orbitals'}, {id:'mdcat-chem-c2-t4', name:'Spectrum of Hydrogen'}, {id:'mdcat-chem-c2-t5', name:'Electronic Configuration'}] },
+        { id:'mdcat-chem-c3', name:'Gases', topics:[{id:'mdcat-chem-c3-t1', name:'Kinetic Molecular Theory'}, {id:'mdcat-chem-c3-t2', name:'Standard Temperature and Pressure (STP)'}, {id:'mdcat-chem-c3-t3', name:'Boyle\'s Law'}, {id:'mdcat-chem-c3-t4', name:'Charles\'s Law'}, {id:'mdcat-chem-c3-t5', name:'Absolute Zero'}, {id:'mdcat-chem-c3-t6', name:'Ideal Gas Equation'}, {id:'mdcat-chem-c3-t7', name:'Unit of Gas Constant "R"'}, {id:'mdcat-chem-c3-t8', name:'Real and Ideal Gases'}] },
+        { id:'mdcat-chem-c4', name:'Liquids', topics:[{id:'mdcat-chem-c4-t1', name:'Properties of Liquids (Kinetic Molecular Theory)'}, {id:'mdcat-chem-c4-t2', name:'Evaporation, Boiling Point and Vapor Pressure'}, {id:'mdcat-chem-c4-t3', name:'Hydrogen Bonding'}, {id:'mdcat-chem-c4-t4', name:'Anomalous Behavior of Water'}] },
+        { id:'mdcat-chem-c5', name:'Solids', topics:[{id:'mdcat-chem-c5-t1', name:'Crystalline Solids'}, {id:'mdcat-chem-c5-t2', name:'Factors Affecting the Shape of Ionic Crystals'}, {id:'mdcat-chem-c5-t3', name:'Ionic vs Molecular Crystals'}, {id:'mdcat-chem-c5-t4', name:'Crystal Lattice'}, {id:'mdcat-chem-c5-t5', name:'Lattice Energy'}] },
+        { id:'mdcat-chem-c6', name:'Chemical Equilibrium', topics:[{id:'mdcat-chem-c6-t1', name:'Chemical Equilibrium'}, {id:'mdcat-chem-c6-t2', name:'Le Chatelier\'s Principle'}, {id:'mdcat-chem-c6-t3', name:'Solubility Products'}, {id:'mdcat-chem-c6-t4', name:'Common Ion Effect'}, {id:'mdcat-chem-c6-t5', name:'Buffer Solutions'}, {id:'mdcat-chem-c6-t6', name:'Haber\'s Process'}] },
+        { id:'mdcat-chem-c7', name:'Reaction Kinetics', topics:[{id:'mdcat-chem-c7-t1', name:'Chemical Kinetics'}, {id:'mdcat-chem-c7-t2', name:'Factors Affecting Rate of Reaction'}, {id:'mdcat-chem-c7-t3', name:'Order of Reaction'}, {id:'mdcat-chem-c7-t4', name:'Rate Constant'}] },
+        { id:'mdcat-chem-c8', name:'Thermochemistry and Energetics of Chemical Reactions', topics:[{id:'mdcat-chem-c8-t1', name:'Thermodynamics'}, {id:'mdcat-chem-c8-t2', name:'Exothermic and Endothermic Reactions'}, {id:'mdcat-chem-c8-t3', name:'System, Boundary and State Functions'}, {id:'mdcat-chem-c8-t4', name:'Internal Energy'}, {id:'mdcat-chem-c8-t5', name:'First Law of Thermodynamics'}, {id:'mdcat-chem-c8-t6', name:'Hess\'s Law'}, {id:'mdcat-chem-c8-t7', name:'Enthalpy'}] },
+        { id:'mdcat-chem-c9', name:'Electrochemistry', topics:[{id:'mdcat-chem-c9-t1', name:'Redox Reactions'}, {id:'mdcat-chem-c9-t2', name:'Oxidation and Reduction'}, {id:'mdcat-chem-c9-t3', name:'Balancing Chemical Reactions'}, {id:'mdcat-chem-c9-t4', name:'Standard Hydrogen Electrode (SHE)'}] },
+        { id:'mdcat-chem-c10', name:'Chemical Bonding', topics:[{id:'mdcat-chem-c10-t1', name:'VSEPR Theory'}, {id:'mdcat-chem-c10-t2', name:'Sigma and Pi Bonds'}, {id:'mdcat-chem-c10-t3', name:'Hybridization'}, {id:'mdcat-chem-c10-t4', name:'Applications of VSEPR Theory'}, {id:'mdcat-chem-c10-t5', name:'Dipole Moment'}, {id:'mdcat-chem-c10-t6', name:'Applications of Dipole Moment'}, {id:'mdcat-chem-c10-t7', name:'Bond Energy'}] },
+        { id:'mdcat-chem-c11', name:'S- and P-Block Elements', topics:[{id:'mdcat-chem-c11-t1', name:'Periodic Properties and Trends'}, {id:'mdcat-chem-c11-t2', name:'S-, P-, D- and F-Block Elements'}, {id:'mdcat-chem-c11-t3', name:'Reactions of Group I Elements'}, {id:'mdcat-chem-c11-t4', name:'Reactions of Group II Elements'}, {id:'mdcat-chem-c11-t5', name:'Reactions of Group IV Elements'}] },
+        { id:'mdcat-chem-c12', name:'Transition Elements', topics:[{id:'mdcat-chem-c12-t1', name:'Electronic Structure of d-Block Elements'}] },
+        { id:'mdcat-chem-c13', name:'Fundamental Principles of Organic Chemistry', topics:[{id:'mdcat-chem-c13-t1', name:'Classification of Organic Compounds'}, {id:'mdcat-chem-c13-t2', name:'Functional Groups'}, {id:'mdcat-chem-c13-t3', name:'Isomerism'}] },
+        { id:'mdcat-chem-c14', name:'Chemistry of Hydrocarbons', topics:[{id:'mdcat-chem-c14-t1', name:'Nomenclature of Alkanes'}, {id:'mdcat-chem-c14-t2', name:'Free Radical Mechanism'}, {id:'mdcat-chem-c14-t3', name:'Nomenclature of Alkenes'}, {id:'mdcat-chem-c14-t4', name:'Shapes of Alkenes'}, {id:'mdcat-chem-c14-t5', name:'Structure and Reactivity of Alkenes'}, {id:'mdcat-chem-c14-t6', name:'Preparation of Alkenes'}, {id:'mdcat-chem-c14-t7', name:'Resonance and Resonance Energy of Benzene'}, {id:'mdcat-chem-c14-t8', name:'Reactivity of Benzene'}, {id:'mdcat-chem-c14-t9', name:'Chemical Reactions of Benzene'}, {id:'mdcat-chem-c14-t10', name:'Effect of Substituents on Benzene'}, {id:'mdcat-chem-c14-t11', name:'Nomenclature of Alkynes'}, {id:'mdcat-chem-c14-t12', name:'Preparation of Alkynes'}, {id:'mdcat-chem-c14-t13', name:'Acidity of Alkynes'}, {id:'mdcat-chem-c14-t14', name:'Reactions of Alkynes'}, {id:'mdcat-chem-c14-t15', name:'Substitution vs Addition Reactions'}] },
+        { id:'mdcat-chem-c15', name:'Alkyl Halides', topics:[{id:'mdcat-chem-c15-t1', name:'Nomenclature, Structure and Reactivity of Alkyl Halides'}, {id:'mdcat-chem-c15-t2', name:'Substitution vs Elimination Reactions'}] },
+        { id:'mdcat-chem-c16', name:'Alcohols and Phenols', topics:[{id:'mdcat-chem-c16-t1', name:'Nomenclature, Structure and Reactivity of Alcohols'}, {id:'mdcat-chem-c16-t2', name:'Nomenclature, Structure and Reactivity of Phenols'}, {id:'mdcat-chem-c16-t3', name:'Differences Between Alcohols and Phenols'}] },
+        { id:'mdcat-chem-c17', name:'Aldehydes and Ketones', topics:[{id:'mdcat-chem-c17-t1', name:'Nomenclature and Structure of Aldehydes and Ketones'}, {id:'mdcat-chem-c17-t2', name:'Preparation of Aldehydes and Ketones'}, {id:'mdcat-chem-c17-t3', name:'Reactivity of Aldehydes and Ketones'}, {id:'mdcat-chem-c17-t4', name:'Nucleophilic Addition and Redox Reactions'}] },
+        { id:'mdcat-chem-c18', name:'Carboxylic Acids', topics:[{id:'mdcat-chem-c18-t1', name:'Nomenclature, Structure and Preparation of Carboxylic Acids'}, {id:'mdcat-chem-c18-t2', name:'Reactivity of Carboxylic Acids'}, {id:'mdcat-chem-c18-t3', name:'Conversion to Carboxylic Acid Derivatives'}] },
+        { id:'mdcat-chem-c19', name:'Macromolecules', topics:[{id:'mdcat-chem-c19-t1', name:'Classification of Proteins'}, {id:'mdcat-chem-c19-t2', name:'Importance of Proteins'}, {id:'mdcat-chem-c19-t3', name:'Enzymes as Biocatalysts'}] },
+        { id:'mdcat-chem-c20', name:'Industrial Chemistry', topics:[{id:'mdcat-chem-c20-t1', name:'Adhesives'}, {id:'mdcat-chem-c20-t2', name:'Dyes'}, {id:'mdcat-chem-c20-t3', name:'Polymers'}] }
+      ]},
+      { id:'mdcat-phy', name:'Physics', type:'physics', chapters:[
+        { id:'mdcat-phy-c1', name:'Vectors and Equilibrium', topics:[{id:'mdcat-phy-c1-t1', name:'Addition of Vectors (Rectangular Components)'}, {id:'mdcat-phy-c1-t2', name:'Scalar Product of Vectors'}, {id:'mdcat-phy-c1-t3', name:'Vector Product of Vectors'}] },
+        { id:'mdcat-phy-c2', name:'Force and Motion', topics:[{id:'mdcat-phy-c2-t1', name:'Displacement'}, {id:'mdcat-phy-c2-t2', name:'Velocity'}, {id:'mdcat-phy-c2-t3', name:'Displacement-Time Graphs'}, {id:'mdcat-phy-c2-t4', name:'Acceleration'}, {id:'mdcat-phy-c2-t5', name:'Uniform and Variable Acceleration'}, {id:'mdcat-phy-c2-t6', name:'Projectile Motion'}, {id:'mdcat-phy-c2-t7', name:'Ideal Projectile Motion'}, {id:'mdcat-phy-c2-t8', name:'Velocity Components in Projectile Motion'}, {id:'mdcat-phy-c2-t9', name:'Maximum Height, Range and Time of Flight'}, {id:'mdcat-phy-c2-t10', name:'Newton\'s Laws of Motion'}, {id:'mdcat-phy-c2-t11', name:'Newton\'s Second Law and Linear Momentum'}, {id:'mdcat-phy-c2-t12', name:'Newton\'s Third Law of Motion'}, {id:'mdcat-phy-c2-t13', name:'Elastic and Inelastic Collisions'}, {id:'mdcat-phy-c2-t14', name:'Momentum and Explosive Forces'}, {id:'mdcat-phy-c2-t15', name:'Perfectly Elastic Collisions'}] },
+        { id:'mdcat-phy-c3', name:'Work and Energy', topics:[{id:'mdcat-phy-c3-t1', name:'Work'}, {id:'mdcat-phy-c3-t2', name:'Energy'}, {id:'mdcat-phy-c3-t3', name:'Kinetic Energy'}, {id:'mdcat-phy-c3-t4', name:'Potential Energy'}, {id:'mdcat-phy-c3-t5', name:'Absolute Potential Energy'}, {id:'mdcat-phy-c3-t6', name:'Power'}, {id:'mdcat-phy-c3-t7', name:'Work-Energy Theorem in a Resistive Medium'}, {id:'mdcat-phy-c3-t8', name:'Energy Losses and Efficiency'}] },
+        { id:'mdcat-phy-c4', name:'Rotational and Circular Motion', topics:[{id:'mdcat-phy-c4-t1', name:'Angular Displacement'}, {id:'mdcat-phy-c4-t2', name:'Angular Velocity'}, {id:'mdcat-phy-c4-t3', name:'Relation Between Linear and Angular Quantities'}] },
+        { id:'mdcat-phy-c5', name:'Fluid Dynamics', topics:[{id:'mdcat-phy-c5-t1', name:'Terminal Velocity'}, {id:'mdcat-phy-c5-t2', name:'Fluid Drag'}, {id:'mdcat-phy-c5-t3', name:'Fluid Flow'}, {id:'mdcat-phy-c5-t4', name:'Equation of Continuity'}, {id:'mdcat-phy-c5-t5', name:'Bernoulli\'s Equation'}] },
+        { id:'mdcat-phy-c6', name:'Waves', topics:[{id:'mdcat-phy-c6-t1', name:'Wave Motion'}, {id:'mdcat-phy-c6-t2', name:'Progressive Waves'}, {id:'mdcat-phy-c6-t3', name:'Characteristics of Waves'}, {id:'mdcat-phy-c6-t4', name:'Wave Speed'}, {id:'mdcat-phy-c6-t5', name:'Transverse and Longitudinal Waves'}, {id:'mdcat-phy-c6-t6', name:'Speed of Sound (Newton\'s Formula)'}, {id:'mdcat-phy-c6-t7', name:'Laplace\'s Correction'}, {id:'mdcat-phy-c6-t8', name:'Factors Affecting Speed of Sound'}, {id:'mdcat-phy-c6-t9', name:'Interference of Sound Waves'}, {id:'mdcat-phy-c6-t10', name:'Stationary Waves'}, {id:'mdcat-phy-c6-t11', name:'Stationary Waves in a Stretched String'}, {id:'mdcat-phy-c6-t12', name:'Organ Pipes'}, {id:'mdcat-phy-c6-t13', name:'Simple Harmonic Motion'}, {id:'mdcat-phy-c6-t14', name:'Circular Motion and SHM'}] },
+        { id:'mdcat-phy-c7', name:'Thermodynamics', topics:[{id:'mdcat-phy-c7-t1', name:'Thermal Equilibrium and Heat'}, {id:'mdcat-phy-c7-t2', name:'Molar Specific Heat of a Gas'}, {id:'mdcat-phy-c7-t3', name:'Work Done by a Thermodynamic System'}, {id:'mdcat-phy-c7-t4', name:'First Law of Thermodynamics'}, {id:'mdcat-phy-c7-t5', name:'Relation Between Cp and Cv'}] },
+        { id:'mdcat-phy-c8', name:'Electrostatics', topics:[{id:'mdcat-phy-c8-t1', name:'Coulomb\'s Law'}, {id:'mdcat-phy-c8-t2', name:'Electric Field'}, {id:'mdcat-phy-c8-t3', name:'Electric Field Due to a Point Charge'}, {id:'mdcat-phy-c8-t4', name:'Electric Field Due to an Infinite Sheet of Charge'}, {id:'mdcat-phy-c8-t5', name:'Electric Potential Energy and Potential'}, {id:'mdcat-phy-c8-t6', name:'Electric Potential'}, {id:'mdcat-phy-c8-t7', name:'Charging and Discharging of a Capacitor'}] },
+        { id:'mdcat-phy-c9', name:'Current Electricity', topics:[{id:'mdcat-phy-c9-t1', name:'Steady Current'}, {id:'mdcat-phy-c9-t2', name:'Ohm\'s Law'}, {id:'mdcat-phy-c9-t3', name:'Resistivity and Temperature Coefficient'}, {id:'mdcat-phy-c9-t4', name:'Internal Resistance of Sources'}, {id:'mdcat-phy-c9-t5', name:'Maximum Power Output'}] },
+        { id:'mdcat-phy-c10', name:'Electromagnetism', topics:[{id:'mdcat-phy-c10-t1', name:'Magnetic Flux Density'}, {id:'mdcat-phy-c10-t2', name:'Magnetic Flux'}, {id:'mdcat-phy-c10-t3', name:'Motion of a Charged Particle in a Magnetic Field'}] },
+        { id:'mdcat-phy-c11', name:'Electromagnetic Induction', topics:[{id:'mdcat-phy-c11-t1', name:'Faraday\'s Law of Electromagnetic Induction'}, {id:'mdcat-phy-c11-t2', name:'Lenz\'s Law'}, {id:'mdcat-phy-c11-t3', name:'Transformers'}] },
+        { id:'mdcat-phy-c12', name:'Alternating Current', topics:[{id:'mdcat-phy-c12-t1', name:'Phase of Alternating Current'}, {id:'mdcat-phy-c12-t2', name:'AC Through Resistors, Capacitors and Inductors'}, {id:'mdcat-phy-c12-t3', name:'Electromagnetic Spectrum'}] },
+        { id:'mdcat-phy-c13', name:'Electronics', topics:[{id:'mdcat-phy-c13-t1', name:'Rectification'}, {id:'mdcat-phy-c13-t2', name:'PN Junction'}] },
+        { id:'mdcat-phy-c14', name:'Dawn of Modern Physics', topics:[{id:'mdcat-phy-c14-t1', name:'Quantum Theory and Radiation'}] },
+        { id:'mdcat-phy-c15', name:'Atomic Spectra', topics:[{id:'mdcat-phy-c15-t1', name:'Atomic Spectra'}] },
+        { id:'mdcat-phy-c16', name:'Nuclear Physics', topics:[{id:'mdcat-phy-c16-t1', name:'Composition of Atomic Nuclei'}, {id:'mdcat-phy-c16-t2', name:'Spontaneous and Random Nuclear Decay'}, {id:'mdcat-phy-c16-t3', name:'Half-Life and Rate of Decay'}, {id:'mdcat-phy-c16-t4', name:'Biological and Medical Uses of Radiation'}] }
       ]},
       { id:'mdcat-eng', name:'English', type:'english', chapters:[
-        { id:'mdcat-eng-grammar', name:'Grammar', topics:[
-          {id:'mdcat-eng-gr-pos', name:'Parts of Speech'},
-          {id:'mdcat-eng-gr-tenses', name:'Tenses'},
-          {id:'mdcat-eng-gr-sentence', name:'Sentence Structure'},
-        ]},
-        { id:'mdcat-eng-vocab', name:'Vocabulary', topics:[
-          {id:'mdcat-eng-voc-synant', name:'Synonyms and Antonyms'},
-          {id:'mdcat-eng-voc-analogy', name:'Analogies'},
-          {id:'mdcat-eng-voc-context', name:'Contextual Usage'},
-        ]},
+        { id:'mdcat-eng-c1', name:'Reading and Thinking Skills', topics:[{id:'mdcat-eng-c1-t1', name:'Scanning for Answers'}, {id:'mdcat-eng-c1-t2', name:'Deducing Meaning from Context'}, {id:'mdcat-eng-c1-t3', name:'Analyzing Figurative Language'}] },
+        { id:'mdcat-eng-c2', name:'Formal and Lexical Aspects of Language', topics:[{id:'mdcat-eng-c2-t1', name:'Synonyms and Shades of Meaning'}, {id:'mdcat-eng-c2-t2', name:'Pronoun-Antecedent Agreement'}, {id:'mdcat-eng-c2-t3', name:'Use of Tenses'}, {id:'mdcat-eng-c2-t4', name:'Infinitives and Gerunds'}, {id:'mdcat-eng-c2-t5', name:'Adverbs and Prepositions'}, {id:'mdcat-eng-c2-t6', name:'Transitional Devices and Punctuation'}, {id:'mdcat-eng-c2-t7', name:'Sentence Classes and Phrases'}, {id:'mdcat-eng-c2-t8', name:'Active and Passive Voice'}, {id:'mdcat-eng-c2-t9', name:'Direct and Indirect Speech'}] },
+        { id:'mdcat-eng-c3', name:'Writing Skills', topics:[{id:'mdcat-eng-c3-t1', name:'Proofreading and Editing'}, {id:'mdcat-eng-c3-t2', name:'Faulty Sentence Structure'}, {id:'mdcat-eng-c3-t3', name:'Subject-Verb Agreement'}, {id:'mdcat-eng-c3-t4', name:'Errors of Function and Spelling'}] }
       ]},
       { id:'mdcat-logic', name:'Logical Reasoning', type:'logical', chapters:[
-        { id:'mdcat-logic-verbal', name:'Verbal Reasoning', topics:[
-          {id:'mdcat-lg-syllogism', name:'Syllogisms'},
-          {id:'mdcat-lg-analogy', name:'Analogies'},
-          {id:'mdcat-lg-assumption', name:'Statement and Assumption'},
-          {id:'mdcat-lg-blood', name:'Blood Relations'},
-        ]},
-      ]},
+        { id:'mdcat-logic-c1', name:'Critical Thinking', topics:[{id:'mdcat-logic-c1-t1', name:'Developing Logical Arguments'}, {id:'mdcat-logic-c1-t2', name:'Evaluating True and False Beliefs'}] },
+        { id:'mdcat-logic-c2', name:'Letter and Symbol Series', topics:[{id:'mdcat-logic-c2-t1', name:'Numerical and Arithmetic Series'}, {id:'mdcat-logic-c2-t2', name:'Letter and Symbol Sequences'}] },
+        { id:'mdcat-logic-c3', name:'Logical Deductions', topics:[{id:'mdcat-logic-c3-t1', name:'Predicting Relations from Given Information'}, {id:'mdcat-logic-c3-t2', name:'Structured Deductive Reasoning'}] },
+        { id:'mdcat-logic-c4', name:'Logical Problems', topics:[{id:'mdcat-logic-c4-t1', name:'Deductive Puzzles and Problem Solving'}] },
+        { id:'mdcat-logic-c5', name:'Course of Action', topics:[{id:'mdcat-logic-c5-t1', name:'Gathering and Using Information'}, {id:'mdcat-logic-c5-t2', name:'Judging Suggested Courses of Action'}] },
+        { id:'mdcat-logic-c6', name:'Cause and Effect', topics:[{id:'mdcat-logic-c6-t1', name:'Reasoning About Causes and Effects'}, {id:'mdcat-logic-c6-t2', name:'Evaluating Arguments and Beliefs'}] }
+      ]}
     ]
   },
   {
