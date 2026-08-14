@@ -1,7 +1,7 @@
 {
   "name": "Merit — Test Prep",
   "short_name": "Merit",
-  "description": "Practice quizzes and progress tracking for MDCAT, ECAT, and NTS test prep.",
+  "description": "Practice quizzes and progress tracking for MDCAT, ECAT, SAT, FAST-NUCES, LUMS-LCAT, and NUST-NET test prep.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

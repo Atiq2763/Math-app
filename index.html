@@ -241,6 +241,8 @@ nav.tabbar{
   font-family:'IBM Plex Mono',monospace;
 }
 .option-btn:not(:disabled):hover{ border-color:var(--gold); }
+.option-btn.selected{ background:var(--gold-soft); border-color:var(--gold); }
+.option-btn.selected .option-letter{ background:var(--gold); border-color:var(--gold); color:#fff; }
 .option-btn.correct{ background:var(--correct-soft); border-color:var(--correct); }
 .option-btn.correct .option-letter{ background:var(--correct); border-color:var(--correct); color:#fff; }
 .option-btn.incorrect{ background:var(--incorrect-soft); border-color:var(--incorrect); }
@@ -406,25 +408,98 @@ const COURSES = [
     ]
   },
   {
-    id:'nts', name:'NTS', full:'National Testing Service — General Ability', icon:'N',
+    id:'sat', name:'SAT', full:'Scholastic Assessment Test', icon:'S',
     subjects:[
-      { id:'nts-quant', name:'Quantitative', type:'math', chapters:[
-        { id:'nts-quant-arith', name:'Arithmetic', topics:[
-          {id:'nts-quant-ratio', name:'Ratio and Proportion'},
-          {id:'nts-quant-percent', name:'Percentages'},
-          {id:'nts-quant-avg', name:'Averages'},
+      { id:'sat-eng', name:'English', type:'english', chapters:[
+        { id:'sat-eng-rw', name:'Reading and Writing', topics:[
+          {id:'sat-eng-rw-comp', name:'Reading Comprehension'},
+          {id:'sat-eng-rw-conventions', name:'Standard English Conventions'},
+          {id:'sat-eng-rw-vocab', name:'Vocabulary in Context'},
         ]},
       ]},
-      { id:'nts-verbal', name:'Verbal', type:'english', chapters:[
-        { id:'nts-verbal-vocab', name:'Vocabulary', topics:[
-          {id:'nts-verbal-synant', name:'Synonyms and Antonyms'},
-          {id:'nts-verbal-idioms', name:'Idioms'},
+      { id:'sat-math', name:'Mathematics', type:'math', chapters:[
+        { id:'sat-math-algebra', name:'Algebra', topics:[
+          {id:'sat-math-alg-linear', name:'Linear Equations and Inequalities'},
+          {id:'sat-math-alg-functions', name:'Functions'},
+        ]},
+        { id:'sat-math-data', name:'Problem Solving and Data Analysis', topics:[
+          {id:'sat-math-data-ratios', name:'Ratios, Rates and Proportions'},
+          {id:'sat-math-data-stats', name:'Statistics and Probability'},
         ]},
       ]},
-      { id:'nts-analytical', name:'Analytical', type:'logical', chapters:[
-        { id:'nts-analytical-reasoning', name:'Analytical Reasoning', topics:[
-          {id:'nts-an-seating', name:'Seating Arrangements'},
-          {id:'nts-an-sequence', name:'Number Sequences'},
+    ]
+  },
+  {
+    id:'fast-nuces', name:'FAST-NUCES', full:'FAST-NUCES Entry Test', icon:'F',
+    subjects:[
+      { id:'fast-math', name:'Mathematics', type:'math', chapters:[
+        { id:'fast-math-algebra', name:'Algebra and Functions', topics:[
+          {id:'fast-math-alg-eq', name:'Equations and Inequalities'},
+          {id:'fast-math-alg-func', name:'Functions and Graphs'},
+        ]},
+      ]},
+      { id:'fast-analytical', name:'Analytical Reasoning', type:'logical', chapters:[
+        { id:'fast-an-skills', name:'Analytical Skills', topics:[
+          {id:'fast-an-series', name:'Number and Letter Series'},
+          {id:'fast-an-deduction', name:'Logical Deduction'},
+        ]},
+      ]},
+      { id:'fast-eng', name:'English', type:'english', chapters:[
+        { id:'fast-eng-grammar', name:'Grammar and Comprehension', topics:[
+          {id:'fast-eng-gr-usage', name:'Grammar Usage'},
+          {id:'fast-eng-gr-comp', name:'Reading Comprehension'},
+        ]},
+      ]},
+    ]
+  },
+  {
+    id:'lums-lcat', name:'LUMS-LCAT', full:'LUMS Common Admission Test', icon:'L',
+    subjects:[
+      { id:'lums-eng', name:'English', type:'english', chapters:[
+        { id:'lums-eng-verbal', name:'Verbal Ability', topics:[
+          {id:'lums-eng-v-comp', name:'Reading Comprehension'},
+          {id:'lums-eng-v-usage', name:'English Usage'},
+        ]},
+      ]},
+      { id:'lums-quant', name:'Quantitative Reasoning', type:'math', chapters:[
+        { id:'lums-quant-skills', name:'Quantitative Skills', topics:[
+          {id:'lums-quant-arith', name:'Arithmetic and Number Sense'},
+          {id:'lums-quant-word', name:'Word Problems'},
+        ]},
+      ]},
+      { id:'lums-analytical', name:'Analytical Reasoning', type:'logical', chapters:[
+        { id:'lums-an-skills', name:'Analytical Skills', topics:[
+          {id:'lums-an-critical', name:'Critical Reasoning'},
+          {id:'lums-an-puzzles', name:'Logical Puzzles'},
+        ]},
+      ]},
+    ]
+  },
+  {
+    id:'nust-net', name:'NUST-NET', full:'NUST Entry Test', icon:'N',
+    subjects:[
+      { id:'nust-phy', name:'Physics', type:'physics', chapters:[
+        { id:'nust-phy-mech', name:'Mechanics', topics:[
+          {id:'nust-phy-mech-motion', name:'Motion and Forces'},
+          {id:'nust-phy-mech-energy', name:'Work and Energy'},
+        ]},
+      ]},
+      { id:'nust-chem', name:'Chemistry', type:'chemistry', chapters:[
+        { id:'nust-chem-atomic', name:'Atomic and Molecular Structure', topics:[
+          {id:'nust-chem-at-structure', name:'Atomic Structure'},
+          {id:'nust-chem-at-bonding', name:'Chemical Bonding'},
+        ]},
+      ]},
+      { id:'nust-math', name:'Mathematics', type:'math', chapters:[
+        { id:'nust-math-algebra', name:'Algebra and Calculus', topics:[
+          {id:'nust-math-alg-eq', name:'Equations and Functions'},
+          {id:'nust-math-alg-calc', name:'Basic Calculus'},
+        ]},
+      ]},
+      { id:'nust-eng', name:'English', type:'english', chapters:[
+        { id:'nust-eng-grammar', name:'English Proficiency', topics:[
+          {id:'nust-eng-gr-usage', name:'Grammar and Usage'},
+          {id:'nust-eng-gr-comp', name:'Reading Comprehension'},
         ]},
       ]},
     ]
@@ -635,7 +710,7 @@ const state = {
   subjectId: null,
   chapterId: null,
   topicId: null,
-  quiz: null,            // { bank, index, correctCount, answered, locked }
+  quiz: null,            // { bank, index, correctCount, selected, answered, locked }
 };
 
 function go(view, patch){
@@ -657,23 +732,33 @@ function startQuiz(topicId, courseId, subjectId, chapterId){
   const chapter = findChapter(subject, chapterId);
   const topic = findTopic(chapter, topicId);
   const bank = generateQuestionBank(topic, subject.type);
-  state.quiz = { bank, index:0, correctCount:0, answered:null, locked:false };
+  state.quiz = { bank, index:0, correctCount:0, selected:null, answered:null, locked:false };
   go('quiz', { courseId, subjectId, chapterId, topicId });
 }
 
-function answerQuiz(optionIndex){
+/* Step 1: tapping an option just selects it — no grading yet, so the
+   person can change their mind before committing. */
+function selectAnswer(optionIndex){
   const q = state.quiz;
   if(q.locked) return;
+  q.selected = optionIndex;
+  render();
+}
+/* Step 2: "Check Answer" locks in the current selection, grades it,
+   and reveals correct/incorrect + explanation. */
+function checkAnswer(){
+  const q = state.quiz;
+  if(q.locked || q.selected===null) return;
   q.locked = true;
-  q.answered = optionIndex;
+  q.answered = q.selected;
   const question = q.bank[q.index];
-  if(optionIndex === question.correct) q.correctCount++;
+  if(q.answered === question.correct) q.correctCount++;
   render();
 }
 function nextQuiz(){
   const q = state.quiz;
   if(q.index < q.bank.length-1){
-    q.index++; q.answered = null; q.locked = false;
+    q.index++; q.selected = null; q.answered = null; q.locked = false;
     render();
   } else {
     finishQuiz();
@@ -908,9 +993,11 @@ function renderQuizView(){
         if(q.locked){
           if(i===question.correct) cls = 'correct';
           else if(i===q.answered) cls = 'incorrect';
+        } else if(i===q.selected){
+          cls = 'selected';
         }
         return `
-        <button class="option-btn ${cls}" data-answer="${i}" ${q.locked?'disabled':''}>
+        <button class="option-btn ${cls}" data-select="${i}" ${q.locked?'disabled':''}>
           <span class="option-letter">${String.fromCharCode(65+i)}</span>
           <span>${esc(opt)}</span>
         </button>`;
@@ -918,6 +1005,7 @@ function renderQuizView(){
     </div>
     ${q.locked ? `<div class="explain"><strong>${q.answered===question.correct?'Correct.':'Not quite.'}</strong> ${esc(question.explain)}</div>` : ''}
     <div class="q-footer">
+      ${!q.locked ? `<button class="btn-primary" data-check="1" ${q.selected===null?'disabled':''}>Check Answer</button>` : ''}
       ${q.locked ? `<button class="btn-primary" data-next="1">${q.index<q.bank.length-1?'Next Question':'See Results'}</button>` : ''}
     </div>
   </div>`;
@@ -1071,8 +1159,11 @@ document.getElementById('app').addEventListener('click', (e)=>{
     return;
   }
 
-  const answerBtn = e.target.closest('[data-answer]');
-  if(answerBtn){ answerQuiz(Number(answerBtn.dataset.answer)); return; }
+  const selectBtn = e.target.closest('[data-select]');
+  if(selectBtn){ selectAnswer(Number(selectBtn.dataset.select)); return; }
+
+  const checkBtn = e.target.closest('[data-check]');
+  if(checkBtn){ checkAnswer(); return; }
 
   const nextBtn = e.target.closest('[data-next]');
   if(nextBtn){ nextQuiz(); return; }
