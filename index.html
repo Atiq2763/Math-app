@@ -292,7 +292,99 @@ nav.tabbar{
    generate its practice questions.
    ================================================================ */
 
-const CUSTOM_QUESTION_BANKS = {}; // topicId -> array of 15 hand-authored {q, options, correct, explain} (optional override)
+const CUSTOM_QUESTION_BANKS = {
+  // ---- Chapter 1 · Acellular Life · Viruses (PMDC MDCAT syllabus) ----
+  // 42 hand-authored, syllabus-accurate MCQs covering discovery, structure,
+  // classification, lytic/lysogenic cycles, and the major viral diseases
+  // (excluding HIV/AIDS, which has its own dedicated bank below).
+  'mdcat-bio-c1-t1': [
+    { q:`Viruses are obligate intracellular parasites primarily because they lack:`, options:[`Genetic material (DNA or RNA)`,`Metabolic machinery and ribosomes`,`A protective protein coat`,`Specific host receptor binding proteins`], correct:1, explain:`Viruses have no ribosomes or metabolic enzymes of their own, so they must hijack a host cell's machinery to replicate — that's what makes them obligate intracellular parasites.` },
+    { q:`Which scientist first demonstrated that the causative agent of Tobacco Mosaic Disease could pass through porcelain filters that trap bacteria?`, options:[`Louis Pasteur`,`Dmitri Ivanowsky`,`Martinus Beijerinck`,`Wendell Stanley`], correct:1, explain:`Dmitri Ivanowsky (1892) showed the infectious sap agent passed through bacteria-proof filters, though he still assumed it was a toxin or unusually small bacterium.` },
+    { q:`Who successfully crystallized Tobacco Mosaic Virus (TMV) for the first time in 1935, confirming its chemical nature?`, options:[`W. M. Stanley`,`F. Twort`,`F. d'Herelle`,`Robert Koch`], correct:0, explain:`Wendell Stanley crystallized TMV in 1935, showing that a virus could behave as a discrete chemical entity.` },
+    { q:`The complete, mature, and infectious viral particle outside a host cell is termed a:`, options:[`Capsid`,`Virion`,`Viroid`,`Provirus`], correct:1, explain:`A virion is the complete infective particle — nucleic acid genome enclosed in its capsid (and envelope, if present).` },
+    { q:`The protein shell that encloses the viral nucleic acid genome is known as the:`, options:[`Capsomere`,`Peplomer`,`Capsid`,`Envelope`], correct:2, explain:`The capsid is the protective protein coat; capsomeres are simply the individual protein subunits that build it.` },
+    { q:`Capsomeres are individual protein subunits that make up the capsid. How many capsomeres compose the capsid of an Adenovirus?`, options:[`162 capsomeres`,`252 capsomeres`,`60 capsomeres`,`2130 capsomeres`], correct:1, explain:`Adenovirus has an icosahedral capsid built from 252 capsomeres.` },
+    { q:`The icosahedral capsid symmetry of Herpes virus contains how many capsomeres?`, options:[`162 capsomeres`,`252 capsomeres`,`2130 capsomeres`,`32 capsomeres`], correct:0, explain:`Herpesvirus capsids are icosahedral structures made of 162 capsomeres.` },
+    { q:`The viral envelope present in certain animal viruses is derived primarily from:`, options:[`Viral protein synthesis in cytoplasm`,`Bacterial cell wall peptidoglycan`,`Host cell plasma membrane or nuclear membrane`,`Synthesized entirely de novo by viral genome`], correct:2, explain:`Enveloped viruses acquire their lipid envelope by budding through the host's plasma or nuclear membrane.` },
+    { q:`Which of the following components is UNIQUE to enveloped viruses compared to non-enveloped (naked) viruses?`, options:[`Nucleic acid core`,`Capsomeres`,`Glycoprotein spikes (peplomers)`,`Icosahedral symmetry`], correct:2, explain:`Glycoprotein spikes, or peplomers, studding the lipid envelope are found only on enveloped viruses.` },
+    { q:`Naked (non-enveloped) viruses are generally more resistant to lipid solvents (like ether/alcohol) than enveloped viruses because:`, options:[`They possess double-stranded DNA genomes`,`Their outer layer consists of protein capsids, not lipid bilayers`,`They reproduce only via the lysogenic cycle`,`They possess thick carbohydrate coats`], correct:1, explain:`With no lipid envelope to dissolve, ether or alcohol can't disrupt a naked virus's protein capsid the way it destroys enveloped viruses.` },
+    { q:`Which of the following statements regarding viral genomes is TRUE?`, options:[`Viruses contain both DNA and RNA simultaneously`,`Viruses contain either DNA or RNA, never both`,`Viral genomes consist only of single-stranded RNA`,`Viral genomes consist only of double-stranded DNA`], correct:1, explain:`Every virus carries only one type of nucleic acid — DNA or RNA — never both at once.` },
+    { q:`T4 bacteriophage exhibits a complex structural morphology consisting of:`, options:[`Helical head and icosahedral tail`,`Icosahedral head and helical tail`,`Spherical head and spherical tail`,`Filamentous head and no tail`], correct:1, explain:`T4 has a polyhedral (icosahedral) head that stores its DNA, attached to a helical, contractile tail.` },
+    { q:`The tail fibers of a T4 bacteriophage function primarily in which step of viral infection?`, options:[`Penetration of the cell wall`,`Adsorption / Attachment to specific host cell receptors`,`Biosynthesis of viral proteins`,`Lysis of the host cell membrane`], correct:1, explain:`Tail fibers recognize and bind specific receptor molecules on the bacterial surface during adsorption, the first step of infection.` },
+    { q:`During the penetration phase of a bacteriophage, which enzyme localized in the tail tube degrades the bacterial cell wall?`, options:[`Reverse transcriptase`,`Lysozyme`,`RNA polymerase`,`DNA ligase`], correct:1, explain:`Phage lysozyme in the tail digests a hole through the peptidoglycan wall, letting the tail inject viral DNA into the cell.` },
+    { q:`In the lytic cycle of a bacteriophage, the period between infection and the appearance of mature intracellular virions is called:`, options:[`Lysogenic stage`,`Eclipse period`,`Latent state`,`Prophage induction`], correct:1, explain:`The eclipse period is the interval during which no complete, infectious virions can yet be detected inside the infected cell.` },
+    { q:`Integrated viral DNA incorporated into the bacterial chromosome during the lysogenic cycle is called a:`, options:[`Provirus`,`Prophage`,`Plasmid`,`Viroid`], correct:1, explain:`In bacteria specifically, the integrated phage DNA is called a prophage — "provirus" is the equivalent term used for animal viruses.` },
+    { q:`A bacterium harboring a prophage within its genome without being lysed is called a:`, options:[`Lytic bacterium`,`Lysogenic bacterium`,`Transformed bacterium`,`Virulent bacterium`], correct:1, explain:`A bacterium carrying a dormant prophage without being destroyed is described as lysogenic.` },
+    { q:`The process by which environmental triggers (e.g., UV light or chemicals) cause a prophage to excise from host chromosome and enter the lytic cycle is called:`, options:[`Transduction`,`Induction`,`Transformation`,`Adsorption`], correct:1, explain:`Induction is the stress-triggered process that causes a dormant prophage to excise and switch back into the lytic cycle.` },
+    { q:`Phages that undergo ONLY the lytic cycle, leading inevitably to host cell destruction, are known as:`, options:[`Temperate phages`,`Virulent phages`,`Avirulent phages`,`Retroviruses`], correct:1, explain:`Virulent phages always kill the host cell through the lytic cycle — they're incapable of lysogeny.` },
+    { q:`Temperate phages are capable of undergoing:`, options:[`Only the lytic cycle`,`Only the lysogenic cycle`,`Both lytic and lysogenic cycles`,`Binary fission`], correct:2, explain:`Temperate phages can switch between the lysogenic (dormant) and lytic (destructive) cycles depending on host conditions.` },
+    { q:`Hepatitis is broadly defined as inflammation of the:`, options:[`Kidneys`,`Liver`,`Spleen`,`Pancreas`], correct:1, explain:`The prefix "hepat-" refers to the liver, so hepatitis literally means liver inflammation.` },
+    { q:`Which of the following Hepatitis viruses is a DOUBLE-STRANDED DNA virus?`, options:[`Hepatitis A Virus (HAV)`,`Hepatitis B Virus (HBV)`,`Hepatitis C Virus (HCV)`,`Hepatitis E Virus (HEV)`], correct:1, explain:`HBV is unusual among the hepatitis viruses in having a partially double-stranded DNA genome; the others are RNA viruses.` },
+    { q:`Hepatitis A virus (HAV) is primarily transmitted through which route?`, options:[`Blood transfusion`,`Fecal-oral route (contaminated food/water)`,`Sexual contact`,`Respiratory droplets`], correct:1, explain:`HAV spreads mainly through the fecal-oral route via contaminated food or water.` },
+    { q:`Which type of Hepatitis is commonly referred to as "Serum Hepatitis"?`, options:[`Hepatitis A`,`Hepatitis B`,`Hepatitis C`,`Hepatitis E`], correct:1, explain:`Hepatitis B, transmitted through blood and serum products, earned the historical nickname "serum hepatitis."` },
+    { q:`Which hepatitis virus is an RNA virus frequently causing chronic liver disease, cirrhosis, and liver cancer, often transmitted via infected blood?`, options:[`HAV`,`HCV`,`HEV`,`HDV`], correct:1, explain:`HCV is an RNA virus notorious for silent chronic infection that can progress to cirrhosis and hepatocellular carcinoma.` },
+    { q:`Hepatitis D (Delta virus) is a defective virus that can replicate ONLY in the presence of a co-infection with:`, options:[`Hepatitis A virus`,`Hepatitis B virus`,`Hepatitis C virus`,`Human Immunodeficiency Virus`], correct:1, explain:`HDV is a defective satellite virus that needs HBV's surface antigen coat to assemble infectious particles.` },
+    { q:`Influenza virus possesses a segmented genome composed of:`, options:[`Single-stranded DNA`,`Double-stranded DNA`,`Single-stranded RNA`,`Double-stranded RNA`], correct:2, explain:`Influenza's genome consists of eight separate segments of single-stranded RNA.` },
+    { q:`The major envelope spikes responsible for attachment to host sialic acid receptors in Influenza virus are:`, options:[`Hemagglutinin (HA)`,`Neuraminidase (NA)`,`Reverse Transcriptase`,`gp120`], correct:0, explain:`Hemagglutinin binds sialic acid receptors on host cells to initiate attachment; neuraminidase instead helps release new virions from the cell.` },
+    { q:`Poliovirus is characterized as a:`, options:[`Large enveloped DNA virus`,`Small non-enveloped RNA virus (Picornavirus)`,`Complex enveloped retrovirus`,`Helical enveloped DNA virus`], correct:1, explain:`Poliovirus is a small, non-enveloped, positive-sense RNA virus belonging to the Picornaviridae family.` },
+    { q:`Poliovirus primarily targets motor neurons located in the:`, options:[`Cerebral cortex`,`Anterior horn of the spinal cord`,`Cerebellum`,`Peripheral sensory ganglia`], correct:1, explain:`Poliovirus destroys motor neurons in the anterior horn of the spinal cord, causing the disease's characteristic flaccid paralysis.` },
+    { q:`Herpes simplex virus type 1 (HSV-1) primarily causes vascular lesions and cold sores around the:`, options:[`Genital region`,`Mouth and lips (oral mucosa)`,`Abdominal skin`,`Palms and soles`], correct:1, explain:`HSV-1 typically causes oral and perioral cold sores, while HSV-2 is more commonly associated with genital lesions.` },
+    { q:`Smallpox is caused by which of the following viruses?`, options:[`Varicella-zoster virus`,`Poxvirus (Variola virus)`,`Paramyxovirus`,`Epstein-Barr virus`], correct:1, explain:`Smallpox is caused by Variola virus, a member of the Poxviridae family.` },
+    { q:`Infectious sub-viral particles composed ONLY of protein without any nucleic acid are called:`, options:[`Viroids`,`Prions`,`Virions`,`Satellite viruses`], correct:1, explain:`Prions are misfolded infectious proteins that entirely lack nucleic acid — unlike every true virus.` },
+    { q:`Mad Cow Disease (Bovine Spongiform Encephalopathy) and Kuru in humans are caused by:`, options:[`Single-stranded RNA viroids`,`Misfolded infectious proteins (Prions)`,`Enveloped DNA retroviruses`,`Defective bacteriophages`], correct:1, explain:`Both BSE and Kuru are prion diseases, caused by misfolded PrP proteins that induce further misfolding in normal proteins.` },
+    { q:`Viroids differ from viruses in that viroids consist exclusively of:`, options:[`Circular double-stranded DNA without protein`,`Small, circular single-stranded RNA lacking a capsid coat`,`Protein capsids lacking nucleic acids`,`Enveloped RNA-protein complexes`], correct:1, explain:`Viroids are naked, small, circular single-stranded RNA molecules with no protective protein coat at all.` },
+    { q:`Which of the following diseases is caused by Viroids?`, options:[`Creutzfeldt-Jakob disease`,`Potato spindle tuber disease`,`Rabies`,`Measles`], correct:1, explain:`Potato spindle tuber disease is the classic textbook example of a plant disease caused by a viroid.` },
+    { q:`Rabies virus is a bullet-shaped virus belonging to Rhabdoviridae family that targets the:`, options:[`Gastrointestinal tract`,`Central Nervous System (CNS)`,`Renal system`,`Respiratory alveoli`], correct:1, explain:`Rabies virus travels along peripheral nerves to reach and infect the central nervous system, causing fatal encephalitis.` },
+    { q:`Vaccines provide immunity against viral diseases by stimulating host production of:`, options:[`Antibiotics`,`Specific Antibodies and Memory cells`,`Interferon inhibitors`,`Viral capsomeres`], correct:1, explain:`Vaccines prime the adaptive immune system to generate pathogen-specific antibodies and long-lived memory cells.` },
+    { q:`Proteins produced by host cells in response to viral infection that inhibit viral replication in neighboring healthy cells are:`, options:[`Immunoglobulins`,`Interferons`,`Interleukins`,`Histamines`], correct:1, explain:`Interferons are signaling proteins released by infected cells that warn and protect neighboring healthy cells against viral replication.` },
+    { q:`Antibiotics are completely ineffective against viral infections because viruses:`, options:[`Possess thick protein capsids`,`Lack cellular structures, metabolic pathways, and cell walls targeted by antibiotics`,`Mutate too rapidly for drugs to work`,`Are protected inside host nuclear membranes`], correct:1, explain:`Antibiotics work by targeting bacterial cell walls or metabolic machinery — structures viruses simply don't possess.` },
+    { q:`Which of the following is a classic clinical symptom of hydrophobia associated with Rabies infection?`, options:[`Severe fear and painful spasms when trying to swallow water`,`Yellowing of sclera and skin`,`Loss of memory and dementia`,`Extreme hyperpigmentation of skin`], correct:0, explain:`Hydrophobia — intense fear and painful throat spasms triggered by attempting to swallow water — is a hallmark late-stage symptom of rabies.` },
+    { q:`The first vaccine ever successfully developed by Edward Jenner in 1796 was against which viral disease?`, options:[`Rabies`,`Smallpox`,`Polio`,`Influenza`], correct:1, explain:`Jenner's cowpox-based vaccine, the world's first, protected against smallpox.` },
+  ],
+
+  // ---- Chapter 1 · Acellular Life · AIDS and HIV Infection ----
+  // 35 hand-authored MCQs covering HIV structure, receptors/co-receptors,
+  // the full replication cycle, pathogenesis/AIDS-defining criteria,
+  // opportunistic infections, transmission, diagnostics, and treatment
+  // (from the PMDC MDCAT virology question set).
+  'mdcat-bio-c1-t2': [
+    { q:`Human Immunodeficiency Virus (HIV) belongs to which specific group of animal viruses?`, options:[`Adenoviruses`,`Retroviruses`,`Rhabdoviruses`,`Poxviruses`], correct:1, explain:`HIV is classified as a retrovirus, replicating via a DNA intermediate made from its RNA genome.` },
+    { q:`The viral particle (virion) structure of HIV is best classified morphologically as:`, options:[`Naked icosahedral`,`Enveloped spherical with a cone-shaped capsid core`,`Filamentous helical`,`Complex biconcave without envelope`], correct:1, explain:`HIV is an enveloped, roughly spherical virus with a distinctive cone-shaped (conical) capsid core housing the RNA genome.` },
+    { q:`The genome of HIV consists of:`, options:[`One molecule of double-stranded DNA`,`Two identical molecules of single-stranded (+ positive sense) RNA`,`Two non-identical single-stranded DNA molecules`,`Segmented double-stranded RNA`], correct:1, explain:`HIV packages two identical copies of positive-sense single-stranded RNA per virion.` },
+    { q:`Which viral glycoprotein forms the outer projecting spikes on the HIV envelope that specifically bind host cell receptors?`, options:[`gp41`,`gp120`,`p24`,`p17`], correct:1, explain:`gp120 forms the outer envelope spikes that specifically recognize and bind the host CD4 receptor.` },
+    { q:`The transmembrane glycoprotein of HIV responsible for fusion of the viral envelope with the host plasma membrane is:`, options:[`gp120`,`gp41`,`p24`,`Reverse Transcriptase`], correct:1, explain:`gp41 is the transmembrane glycoprotein that mediates fusion of the viral envelope with the host plasma membrane after gp120 binds CD4.` },
+    { q:`The major structural core protein that forms the inner conical capsid shell of HIV is:`, options:[`p17`,`p24`,`gp120`,`gp41`], correct:1, explain:`p24 is the major structural protein forming HIV's conical capsid shell around the RNA genome.` },
+    { q:`The matrix protein lining the inner surface of the HIV lipid bilayer envelope is:`, options:[`p17`,`p24`,`Integrase`,`Protease`], correct:0, explain:`p17 lines the inner surface of the viral envelope, forming the matrix layer that stabilizes the virion structure.` },
+    { q:`Which primary receptor on human host immune cells is specifically recognized by HIV gp120?`, options:[`CD8 receptor`,`CD4 receptor`,`MHC Class I`,`Toll-like receptor 4`], correct:1, explain:`gp120 specifically binds the CD4 receptor on host immune cells to initiate infection.` },
+    { q:`Which cell type serves as the main target and primary site of HIV infection and replication?`, options:[`B-lymphocyte`,`Helper T-lymphocyte (CD4+ T cell)`,`Cytotoxic T-lymphocyte (CD8+)`,`Red blood cell`], correct:1, explain:`CD4+ helper T lymphocytes are HIV's primary target and main site of replication.` },
+    { q:`Besides Helper T-cells, which of the following immune cells also express CD4 receptors and act as reservoirs for HIV?`, options:[`Neutrophils and Basophils`,`Monocytes and Macrophages`,`Eosinophils and Platelets`,`Plasma cells`], correct:1, explain:`Monocytes and macrophages also express CD4 and serve as long-lived reservoirs for HIV.` },
+    { q:`Which chemokine co-receptor on host cell membranes is required alongside CD4 for macrophage-tropic HIV strains to enter?`, options:[`CXCR4`,`CCR5`,`CD8`,`ACE2`], correct:1, explain:`CCR5 is the co-receptor required, alongside CD4, for entry of macrophage-tropic (R5) HIV strains.` },
+    { q:`Which chemokine co-receptor is utilized primarily by T-cell tropic strains of HIV during later stages of infection?`, options:[`CCR5`,`CXCR4`,`CD3`,`gp120`], correct:1, explain:`CXCR4 is used by T-cell tropic (X4) HIV strains, which typically emerge during later, more aggressive stages of infection.` },
+    { q:`Reverse Transcriptase is an enzyme that acts functionally as an:`, options:[`RNA-dependent RNA polymerase`,`RNA-dependent DNA polymerase`,`DNA-dependent RNA polymerase`,`DNA-dependent DNA polymerase`], correct:1, explain:`Reverse transcriptase synthesizes DNA using an RNA template, functioning as an RNA-dependent DNA polymerase.` },
+    { q:`What key enzymatic process occurs inside the host cytoplasm immediately following uncoating of the HIV core?`, options:[`Translation of viral proteins`,`Synthesis of complementary DNA (cDNA) from viral RNA`,`Integration of DNA into host chromosomes`,`Cleavage of polyproteins`], correct:1, explain:`Immediately after uncoating, reverse transcriptase synthesizes complementary DNA (cDNA) from the viral RNA genome in the host cytoplasm.` },
+    { q:`The double-stranded viral DNA intermediate produced by HIV before integration into the host genome is called:`, options:[`Prophage`,`Proviral DNA (cDNA)`,`Plasmid`,`Episome`], correct:1, explain:`The double-stranded DNA copy produced by reverse transcription, prior to integration, is called proviral DNA.` },
+    { q:`Which viral enzyme inserts the newly synthesized double-stranded viral DNA into host cell genomic DNA?`, options:[`Reverse Transcriptase`,`Integrase`,`Protease`,`Helicase`], correct:1, explain:`Integrase is the enzyme that inserts the newly made viral DNA into the host cell's chromosomal DNA.` },
+    { q:`Once the integrated viral DNA (provirus) is formed inside the host genome, it can remain dormant for years. This state is termed:`, options:[`Lytic phase`,`Latent phase (Latency)`,`Active replication phase`,`Apoptotic phase`], correct:1, explain:`Once integrated, the provirus can remain transcriptionally silent for years — a state known as latency.` },
+    { q:`Transcription of integrated proviral DNA into new full-length viral RNA genomes and mRNA is carried out by:`, options:[`Viral Reverse Transcriptase`,`Host RNA Polymerase II`,`Viral Integrase`,`Host DNA Polymerase`], correct:1, explain:`Host RNA Polymerase II transcribes the integrated proviral DNA into new viral RNA genomes and mRNAs.` },
+    { q:`Translation of HIV mRNA by host cell ribosomes initially produces long, non-functional protein precursors called:`, options:[`Capsomeres`,`Polyproteins (e.g., Gag, Gag-Pol)`,`Viroids`,`Peplomers`], correct:1, explain:`Host ribosomes initially translate HIV mRNA into long, non-functional polyprotein precursors such as Gag and Gag-Pol.` },
+    { q:`Which viral enzyme cleaves polyproteins into individual, active structural proteins and enzymes during HIV maturation?`, options:[`Integrase`,`Protease`,`Reverse Transcriptase`,`Amylase`], correct:1, explain:`Protease cleaves the polyprotein precursors into individual functional structural proteins and enzymes during virion maturation.` },
+    { q:`HIV acquires its lipid envelope containing surface spikes during which final step of its life cycle?`, options:[`Cell lysis`,`Budding through host plasma membrane`,`Endocytosis`,`Excision`], correct:1, explain:`HIV acquires its lipid envelope and surface spikes as it buds outward through the host cell's plasma membrane.` },
+    { q:`The progressive decline of CD4+ T-helper cells in an HIV-infected patient leads directly to:`, options:[`Hyper-activation of B-cells`,`Severe compromise of cellular and humoral adaptive immunity`,`Excessive production of red blood cells`,`Autoimmune destruction of liver tissue`], correct:1, explain:`Progressive loss of CD4+ helper T-cells cripples both cellular and humoral (antibody-based) adaptive immune responses.` },
+    { q:`Clinically, a diagnosis of full-blown AIDS is made when the CD4+ T-cell count falls below:`, options:[`1000 cells/µL`,`200 cells/µL`,`500 cells/µL`,`1200 cells/µL`], correct:1, explain:`A CD4+ T-cell count falling below 200 cells/µL is a clinical criterion for diagnosing full-blown AIDS.` },
+    { q:`Which fungal opportunistic infection commonly causes pneumonia in advanced AIDS patients?`, options:[`Candida albicans`,`Pneumocystis jirovecii (carinii)`,`Aspergillus fumigatus`,`Rhizopus stolonifer`], correct:1, explain:`Pneumocystis jirovecii (formerly P. carinii) pneumonia is a classic fungal opportunistic infection in advanced AIDS.` },
+    { q:`Which vascular endothelial skin cancer is a classic opportunistic malignancy strongly associated with advanced AIDS?`, options:[`Melanoma`,`Kaposi's Sarcoma`,`Squamous cell carcinoma`,`Basal cell carcinoma`], correct:1, explain:`Kaposi's Sarcoma, a vascular endothelial cancer linked to HHV-8, is a hallmark opportunistic malignancy of advanced AIDS.` },
+    { q:`Which major route accounts for the majority of global HIV transmissions?`, options:[`Inhalation of aerosol droplets`,`Unprotected sexual intercourse and infected body fluids`,`Contaminated food and water`,`Mosquito vector bites`], correct:1, explain:`Unprotected sexual contact and exposure to infected blood/body fluids account for the majority of HIV transmissions worldwide.` },
+    { q:`HIV CANNOT be transmitted through which of the following casual interactions?`, options:[`Blood transfusion`,`Sharing utensils, hugging, or shaking hands`,`Unsterilized surgical equipment`,`Mother to child during childbirth`], correct:1, explain:`HIV does not survive well outside the body and isn't spread through casual contact like sharing utensils, hugging, or shaking hands.` },
+    { q:`Vertical transmission of HIV refers to transmission of the virus from:`, options:[`Patient to healthcare provider`,`Infected mother to fetus/infant during pregnancy, delivery, or breastfeeding`,`Animal vector to human`,`One sibling to another via casual contact`], correct:1, explain:`Vertical transmission refers to HIV passing from an infected mother to her fetus or infant during pregnancy, delivery, or breastfeeding.` },
+    { q:`What standard initial screening laboratory test detects anti-HIV antibodies in human serum?`, options:[`PCR test`,`ELISA (Enzyme-Linked Immunosorbent Assay)`,`Gram stain`,`Widal test`], correct:1, explain:`ELISA is the standard initial screening test used to detect anti-HIV antibodies in serum.` },
+    { q:`Which molecular diagnostic assay measures exact HIV viral load (copies of HIV RNA per mL of blood)?`, options:[`RT-PCR (Reverse Transcription Polymerase Chain Reaction)`,`Western Blot`,`ABO blood typing`,`Erythrocyte Sedimentation Rate (ESR)`], correct:0, explain:`RT-PCR quantifies the exact number of HIV RNA copies per mL of blood, giving the precise viral load.` },
+    { q:`Antiretroviral Therapy (ART) cocktails combine drugs from multiple classes primarily to:`, options:[`Completely eliminate provirus from host genome`,`Suppress viral replication and prevent development of drug resistance`,`Destroy host CD4+ T-cells`,`Induce immediate lysis of all infected host cells`], correct:1, explain:`Combination ART suppresses viral replication and reduces the chance of the virus developing drug resistance.` },
+    { q:`AZT (Azidothymidine / Zidovudine) is a famous antiretroviral drug that acts as a:`, options:[`Protease inhibitor`,`Nucleoside Reverse Transcriptase Inhibitor (NRTI)`,`Integrase inhibitor`,`Fusion inhibitor`], correct:1, explain:`AZT (Zidovudine) is a Nucleoside Reverse Transcriptase Inhibitor that blocks the reverse transcription step.` },
+    { q:`Why is developing an effective, permanent vaccine against HIV uniquely difficult?`, options:[`The virus lacks a protein capsid`,`High mutation rate of Reverse Transcriptase causes rapid alteration of surface envelope antigens`,`HIV only infects bacterial host cells`,`Human body cannot produce antibodies against RNA viruses`], correct:1, explain:`Reverse transcriptase's high error rate drives rapid mutation of HIV's envelope antigens, making a durable vaccine extremely difficult to design.` },
+    { q:`The "Window Period" in HIV infection refers to the time interval between:`, options:[`Lytic phase and lysogenic phase`,`Viral infection and detectable levels of anti-HIV antibodies in blood`,`Diagnosis of AIDS and death`,`Reverse transcription and integration`], correct:1, explain:`The window period is the interval after infection during which anti-HIV antibodies haven't yet reached detectable levels.` },
+    { q:`Which of the following best describes the fundamental difference between HIV and AIDS?`, options:[`HIV is a bacterium, whereas AIDS is a viral infection`,`HIV is the causative viral pathogen, whereas AIDS is the advanced clinical syndrome`,`HIV affects red blood cells, whereas AIDS affects white blood cells`,`HIV is transmitted via air, whereas AIDS is transmitted via water`], correct:1, explain:`HIV is the virus that causes infection; AIDS is the advanced clinical syndrome that results from prolonged, untreated HIV infection.` },
+  ],
+};
 
 const COURSES = [
   {
@@ -508,11 +600,19 @@ const COURSES = [
 
 /* ================================================================
    QUESTION GENERATION
-   Every topic gets a deterministic bank of 15 MCQs, seeded on the
-   topic id so the same topic always produces the same questions —
-   progress stays stable across sessions. This is placeholder
-   practice content, not vetted exam material — replace any topic's
-   bank with real questions via CUSTOM_QUESTION_BANKS[topicId].
+   A topic uses its hand-authored bank from CUSTOM_QUESTION_BANKS
+   when one exists (real, vetted exam-style MCQs — see the Viruses
+   and AIDS/HIV banks above for the PMDC MDCAT set). A custom bank
+   can hold far more than 15 questions — each quiz attempt randomly
+   samples QUIZ_LENGTH of them (see generateQuestionBank below), so
+   revisiting a topic serves a fresh mix instead of the same fixed
+   set every time, while still drawing only from vetted content.
+
+   Any topic without a custom bank falls back to a deterministic
+   15-question placeholder set, seeded on the topic id so the same
+   topic always produces the same questions and progress stays
+   stable across sessions. Replace more topics over time by adding
+   entries to CUSTOM_QUESTION_BANKS[topicId].
    ================================================================ */
 
 function hashStr(s){
@@ -618,12 +718,36 @@ const TEMPLATES = {
   ],
 };
 
+/* A quiz session is always this many questions long. Custom banks
+   bigger than this get randomly sampled down each time; smaller
+   or generated banks just use everything they have. */
+const QUIZ_LENGTH = 15;
+
+/* Fisher–Yates-style random draw (true Math.random, not seeded) —
+   picks up to `count` items from `bank` in random order without
+   repeats, so a large custom bank serves a different-feeling quiz
+   on every visit instead of the same fixed set in the same order. */
+function pickRandomQuestions(bank, count){
+  const pool = bank.slice();
+  const picked = [];
+  while(picked.length < count && pool.length){
+    const i = Math.floor(Math.random() * pool.length);
+    picked.push(pool.splice(i, 1)[0]);
+  }
+  return picked;
+}
+
 function generateQuestionBank(topic, type){
-  if(CUSTOM_QUESTION_BANKS[topic.id]) return CUSTOM_QUESTION_BANKS[topic.id];
+  if(CUSTOM_QUESTION_BANKS[topic.id]){
+    // Hand-authored banks can hold far more than one quiz's worth
+    // (e.g. 42 Viruses questions) — each visit draws a fresh random
+    // 15 so repeat practice doesn't mean memorizing the same set.
+    return pickRandomQuestions(CUSTOM_QUESTION_BANKS[topic.id], QUIZ_LENGTH);
+  }
   const rng = mulberry32(hashStr(topic.id));
   const templates = TEMPLATES[type] || TEMPLATES.logical;
   const bank = [];
-  for(let i=0;i<15;i++){
+  for(let i=0;i<QUIZ_LENGTH;i++){
     bank.push(templates[i % templates.length](topic.name, rng));
   }
   return bank;
