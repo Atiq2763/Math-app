@@ -278,6 +278,46 @@ nav.tabbar{
 /* misc */
 .top-actions{ display:flex; justify-content:flex-end; margin-bottom:4px; }
 .icon-btn{ background:none; border:none; color:var(--ink-soft); display:flex; align-items:center; gap:5px; font-size:12.5px; font-weight:600; padding:6px; }
+/* ---------- MDCAT Mock Test ---------- */
+.mock-row{ border-color:var(--gold); background:var(--gold-soft); }
+.row-card.static{ cursor:default; }
+.mock-head{
+  position:sticky; top:0; z-index:25; background:var(--paper);
+  display:grid; grid-template-columns:1fr auto 1fr; align-items:center;
+  margin:-16px -18px 12px; padding:max(12px, env(safe-area-inset-top)) 18px 12px;
+  border-bottom:1px solid var(--rule);
+}
+.mock-head .icon-btn{ justify-self:start; }
+.mock-timer{ font-size:22px; font-weight:700; letter-spacing:.04em; text-align:center; color:var(--ink); }
+.mock-timer.warn{ color:var(--incorrect); }
+.mock-sub{
+  display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;
+  font-size:11.5px; font-weight:700; text-transform:uppercase; letter-spacing:.1em; color:var(--gold);
+}
+.mock-sub .mono{ color:var(--ink-soft); letter-spacing:.02em; text-transform:none; font-size:12px; }
+.mock-qn{ color:var(--gold); font-size:13px; margin-right:4px; }
+.mock-nav{ display:flex; justify-content:space-between; gap:10px; margin-top:16px; }
+.mock-actions{ display:flex; justify-content:space-between; gap:10px; margin-top:14px; }
+.btn-ghost:disabled{ opacity:.4; cursor:default; }
+.pal-wrap{ margin-top:14px; padding:14px; background:var(--paper-raised); border:1px solid var(--rule); border-radius:var(--radius); }
+.pal-title{ font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:.12em; color:var(--ink-soft); margin:10px 0 6px; }
+.pal-title:first-child{ margin-top:0; }
+.pal{ display:grid; grid-template-columns:repeat(auto-fill,minmax(42px,1fr)); gap:6px; }
+.pal button{
+  height:36px; border-radius:8px; border:1.5px solid var(--rule); background:var(--paper);
+  font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:600; color:var(--ink-soft); padding:0;
+}
+.pal button.done{ background:var(--gold-soft); border-color:var(--gold); color:var(--ink); }
+.pal button.cur{ background:var(--ink); border-color:var(--ink); color:var(--paper); }
+.mock-legend{ margin:0 0 4px; font-size:12px; color:#C9CBD8; line-height:1.5; }
+.review-item{ background:var(--paper-raised); border:1px solid var(--rule); border-radius:12px; padding:14px; margin-top:10px; font-size:13.5px; line-height:1.5; }
+.review-item .rq{ font-family:'Source Serif 4',serif; font-weight:600; font-size:15px; margin-bottom:8px; }
+.review-item .rq .mono{ color:var(--gold); font-size:12.5px; margin-right:4px; }
+.review-item .ra{ color:var(--ink-soft); }
+.review-item .ra b{ color:var(--ink); }
+.review-item .wrong b{ color:var(--incorrect); }
+.review-item .right b{ color:var(--correct); }
+.review-item .rnote{ margin-top:8px; padding:8px 10px; border-radius:8px; background:var(--gold-soft); font-size:12.5px; color:var(--ink); }
 </style>
 </head>
 <body>
@@ -656,6 +696,49 @@ const CUSTOM_QUESTION_BANKS = {
     { q:`Silk fibroin is an example of a structural protein composed largely of:`, options:[`Alpha-helices`,`Beta-pleated sheets`,`Triple helices`,`Random loops`], correct:1, explain:`Silk fibroin is built largely from stacked beta-pleated sheets, giving silk its strength and flexibility.` },
     { q:`The amino acid sequence directionality of any polypeptide is written from:`, options:[`C to N terminus`,`N to C terminus`,`5' to 3' end`,`3' to 5' end`], correct:1, explain:`By convention, polypeptide sequences are written starting from the free amino (N) terminus to the free carboxyl (C) terminus.` },
     { q:`Which of the following is NOT a function of proteins in living organisms?`, options:[`Catalysis`,`Structure`,`Primary long-term energy storage in fat`,`Defense`], correct:2, explain:`Long-term energy storage as fat is the role of lipids, not proteins — proteins instead serve as enzymes, structural components, and defense molecules.` },
+  ],
+
+  // ---- Chapter 3 · Biological Molecules · Lipids ----
+  // 35 hand-authored, syllabus-accurate MCQs covering fatty acid
+  // chemistry, triglycerides, phospholipids, waxes, terpenoids,
+  // steroids, and lipid biology/function (from the PMDC MDCAT
+  // biological molecules question set).
+  'mdcat-bio-c3-t5': [
+    { q:`Lipids are heterogeneous organic compounds unified by their common property of being:`, options:[`Highly soluble in polar solvents like water`,`Insoluble in water but soluble in non-polar organic solvents`,`Polymers composed of amino acid monomers`,`Hydrophilic charged molecules`], correct:1, explain:`Despite their chemical diversity, all lipids share the property of being insoluble in water but soluble in non-polar organic solvents.` },
+    { q:`Chemically, neutral fats (triglycerides) are esters composed of fatty acids bonded to:`, options:[`Ethanol`,`Glycerol`,`Sphingosine`,`Cholesterol`], correct:1, explain:`Triglycerides are esters formed from three fatty acid chains bonded to a glycerol backbone.` },
+    { q:`Glycerol is a trihydric alcohol containing how many carbon atoms and hydroxyl (-OH) groups?`, options:[`2 carbons and 2 -OH groups`,`3 carbons and 3 -OH groups`,`4 carbons and 4 -OH groups`,`6 carbons and 6 -OH groups`], correct:1, explain:`Glycerol has 3 carbon atoms, each bearing a hydroxyl group, making it a trihydric (three -OH) alcohol.` },
+    { q:`The covalent linkage formed between a carboxyl group (-COOH) of a fatty acid and a hydroxyl group (-OH) of glycerol is an:`, options:[`Ether bond`,`Ester bond`,`Glycosidic bond`,`Peptide bond`], correct:1, explain:`Fatty acids attach to glycerol through ester bonds, formed by condensation reactions.` },
+    { q:`During the synthesis of one molecule of Triacylglycerol (Triglyceride) from glycerol and three fatty acids, how many water molecules are released?`, options:[`1`,`3`,`2`,`4`], correct:1, explain:`Each of the three ester bonds formed releases one water molecule, so triglyceride synthesis releases 3 molecules of water total.` },
+    { q:`Fatty acids that contain NO double bonds between carbon atoms in their hydrocarbon chain are classified as:`, options:[`Unsaturated fatty acids`,`Saturated fatty acids`,`Polyunsaturated fatty acids`,`Essential fatty acids`], correct:1, explain:`Saturated fatty acids have only single bonds between carbon atoms in their chain, with no double bonds.` },
+    { q:`Saturated fatty acids generally have higher melting points and exist at room temperature (25°C) as:`, options:[`Liquids (Oils)`,`Solids (Fats)`,`Gases`,`Vapors`], correct:1, explain:`Saturated fatty acid chains pack tightly together, giving them higher melting points and a solid state at room temperature.` },
+    { q:`Unsaturated fatty acids contain double bonds (C=C) which introduce bends or "kinks" in the chain, causing them to be:`, options:[`Solid at room temperature`,`Liquid (Oils) at room temperature`,`Highly crystalline`,`Completely water-soluble`], correct:1, explain:`The kinks from double bonds prevent tight packing, lowering the melting point so unsaturated fats are typically liquid oils at room temperature.` },
+    { q:`Palmitic acid is a common saturated fatty acid having how many total carbon atoms?`, options:[`14`,`16`,`18`,`20`], correct:1, explain:`Palmitic acid is a 16-carbon saturated fatty acid.` },
+    { q:`Oleic acid is an unsaturated fatty acid containing 18 carbon atoms and how many double bonds?`, options:[`One double bond between C9 and C10`,`Two double bonds`,`Three double bonds`,`No double bonds`], correct:0, explain:`Oleic acid is a monounsaturated 18-carbon fatty acid with a single double bond located between carbons 9 and 10.` },
+    { q:`Stearic acid is a saturated fatty acid possessing how many carbon atoms in its hydrocarbon chain?`, options:[`16`,`18`,`20`,`12`], correct:1, explain:`Stearic acid is an 18-carbon saturated fatty acid.` },
+    { q:`Naturally occurring unsaturated fatty acids in living cell membranes predominantly possess double bonds in which geometric configuration?`, options:[`Trans configuration`,`Cis configuration`,`Symmetrical plane`,`Linear alignment`], correct:1, explain:`Natural unsaturated fatty acids predominantly have their double bonds in the cis configuration, which creates the kinks that keep membranes fluid.` },
+    { q:`Phospholipids differ structurally from triglycerides because one fatty acid is replaced by a phosphate group attached to a:`, options:[`Carbohydrate chain`,`Nitrogenous base (e.g., Choline)`,`Steroid ring`,`Hydrocarbon wax`], correct:1, explain:`In phospholipids, one fatty acid position is replaced by a phosphate group typically linked to a nitrogenous base such as choline.` },
+    { q:`Molecules containing both a hydrophilic (polar) head and a hydrophobic (non-polar) tail, such as phospholipids, are called:`, options:[`Amphipathic (Amphiphilic)`,`Amphoteric`,`Apolar`,`Hydrophobic`], correct:0, explain:`Amphipathic (or amphiphilic) molecules have both a polar hydrophilic region and a non-polar hydrophobic region, as seen in phospholipids.` },
+    { q:`In an aqueous environment, phospholipids spontaneously aggregate into a double-layered structure forming the backbone of:`, options:[`Bacterial cell walls`,`Biological cell membranes`,`Chromosomes`,`Ribosomes`], correct:1, explain:`Phospholipids spontaneously self-assemble into bilayers in water, forming the structural backbone of biological cell membranes.` },
+    { q:`Lecithin is a medically important phospholipid composed of phosphatidic acid linked to:`, options:[`Serine`,`Choline`,`Ethanolamine`,`Inositol`], correct:1, explain:`Lecithin (phosphatidylcholine) is phosphatidic acid linked to the nitrogenous base choline.` },
+    { q:`Waxes are protective lipids composed of long-chain fatty acids esterified to long-chain:`, options:[`Glycerol molecules`,`High molecular weight monohydric alcohols`,`Amino acids`,`Glucose units`], correct:1, explain:`Unlike triglycerides, waxes are esters of long-chain fatty acids with high molecular weight monohydric alcohols rather than glycerol.` },
+    { q:`The protective waxy layer present on the outer cuticle of plant leaves and stems to prevent water loss (transpiration) is:`, options:[`Chitin`,`Cutin`,`Suberin`,`Pectin`], correct:1, explain:`Cutin forms the waterproof cuticle layer on plant leaves and stems, reducing water loss through transpiration.` },
+    { q:`Terpenoids are a large class of lipids built from repeating 5-carbon units called:`, options:[`Acetyl units`,`Isoprene units (C5H8)`,`Glycerol units`,`Phosphate units`], correct:1, explain:`Terpenoids are built from repeating 5-carbon isoprene units.` },
+    { q:`Steroids are characterized by a core structure composed of how many fused carbon rings?`, options:[`3 rings`,`4 fused rings (3 six-membered + 1 five-membered)`,`5 six-membered rings`,`2 fused benzene rings`], correct:1, explain:`Steroids share a core structure of 4 fused rings — three six-membered rings and one five-membered ring.` },
+    { q:`Which sterol is a key structural component of animal cell membranes and serves as the precursor for steroid hormones?`, options:[`Ergosterol`,`Cholesterol`,`Stigmasterol`,`Suberin`], correct:1, explain:`Cholesterol is embedded in animal cell membranes and serves as the precursor for synthesizing steroid hormones.` },
+    { q:`Which human hormones are synthesized directly from Cholesterol?`, options:[`Insulin and Glucagon`,`Aldosterone, Cortisol, Testosterone, and Estrogen`,`Thyroxine and Triiodothyronine`,`Epinephrine and Norepinephrine`], correct:1, explain:`Steroid hormones — aldosterone, cortisol, testosterone, and estrogen — are all synthesized directly from cholesterol.` },
+    { q:`Lipids yield more than TWICE the energy per gram compared to carbohydrates because lipids contain a higher proportion of:`, options:[`Oxygen atoms`,`C-H bonds relative to oxygen`,`Nitrogen atoms`,`Ester linkages`], correct:1, explain:`Lipids have a much higher ratio of C-H bonds to oxygen than carbohydrates, meaning more energy is released when they're fully oxidized.` },
+    { q:`Adipose tissue contains specialized lipid-storing cells called:`, options:[`Chondrocytes`,`Adipocytes`,`Osteocytes`,`Hepatocytes`], correct:1, explain:`Adipocytes are the specialized fat-storing cells that make up adipose tissue.` },
+    { q:`Industrial hydrogenation of unsaturated liquid oils converts cis double bonds into solid fats, generating harmful byproducts known as:`, options:[`Essential fatty acids`,`Trans fats`,`Phospholipids`,`Glycolipids`], correct:1, explain:`Partial hydrogenation of oils can flip some remaining cis double bonds into the trans configuration, producing harmful trans fats.` },
+    { q:`Sphingolipids, which form the myelin sheath insulating nerve axons, contain an amino alcohol base called:`, options:[`Glycerol`,`Sphingosine`,`Choline`,`Serine`], correct:1, explain:`Sphingolipids are built on a sphingosine backbone rather than glycerol, and are major components of the myelin sheath.` },
+    { q:`A glycolipid consists of a carbohydrate covalently linked to a:`, options:[`Protein`,`Lipid (Lipid moiety)`,`Nucleic acid`,`Phosphate ion`], correct:1, explain:`Glycolipids are formed when a carbohydrate group is covalently attached to a lipid moiety.` },
+    { q:`Prostaglandins, which mediate inflammation, fever, and pain perception, are derived from which 20-carbon fatty acid?`, options:[`Oleic acid`,`Arachidonic acid`,`Stearic acid`,`Linoleic acid`], correct:1, explain:`Prostaglandins are synthesized from arachidonic acid, a 20-carbon polyunsaturated fatty acid.` },
+    { q:`Alkaline hydrolysis of fats with a strong base (such as NaOH) to form glycerol and soap salts is called:`, options:[`Hydrogenation`,`Saponification`,`Esterification`,`Condensation`], correct:1, explain:`Saponification is the alkaline hydrolysis of fats, producing glycerol and fatty acid salts (soap).` },
+    { q:`Which fat-soluble vitamins are chemically classified as isoprenoid/terpenoid lipid derivatives?`, options:[`Vitamins B and C`,`Vitamins A, D, E, and K`,`Vitamins B1 and B12`,`Folic acid and Biotin`], correct:1, explain:`Vitamins A, D, E, and K are all fat-soluble and chemically classified as isoprenoid/terpenoid lipid derivatives.` },
+    { q:`Cholesterol acts as a temperature buffer in plasma membranes by preventing excessive fluidity at high temps and preventing:`, options:[`Protein denaturation`,`Membrane freezing/solidification at low temperatures`,`Lysis of cytoplasm`,`Active transport stop`], correct:1, explain:`Cholesterol moderates membrane fluidity — restraining excess fluidity at high temperatures while preventing the membrane from solidifying at low temperatures.` },
+    { q:`Which laboratory dye stain is specifically used to stain lipids red/orange during biochemical identification tests?`, options:[`Iodine solution`,`Sudan III / Sudan IV`,`Biuret reagent`,`Methylene blue`], correct:1, explain:`Sudan III and Sudan IV are lipid-specific stains that dye fats red/orange for identification.` },
+    { q:`Human body uses subcutaneous fat deposits primarily for long-term energy storage and for:`, options:[`Thermal insulation against heat loss`,`Oxygen transport`,`Direct enzyme inhibition`,`DNA replication support`], correct:0, explain:`Beyond energy storage, subcutaneous fat provides thermal insulation, helping the body retain heat.` },
+    { q:`Which of the following is considered an essential omega-3 fatty acid that must be supplied in human diet?`, options:[`Palmitic acid`,`Alpha-Linolenic acid (ALA)`,`Stearic acid`,`Myristic acid`], correct:1, explain:`Alpha-linolenic acid (ALA) is an essential omega-3 fatty acid that the body cannot synthesize and must obtain from the diet.` },
+    { q:`The major lipid component responsible for reducing surface tension inside alveoli of human lungs to prevent collapse is:`, options:[`Cholesterol`,`Pulmonary Surfactant (Dipalmitoylphosphatidylcholine)`,`Sphingomyelin`,`Suberin`], correct:1, explain:`Pulmonary surfactant, mainly dipalmitoylphosphatidylcholine, reduces surface tension inside the alveoli, preventing them from collapsing.` },
   ],
 };
 
@@ -1048,6 +1131,267 @@ let progress = loadProgress(); // topicId -> { bestScore, attempts, mastered }
 let starred = loadStarred();   // Set of courseId
 
 /* ================================================================
+   MDCAT MOCK TEST
+   180 MCQs in fixed paper order (Biology → Chemistry → Physics →
+   English → Logical Reasoning). Each item: [question, options,
+   correctIndex, optionalNote]. Timed; the deadline is stored so a
+   page refresh cannot reset the clock.
+   ================================================================ */
+const MDCAT_MOCK = [["Which organelle is known as the powerhouse of the cell?",["Endoplasmic Reticulum","Ribosome","Golgi Body","Mitochondria"],3],["Which biomodule is the primary source of energy for humans?",["Nucleic Acids","Lipids","Carbohydrates","Proteins"],2],["The process of synthesis of RNA from DNA is called:",["Translation","Reverse Transcription","Replication","Transcription"],3],["Enzymes speed up chemical reactions by lowering:",["Free energy","Kinetic energy","Activation energy","Potential energy"],2],["Which of the following is an example of an acellular biological entity?",["Bacterium","Fungi","Amoeba","Virus"],3],["The fluid mosaic model of plasma membrane was proposed by:",["Watson and Crick","Robert Hooke","Schleiden and Schwann","Singer and Nicolson"],3],["Light-dependent reactions of photosynthesis occur in the:",["Outer membrane","Stroma","Thylakoid membrane","Matrix"],2],["Glycolysis takes place in which part of the cell?",["Mitochondrial matrix","Chloroplast","Cytoplasm","Cristae"],2],["Which hormone is responsible for lowering blood glucose levels?",["Insulin","Adrenaline","Glucagon","Thyroxine"],0],["The structural and functional unit of the human kidney is:",["Alveolus","Hepatocyte","Nephron","Neuron"],2],["During muscle contraction, calcium ions bind to:",["Actin","Tropomyosin","Myosin","Troponin"],3],["The universal donor blood group in the ABO system is:",["A negative","O positive","AB positive","O negative"],3],["Which part of the brain controls body temperature and hunger?",["Thalamus","Cerebellum","Hypothalamus","Medulla oblongata"],2],["The exchange of gases in human lungs occurs in the:",["Trachea","Bronchioles","Bronchi","Alveoli"],3],["In double fertilization in angiosperms, one sperm fuses with the egg to form:",["Zygote","Endosperm","Fruit","Seed coat"],0],["Which vitamin is necessary for blood clotting?",["Vitamin D","Vitamin K","Vitamin A","Vitamin C"],1],["The phase of cell division where chromosomes align at the equatorial plate is:",["Prophase","Telophase","Anaphase","Metaphase"],3],["Which antibody class is predominant in secretions like saliva and tears?",["IgG","IgE","IgA","IgM"],2],["The functional unit of contraction in a skeletal muscle fibre is:",["Sarcolemma","Z-disc","Myofibril","Sarcomere"],3],["Which nitrogenous base is present in RNA but absent in DNA?",["Uracil","Thymine","Adenine","Cytosine"],0],["Which organelle is known as the powerhouse of the cell?",["Mitochondria","Endoplasmic Reticulum","Golgi Body","Ribosome"],0],["Which biomodule is the primary source of energy for humans?",["Carbohydrates","Nucleic Acids","Lipids","Proteins"],0],["The process of synthesis of RNA from DNA is called:",["Translation","Reverse Transcription","Replication","Transcription"],3],["Enzymes speed up chemical reactions by lowering:",["Kinetic energy","Potential energy","Activation energy","Free energy"],2],["Which of the following is an example of an acellular biological entity?",["Fungi","Virus","Bacterium","Amoeba"],1],["The fluid mosaic model of plasma membrane was proposed by:",["Watson and Crick","Robert Hooke","Singer and Nicolson","Schleiden and Schwann"],2],["Light-dependent reactions of photosynthesis occur in the:",["Matrix","Outer membrane","Stroma","Thylakoid membrane"],3],["Glycolysis takes place in which part of the cell?",["Mitochondrial matrix","Chloroplast","Cytoplasm","Cristae"],2],["Which hormone is responsible for lowering blood glucose levels?",["Thyroxine","Glucagon","Insulin","Adrenaline"],2],["The structural and functional unit of the human kidney is:",["Nephron","Neuron","Alveolus","Hepatocyte"],0],["During muscle contraction, calcium ions bind to:",["Actin","Troponin","Myosin","Tropomyosin"],1],["The universal donor blood group in the ABO system is:",["O negative","A negative","O positive","AB positive"],0],["Which part of the brain controls body temperature and hunger?",["Hypothalamus","Cerebellum","Medulla oblongata","Thalamus"],0],["The exchange of gases in human lungs occurs in the:",["Bronchi","Bronchioles","Alveoli","Trachea"],2],["In double fertilization in angiosperms, one sperm fuses with the egg to form:",["Endosperm","Seed coat","Zygote","Fruit"],2],["Which vitamin is necessary for blood clotting?",["Vitamin C","Vitamin A","Vitamin D","Vitamin K"],3],["The phase of cell division where chromosomes align at the equatorial plate is:",["Prophase","Metaphase","Anaphase","Telophase"],1],["Which antibody class is predominant in secretions like saliva and tears?",["IgA","IgM","IgG","IgE"],0],["The functional unit of contraction in a skeletal muscle fibre is:",["Myofibril","Sarcomere","Sarcolemma","Z-disc"],1],["Which nitrogenous base is present in RNA but absent in DNA?",["Cytosine","Thymine","Adenine","Uracil"],3],["Which organelle is known as the powerhouse of the cell?",["Golgi Body","Ribosome","Mitochondria","Endoplasmic Reticulum"],2],["Which biomodule is the primary source of energy for humans?",["Lipids","Proteins","Carbohydrates","Nucleic Acids"],2],["The process of synthesis of RNA from DNA is called:",["Reverse Transcription","Translation","Replication","Transcription"],3],["Enzymes speed up chemical reactions by lowering:",["Potential energy","Activation energy","Kinetic energy","Free energy"],1],["Which of the following is an example of an acellular biological entity?",["Bacterium","Virus","Amoeba","Fungi"],1],["The fluid mosaic model of plasma membrane was proposed by:",["Schleiden and Schwann","Singer and Nicolson","Robert Hooke","Watson and Crick"],1],["Light-dependent reactions of photosynthesis occur in the:",["Matrix","Stroma","Outer membrane","Thylakoid membrane"],3],["Glycolysis takes place in which part of the cell?",["Mitochondrial matrix","Cristae","Cytoplasm","Chloroplast"],2],["Which hormone is responsible for lowering blood glucose levels?",["Thyroxine","Insulin","Glucagon","Adrenaline"],1],["The structural and functional unit of the human kidney is:",["Neuron","Alveolus","Hepatocyte","Nephron"],3],["During muscle contraction, calcium ions bind to:",["Myosin","Tropomyosin","Actin","Troponin"],3],["The universal donor blood group in the ABO system is:",["AB positive","A negative","O positive","O negative"],3],["Which part of the brain controls body temperature and hunger?",["Hypothalamus","Thalamus","Medulla oblongata","Cerebellum"],0],["The exchange of gases in human lungs occurs in the:",["Alveoli","Trachea","Bronchioles","Bronchi"],0],["In double fertilization in angiosperms, one sperm fuses with the egg to form:",["Fruit","Zygote","Seed coat","Endosperm"],1],["Which vitamin is necessary for blood clotting?",["Vitamin K","Vitamin D","Vitamin C","Vitamin A"],0],["The phase of cell division where chromosomes align at the equatorial plate is:",["Metaphase","Prophase","Anaphase","Telophase"],0],["Which antibody class is predominant in secretions like saliva and tears?",["IgG","IgM","IgE","IgA"],3],["The functional unit of contraction in a skeletal muscle fibre is:",["Z-disc","Sarcolemma","Myofibril","Sarcomere"],3],["Which nitrogenous base is present in RNA but absent in DNA?",["Cytosine","Uracil","Adenine","Thymine"],1],["Which organelle is known as the powerhouse of the cell?",["Ribosome","Endoplasmic Reticulum","Golgi Body","Mitochondria"],3],["Which biomodule is the primary source of energy for humans?",["Nucleic Acids","Lipids","Carbohydrates","Proteins"],2],["The process of synthesis of RNA from DNA is called:",["Translation","Reverse Transcription","Transcription","Replication"],2],["Enzymes speed up chemical reactions by lowering:",["Activation energy","Free energy","Potential energy","Kinetic energy"],0],["Which of the following is an example of an acellular biological entity?",["Amoeba","Virus","Fungi","Bacterium"],1],["The fluid mosaic model of plasma membrane was proposed by:",["Schleiden and Schwann","Watson and Crick","Singer and Nicolson","Robert Hooke"],2],["Light-dependent reactions of photosynthesis occur in the:",["Stroma","Outer membrane","Thylakoid membrane","Matrix"],2],["Glycolysis takes place in which part of the cell?",["Chloroplast","Mitochondrial matrix","Cristae","Cytoplasm"],3],["What is the oxidation state of Chromium in K2Cr2O7?",["+6","+7","+3","+2"],0],["Which gas law states that volume is directly proportional to temperature at constant pressure?",["Avogadro's Law","Charles's Law","Boyle's Law","Dalton's Law"],1],["The hybridization of carbon in ethane (C2H6) is:",["sp2","sp","dsp2","sp3"],3],["Which element has the highest electronegativity on the Pauling scale?",["Nitrogen","Chlorine","Fluorine","Oxygen"],2],["The rate of reaction usually increases with temperature because of increase in:",["Activation energy","Threshold energy","Number of effective collisions","Free energy"],2],["Which of the following is a strong electrolyte?",["H2CO3","HCl","NH4OH","CH3COOH"],1],["The bond angle in a water molecule (H2O) is approximately:",["180°","104.5°","120°","109.5°"],1],["Which type of isomerism is shown by 1-butanol and 2-butanol?",["Metamerism","Chain isomerism","Functional group isomerism","Position isomerism"],3],["The pH of a 0.01 M HCl solution is:",["7","1","3","2"],3],["Which transition element is commonly used as a catalyst in Haber process?",["Platinum (Pt)","Nickel (Ni)","Copper (Cu)","Iron (Fe)"],3],["Functional group present in aldehydes is:",["-CHO","-COOH","-OH","-CO-"],0],["According to Le Chatelier's principle, increasing pressure on a gas equilibrium shifts it towards:",["More moles of gas","Fewer moles of gas","Reactants always","No shift occurs"],1],["Which solution acts as a buffer?",["HNO3 + KNO3","CH3COOH + CH3COONa","HCl + NaCl","NaOH + NaCl"],1],["E1 reactions follow which order of kinetics?",["First order","Zero order","Second order","Third order"],0],["The shape of an sp2 hybridized molecule like BF3 is:",["Trigonal planar","Pyramidal","Tetrahedral","Linear"],0],["What is the oxidation state of Chromium in K2Cr2O7?",["+2","+7","+6","+3"],2],["Which gas law states that volume is directly proportional to temperature at constant pressure?",["Dalton's Law","Avogadro's Law","Charles's Law","Boyle's Law"],2],["The hybridization of carbon in ethane (C2H6) is:",["sp2","dsp2","sp3","sp"],2],["Which element has the highest electronegativity on the Pauling scale?",["Chlorine","Fluorine","Oxygen","Nitrogen"],1],["The rate of reaction usually increases with temperature because of increase in:",["Activation energy","Threshold energy","Free energy","Number of effective collisions"],3],["Which of the following is a strong electrolyte?",["H2CO3","NH4OH","HCl","CH3COOH"],2],["The bond angle in a water molecule (H2O) is approximately:",["120°","104.5°","180°","109.5°"],1],["Which type of isomerism is shown by 1-butanol and 2-butanol?",["Metamerism","Position isomerism","Functional group isomerism","Chain isomerism"],1],["The pH of a 0.01 M HCl solution is:",["7","3","1","2"],3],["Which transition element is commonly used as a catalyst in Haber process?",["Copper (Cu)","Nickel (Ni)","Iron (Fe)","Platinum (Pt)"],2],["Functional group present in aldehydes is:",["-CHO","-OH","-CO-","-COOH"],0],["According to Le Chatelier's principle, increasing pressure on a gas equilibrium shifts it towards:",["Fewer moles of gas","Reactants always","No shift occurs","More moles of gas"],0],["Which solution acts as a buffer?",["NaOH + NaCl","CH3COOH + CH3COONa","HCl + NaCl","HNO3 + KNO3"],1],["E1 reactions follow which order of kinetics?",["Zero order","Third order","Second order","First order"],3],["The shape of an sp2 hybridized molecule like BF3 is:",["Tetrahedral","Pyramidal","Linear","Trigonal planar"],3],["What is the oxidation state of Chromium in K2Cr2O7?",["+7","+3","+6","+2"],2],["Which gas law states that volume is directly proportional to temperature at constant pressure?",["Avogadro's Law","Boyle's Law","Dalton's Law","Charles's Law"],3],["The hybridization of carbon in ethane (C2H6) is:",["dsp2","sp2","sp3","sp"],2],["Which element has the highest electronegativity on the Pauling scale?",["Chlorine","Fluorine","Nitrogen","Oxygen"],1],["The rate of reaction usually increases with temperature because of increase in:",["Activation energy","Number of effective collisions","Threshold energy","Free energy"],1],["Which of the following is a strong electrolyte?",["NH4OH","HCl","H2CO3","CH3COOH"],1],["The bond angle in a water molecule (H2O) is approximately:",["109.5°","180°","120°","104.5°"],3],["Which type of isomerism is shown by 1-butanol and 2-butanol?",["Metamerism","Position isomerism","Chain isomerism","Functional group isomerism"],1],["The pH of a 0.01 M HCl solution is:",["7","1","2","3"],2,"The printed answer key lists D (3) for this question, but the correct answer is 2."],["Which transition element is commonly used as a catalyst in Haber process?",["Platinum (Pt)","Iron (Fe)","Nickel (Ni)","Copper (Cu)"],1],["Functional group present in aldehydes is:",["-CO-","-COOH","-OH","-CHO"],3],["According to Le Chatelier's principle, increasing pressure on a gas equilibrium shifts it towards:",["More moles of gas","Reactants always","Fewer moles of gas","No shift occurs"],2],["Which solution acts as a buffer?",["HNO3 + KNO3","HCl + NaCl","CH3COOH + CH3COONa","NaOH + NaCl"],2],["E1 reactions follow which order of kinetics?",["First order","Third order","Zero order","Second order"],0],["The shape of an sp2 hybridized molecule like BF3 is:",["Tetrahedral","Trigonal planar","Linear","Pyramidal"],1],["What is the oxidation state of Chromium in K2Cr2O7?",["+3","+2","+7","+6"],3],["Which gas law states that volume is directly proportional to temperature at constant pressure?",["Avogadro's Law","Dalton's Law","Boyle's Law","Charles's Law"],3],["The hybridization of carbon in ethane (C2H6) is:",["sp2","sp","sp3","dsp2"],2],["Which element has the highest electronegativity on the Pauling scale?",["Nitrogen","Fluorine","Chlorine","Oxygen"],1],["The rate of reaction usually increases with temperature because of increase in:",["Activation energy","Threshold energy","Number of effective collisions","Free energy"],2],["Which of the following is a strong electrolyte?",["H2CO3","NH4OH","CH3COOH","HCl"],3],["The bond angle in a water molecule (H2O) is approximately:",["180°","120°","104.5°","109.5°"],2],["Which type of isomerism is shown by 1-butanol and 2-butanol?",["Functional group isomerism","Position isomerism","Metamerism","Chain isomerism"],1],["The pH of a 0.01 M HCl solution is:",["2","7","3","1"],0],["What is the SI unit of electric flux?",["N/C","N·m²/C","J/C","Tesla"],1],["The work done by a conservative force along a closed path is always:",["Positive","Infinite","Zero","Negative"],2],["According to Einstein's photoelectric equation, maximum kinetic energy of photoelectrons depends on:",["Velocity of source","Intensity of incident light","Frequency of incident light","Time of illumination"],2],["The unit of capacitance is the Farad, which is equivalent to:",["Joule / Volt","Ampere / Volt","Coulomb / Volt","Volt / Coulomb"],2],["Resistance of an ideal ammeter should be:",["1 Ohm","Zero","Infinite","Very high"],1],["A body projected vertically upwards reaches max height. Its velocity at max height is:",["Equal to initial velocity","4.9 m/s","0 m/s","9.8 m/s"],2],["Step-up transformer increases which quantity?",["Voltage","Power","Current","Frequency"],0],["The half-life of a radioactive sample is related to decay constant λ by:",["0.693 × λ","1 / λ","λ / 0.693","0.693 / λ"],3],["Centripetal force performing circular motion does work equal to:",["Zero","Positive work","Negative work","Maximum work"],0],["Which electromagnetic wave has the shortest wavelength?",["Ultraviolet rays","X-rays","Radio waves","Gamma rays"],3],["Dimensional formula of Energy is identical to:",["Torque","Force","Momentum","Power"],0],["If the distance between two charges is doubled, the electrostatic force becomes:",["Double","Half","4 times","1/4th"],3],["What is the SI unit of electric flux?",["N·m²/C","N/C","Tesla","J/C"],0],["The work done by a conservative force along a closed path is always:",["Positive","Zero","Negative","Infinite"],1],["According to Einstein's photoelectric equation, maximum kinetic energy of photoelectrons depends on:",["Intensity of incident light","Frequency of incident light","Velocity of source","Time of illumination"],1],["The unit of capacitance is the Farad, which is equivalent to:",["Ampere / Volt","Volt / Coulomb","Coulomb / Volt","Joule / Volt"],2],["Resistance of an ideal ammeter should be:",["Infinite","1 Ohm","Very high","Zero"],3],["A body projected vertically upwards reaches max height. Its velocity at max height is:",["Equal to initial velocity","0 m/s","9.8 m/s","4.9 m/s"],1],["Step-up transformer increases which quantity?",["Voltage","Current","Frequency","Power"],0],["The half-life of a radioactive sample is related to decay constant λ by:",["0.693 × λ","λ / 0.693","1 / λ","0.693 / λ"],3],["Centripetal force performing circular motion does work equal to:",["Zero","Positive work","Maximum work","Negative work"],0],["Which electromagnetic wave has the shortest wavelength?",["Gamma rays","Radio waves","X-rays","Ultraviolet rays"],0],["Dimensional formula of Energy is identical to:",["Momentum","Force","Torque","Power"],2],["If the distance between two charges is doubled, the electrostatic force becomes:",["Half","1/4th","Double","4 times"],1],["What is the SI unit of electric flux?",["Tesla","N·m²/C","N/C","J/C"],1],["The work done by a conservative force along a closed path is always:",["Infinite","Zero","Positive","Negative"],1],["According to Einstein's photoelectric equation, maximum kinetic energy of photoelectrons depends on:",["Frequency of incident light","Intensity of incident light","Velocity of source","Time of illumination"],0],["The unit of capacitance is the Farad, which is equivalent to:",["Coulomb / Volt","Joule / Volt","Volt / Coulomb","Ampere / Volt"],0],["Resistance of an ideal ammeter should be:",["Zero","1 Ohm","Very high","Infinite"],0],["A body projected vertically upwards reaches max height. Its velocity at max height is:",["Equal to initial velocity","0 m/s","4.9 m/s","9.8 m/s"],1],["Step-up transformer increases which quantity?",["Voltage","Current","Frequency","Power"],0],["The half-life of a radioactive sample is related to decay constant λ by:",["1 / λ","λ / 0.693","0.693 × λ","0.693 / λ"],3],["Centripetal force performing circular motion does work equal to:",["Maximum work","Negative work","Zero","Positive work"],2],["Which electromagnetic wave has the shortest wavelength?",["X-rays","Ultraviolet rays","Radio waves","Gamma rays"],3],["Dimensional formula of Energy is identical to:",["Power","Torque","Momentum","Force"],1],["If the distance between two charges is doubled, the electrostatic force becomes:",["Double","1/4th","Half","4 times"],1],["What is the SI unit of electric flux?",["N·m²/C","J/C","N/C","Tesla"],0],["The work done by a conservative force along a closed path is always:",["Infinite","Negative","Zero","Positive"],2],["According to Einstein's photoelectric equation, maximum kinetic energy of photoelectrons depends on:",["Velocity of source","Time of illumination","Intensity of incident light","Frequency of incident light"],3],["The unit of capacitance is the Farad, which is equivalent to:",["Coulomb / Volt","Ampere / Volt","Joule / Volt","Volt / Coulomb"],0],["Choose the correct synonym of 'BENEVOLENT':",["Cruel","Arrogant","Greedy","Kind"],3],["Identify the correctly spelled word:",["Accomodate","Acommodate","Acomodate","Accommodate"],3],["She was proficient _____ speaking three languages.",["in","at","with","on"],0],["Choose the antonym of 'OBSOLETE':",["Modern","Ancient","Outdated","Old"],0],["Neither of the applicants _____ suitable for the job.",["were","are","is","have been"],2],["He prevented me _____ entering the lab.",["for","from","to","against"],1],["Choose the correct synonym of 'BENEVOLENT':",["Kind","Cruel","Arrogant","Greedy"],0],["Identify the correctly spelled word:",["Accommodate","Accomodate","Acommodate","Acomodate"],0],["She was proficient _____ speaking three languages.",["on","at","with","in"],3],["Choose the antonym of 'OBSOLETE':",["Modern","Outdated","Old","Ancient"],0],["Neither of the applicants _____ suitable for the job.",["are","is","have been","were"],1],["He prevented me _____ entering the lab.",["against","for","from","to"],2],["Look at this series: 2, 6, 18, 54, ... What number should come next?",["108","162","148","216"],1],["If CAT is coded as 3120, how is DOG coded in the same system?",["3157","4156","4157","4147"],2],["Statement: All doctors are surgeons. Some surgeons are specialists. Conclusion: Some doctors are specialists. Is this logically definite?",["False","Uncertain","True","None"],1,"The printed answer key lists A (False) for this question, but the correct answer is Uncertain."],["Point to a photo, Ali says 'He is the son of my father's only son.' Who is in photo?",["Himself","His Son","His Nephew","His Father"],1,"The printed answer key lists C (His Nephew) for this question, but the correct answer is His Son."],["Look at the series: 2, 6, 18, 54, ... What number should come next?",["148","162","108","216"],1],["If CAT is coded as 3120, how is DOG coded in the same system?",["3157","4157","4147","4156"],1]];
+const MOCK_SECTIONS = [
+  { name:'Biology',           from:1,   to:68  },
+  { name:'Chemistry',         from:69,  to:122 },
+  { name:'Physics',           from:123, to:162 },
+  { name:'English',           from:163, to:174 },
+  { name:'Logical Reasoning', from:175, to:180 },
+];
+const MOCK_MINUTES = 180;
+const MOCK_BEST_KEY = 'merit_mock_best_v1';
+const MOCK_SESSION_KEY = 'merit_mock_session_v1';
+
+function mockSectionOf(i){ const n = i+1; return MOCK_SECTIONS.find(s=>n>=s.from && n<=s.to); }
+function loadMockBest(){ try{ return JSON.parse(localStorage.getItem(MOCK_BEST_KEY)) || null; }catch(e){ return null; } }
+function loadMockSession(){
+  try{
+    const s = JSON.parse(localStorage.getItem(MOCK_SESSION_KEY));
+    if(s && typeof s.endAt==='number' && Array.isArray(s.answers) && s.answers.length===MDCAT_MOCK.length) return s;
+  }catch(e){}
+  return null;
+}
+function saveMockSession(){
+  const m = state.mock; if(!m) return;
+  try{ localStorage.setItem(MOCK_SESSION_KEY, JSON.stringify({ endAt:m.endAt, answers:m.answers, index:m.index })); }catch(e){}
+}
+function clearMockSession(){ try{ localStorage.removeItem(MOCK_SESSION_KEY); }catch(e){} }
+function fmtClock(ms){
+  const t = Math.max(0, Math.ceil(ms/1000));
+  const h = Math.floor(t/3600), mi = Math.floor((t%3600)/60), s = t%60;
+  return h + ':' + String(mi).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+}
+
+let mockTimerId = null;
+function tickMockTimer(){
+  const m = state.mock;
+  if(!m || state.view!=='mock') return;
+  const left = m.endAt - Date.now();
+  if(left <= 0){ submitMock(true); return; }
+  const el = document.getElementById('mock-timer');
+  if(el){ el.textContent = fmtClock(left); el.classList.toggle('warn', left < 10*60*1000); }
+}
+function startMockTimer(){ if(mockTimerId===null) mockTimerId = setInterval(tickMockTimer, 1000); tickMockTimer(); }
+function stopMockTimer(){ if(mockTimerId!==null){ clearInterval(mockTimerId); mockTimerId = null; } }
+
+function openMockIntro(){ go('mockIntro', { courseId:'mdcat', subjectId:null, chapterId:null }); }
+function startMock(){
+  state.mock = { answers:new Array(MDCAT_MOCK.length).fill(null), index:0, endAt:Date.now()+MOCK_MINUTES*60000, palette:false, result:null, reviewOpen:false };
+  saveMockSession();
+  go('mock');
+}
+function resumeMock(){
+  const s = loadMockSession();
+  if(!s){ startMock(); return; }
+  const answers = s.answers.map(a=> (Number.isInteger(a) && a>=0 && a<=3) ? a : null);
+  state.mock = { answers, index:Math.min(Math.max(Number(s.index)||0, 0), MDCAT_MOCK.length-1), endAt:s.endAt, palette:false, result:null, reviewOpen:false };
+  if(s.endAt <= Date.now()){ submitMock(true); return; }
+  go('mock');
+}
+function mockPick(k){
+  const m = state.mock; if(!m) return;
+  m.answers[m.index] = (m.answers[m.index]===k) ? null : k;   // tap again to clear
+  saveMockSession();
+  render();
+}
+function mockGo(n){
+  const m = state.mock; if(!m) return;
+  m.index = Math.min(Math.max(n, 0), MDCAT_MOCK.length-1);
+  m.palette = false;
+  saveMockSession();
+  go('mock');
+}
+function mockTogglePalette(){ state.mock.palette = !state.mock.palette; render(); }
+function mockExit(){
+  if(!confirm('Leave the test for now? The timer keeps running. You can resume from the MDCAT MOCK TEST page until time runs out.')) return;
+  saveMockSession();
+  openMockIntro();
+}
+function submitMock(auto){
+  const m = state.mock; if(!m) return;
+  const unanswered = m.answers.filter(a=>a===null).length;
+  if(!auto){
+    const msg = unanswered ? `You have ${unanswered} unanswered question${unanswered===1?'':'s'}. Submit the test now?` : 'Submit the test now?';
+    if(!confirm(msg)) return;
+  }
+  const total = MDCAT_MOCK.length;
+  const sections = MOCK_SECTIONS.map(s=>({ name:s.name, correct:0, total:s.to-s.from+1 }));
+  let score = 0;
+  m.answers.forEach((a,i)=>{
+    if(a!==null && a===MDCAT_MOCK[i][2]){
+      score++;
+      sections[MOCK_SECTIONS.indexOf(mockSectionOf(i))].correct++;
+    }
+  });
+  const totalMs = MOCK_MINUTES*60000;
+  const usedMs = Math.min(totalMs, Math.max(0, totalMs - Math.max(0, m.endAt - Date.now())));
+  const pct = Math.round((score/total)*100);
+  m.result = { score, total, pct, sections, unanswered, usedMs, auto:!!auto };
+  const best = loadMockBest() || { bestScore:0, attempts:0 };
+  best.attempts += 1;
+  best.bestScore = Math.max(best.bestScore, score);
+  try{ localStorage.setItem(MOCK_BEST_KEY, JSON.stringify(best)); }catch(e){}
+  clearMockSession();
+  stopMockTimer();
+  go('mockResults');
+}
+function mockToggleReview(){ state.mock.reviewOpen = !state.mock.reviewOpen; render(); }
+
+function renderMockRow(){
+  const best = loadMockBest();
+  const sess = loadMockSession();
+  const sub = sess ? 'Test in progress · tap to resume'
+    : `${MDCAT_MOCK.length} MCQs · ${MOCK_MINUTES} min` + (best ? ` · Best: ${best.bestScore}/${MDCAT_MOCK.length}` : '');
+  return `
+  <div class="row-list" style="margin-top:12px;">
+    <button class="row-card mock-row" data-mopen="1">
+      <div class="row-icon">${ICONS.clock}</div>
+      <div class="row-body">
+        <div class="row-title">MDCAT MOCK TEST</div>
+        <div class="row-sub">${esc(sub)}</div>
+      </div>
+      <span class="row-chev">${ICONS.chevron}</span>
+    </button>
+  </div>`;
+}
+
+function renderMockIntroView(){
+  const best = loadMockBest();
+  const sess = loadMockSession();
+  const expired = sess && sess.endAt <= Date.now();
+  const total = MDCAT_MOCK.length;
+  let action;
+  if(sess && expired) action = `<button class="btn-primary" data-mresume="1">See results (time ran out)</button>`;
+  else if(sess)       action = `<button class="btn-primary" data-mresume="1">Resume · ${fmtClock(sess.endAt-Date.now())} left</button>`;
+  else                action = `<button class="btn-primary" data-mstart="1">Start Test</button>`;
+  return `
+  <div class="section-head">
+    <div class="section-eyebrow">MDCAT · Full-length practice</div>
+    <div class="section-title">MDCAT MOCK TEST</div>
+    <div class="section-sub">${total} MCQs · ${MOCK_MINUTES} minutes · 1 mark each.</div>
+  </div>
+  <div class="row-list">
+    ${MOCK_SECTIONS.map(s=>`
+    <div class="row-card static">
+      <div class="row-icon">${s.to-s.from+1}</div>
+      <div class="row-body">
+        <div class="row-title">${esc(s.name)}</div>
+        <div class="row-sub">Questions ${s.from}–${s.to}</div>
+      </div>
+    </div>`).join('')}
+  </div>
+  <div class="mastery-block">
+    <div class="m-eyebrow">Before you start</div>
+    <h3>${best ? `Best score: ${best.bestScore}/${total}` : 'Ready when you are'}</h3>
+    <p class="mock-legend">The ${MOCK_MINUTES}-minute countdown starts when you tap Start and stays at the top of the screen. Answers are not revealed until you submit, and the test submits automatically when time runs out.</p>
+    <div class="m-row">
+      <button class="btn-ghost" data-nav="subjects" data-course="mdcat">Back to subjects</button>
+      ${action}
+    </div>
+  </div>`;
+}
+
+function renderMockView(){
+  const m = state.mock;
+  const total = MDCAT_MOCK.length;
+  const i = m.index;
+  const item = MDCAT_MOCK[i];
+  const sec = mockSectionOf(i);
+  const answered = m.answers.filter(a=>a!==null).length;
+  const left = m.endAt - Date.now();
+
+  const palette = m.palette ? `
+  <div class="pal-wrap">
+    ${MOCK_SECTIONS.map(s=>`
+      <div class="pal-title">${esc(s.name)}</div>
+      <div class="pal">
+        ${Array.from({length:s.to-s.from+1}, (_,k)=>{
+          const idx = s.from-1+k;
+          const cls = idx===i ? 'cur' : (m.answers[idx]!==null ? 'done' : '');
+          return `<button class="${cls}" data-mgo="${idx}">${idx+1}</button>`;
+        }).join('')}
+      </div>`).join('')}
+  </div>` : '';
+
+  return `
+  <div class="mock-head">
+    <button class="icon-btn" data-mexit="1">${ICONS.back} Exit</button>
+    <div class="mock-timer mono ${left<10*60*1000?'warn':''}" id="mock-timer">${fmtClock(left)}</div>
+    <div class="quiz-count mono" style="text-align:right;">${i+1}/${total}</div>
+  </div>
+  <div class="mock-sub"><span>${esc(sec.name)}</span><span class="mono">${answered}/${total} answered</span></div>
+  <div class="q-card">
+    <div class="q-text"><span class="mock-qn mono">Q.${i+1}</span> ${esc(item[0])}</div>
+    <div class="options">
+      ${item[1].map((opt,k)=>`
+      <button class="option-btn ${m.answers[i]===k?'selected':''}" data-mpick="${k}">
+        <span class="option-letter">${String.fromCharCode(65+k)}</span>
+        <span>${esc(opt)}</span>
+      </button>`).join('')}
+    </div>
+    <div class="mock-nav">
+      <button class="btn-ghost" data-mprev="1" ${i===0?'disabled':''}>Previous</button>
+      <button class="btn-primary" data-mnext="1" ${i===total-1?'disabled':''}>Next</button>
+    </div>
+  </div>
+  <div class="mock-actions">
+    <button class="btn-ghost" data-mpal="1">${m.palette?'Hide':'Show'} question list</button>
+    <button class="btn-primary" data-msubmit="1">Submit test</button>
+  </div>
+  ${palette}`;
+}
+
+function renderMockResultsView(){
+  const m = state.mock;
+  const r = m.result;
+  const wrong = [];
+  MDCAT_MOCK.forEach((item,i)=>{ if(m.answers[i]!==item[2]) wrong.push(i); });
+  const review = m.reviewOpen ? wrong.map(i=>{
+    const item = MDCAT_MOCK[i];
+    const a = m.answers[i];
+    return `
+    <div class="review-item">
+      <div class="rq"><span class="mono">Q.${i+1}</span>${esc(item[0])}</div>
+      <div class="ra ${a===null?'':'wrong'}">Your answer: <b>${a===null ? 'Not answered' : String.fromCharCode(65+a)+'. '+esc(item[1][a])}</b></div>
+      <div class="ra right">Correct answer: <b>${String.fromCharCode(65+item[2])}. ${esc(item[1][item[2]])}</b></div>
+      ${item[3] ? `<div class="rnote">${esc(item[3])}</div>` : ''}
+    </div>`;
+  }).join('') : '';
+
+  return `
+  <div class="result-card" style="--pct:${r.pct}">
+    <div class="result-ring"><span class="result-ring-label mono">${r.pct}%</span></div>
+    <div class="result-title">${r.score} / ${r.total} correct</div>
+    <div class="result-sub">${r.auto ? 'Time ran out · ' : ''}Time used ${fmtClock(r.usedMs)} · ${r.unanswered} unanswered</div>
+    <div class="result-actions">
+      <button class="btn-ghost" data-nav="subjects" data-course="mdcat">Back to subjects</button>
+      <button class="btn-primary" data-mstart="1">Retake Test</button>
+    </div>
+  </div>
+  <div class="row-list" style="margin-top:16px;">
+    ${r.sections.map(s=>`
+    <div class="row-card static">
+      <div class="row-icon mono" style="font-size:12px;">${Math.round((s.correct/s.total)*100)}%</div>
+      <div class="row-body">
+        <div class="row-title">${esc(s.name)}</div>
+        <div class="row-sub">${s.correct} / ${s.total} correct</div>
+      </div>
+    </div>`).join('')}
+  </div>
+  <div class="mock-actions">
+    <button class="btn-ghost" data-mreview="1" ${wrong.length? '' : 'disabled'}>${m.reviewOpen?'Hide':'Review'} ${wrong.length} missed question${wrong.length===1?'':'s'}</button>
+  </div>
+  ${review}`;
+}
+
+/* ================================================================
    LOOKUPS
    ================================================================ */
 function findCourse(id){ return COURSES.find(c=>c.id===id); }
@@ -1087,6 +1431,7 @@ function chapterProgressPct(chapter){
    ICONS (inline SVG, stroke = currentColor)
    ================================================================ */
 const ICONS = {
+  clock: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>`,
   book: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>`,
   chart: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>`,
   bookmark: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>`,
@@ -1300,7 +1645,8 @@ function renderSubjectsView(){
         <span class="row-chev">${ICONS.chevron}</span>
       </button>`;
     }).join('')}
-  </div>`;
+  </div>
+  ${course.id==='mdcat' ? renderMockRow() : ''}`;
 }
 
 function renderChaptersView(){
@@ -1514,6 +1860,9 @@ function renderMain(){
     case 'topics': return renderTopicsView();
     case 'quiz': return renderQuizView();
     case 'results': return renderResultsView();
+    case 'mockIntro': return renderMockIntroView();
+    case 'mock': return renderMockView();
+    case 'mockResults': return renderMockResultsView();
     case 'progressView': return renderProgressView();
     case 'savedView': return renderSavedView();
     default: return renderCoursesView();
@@ -1521,18 +1870,35 @@ function renderMain(){
 }
 
 function render(){
-  const showTabbar = !['quiz','results'].includes(state.view);
+  const hideTabbar = ['quiz','results','mock','mockResults'].includes(state.view);
+  const isMock = state.view === 'mock';   // the mock test has its own header with the countdown
   document.getElementById('app').innerHTML = `
-    ${renderTopbar()}
+    ${isMock ? '' : renderTopbar()}
     <main>${renderMain()}</main>
-    ${showTabbar ? renderTabbar() : ''}
+    ${hideTabbar ? '' : renderTabbar()}
   `;
+  if(isMock) startMockTimer(); else stopMockTimer();
 }
 
 /* ================================================================
    EVENT DELEGATION
    ================================================================ */
 document.getElementById('app').addEventListener('click', (e)=>{
+  // ---- MDCAT mock test controls ----
+  if(e.target.closest('[data-mopen]')){ openMockIntro(); return; }
+  if(e.target.closest('[data-mstart]')){ startMock(); return; }
+  if(e.target.closest('[data-mresume]')){ resumeMock(); return; }
+  const mPick = e.target.closest('[data-mpick]');
+  if(mPick){ mockPick(Number(mPick.dataset.mpick)); return; }
+  const mGo = e.target.closest('[data-mgo]');
+  if(mGo){ mockGo(Number(mGo.dataset.mgo)); return; }
+  if(e.target.closest('[data-mprev]')){ mockGo(state.mock.index-1); return; }
+  if(e.target.closest('[data-mnext]')){ mockGo(state.mock.index+1); return; }
+  if(e.target.closest('[data-mpal]')){ mockTogglePalette(); return; }
+  if(e.target.closest('[data-msubmit]')){ submitMock(false); return; }
+  if(e.target.closest('[data-mexit]')){ mockExit(); return; }
+  if(e.target.closest('[data-mreview]')){ mockToggleReview(); return; }
+
   const tabBtn = e.target.closest('[data-tab]');
   if(tabBtn){ goTab(tabBtn.dataset.tab); return; }
 
@@ -1582,4 +1948,4 @@ if('serviceWorker' in navigator){
 }
 </script>
 </body>
-</html>
+</html>zz
