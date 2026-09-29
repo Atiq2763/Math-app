@@ -280,6 +280,8 @@ nav.tabbar{
 .icon-btn{ background:none; border:none; color:var(--ink-soft); display:flex; align-items:center; gap:5px; font-size:12.5px; font-weight:600; padding:6px; }
 /* ---------- MDCAT Mock Test ---------- */
 .mock-row{ border-color:var(--gold); background:var(--gold-soft); }
+.topic-group{ margin:16px 2px 2px; font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:.12em; color:var(--gold); }
+.topic-group:first-child{ margin-top:2px; }
 .row-card.static{ cursor:default; }
 .mock-head{
   position:sticky; top:0; z-index:25; background:var(--paper);
@@ -333,6 +335,2660 @@ nav.tabbar{
    ================================================================ */
 
 const CUSTOM_QUESTION_BANKS = {
+  // ---- SAT · Math · Get ready: Algebra · topics 8+ (6 questions per topic: 5 shown + 1 bonus) ----
+  "sat-math-gra-c1-t1": [
+ {
+  "q": "A service charges a fixed fee of $6 plus $9 per item. If the total is $42, how many items?",
+  "options": [
+   "4",
+   "3",
+   "6",
+   "5"
+  ],
+  "correct": 0,
+  "explain": "Subtract the fixed fee: 42 − 6 = 36. Divide by the price per item: 36 ÷ 9 = 4 items."
+ },
+ {
+  "q": "A service charges a fixed fee of $12 plus $5 per item. If the total is $57, how many items?",
+  "options": [
+   "11",
+   "9",
+   "8",
+   "10"
+  ],
+  "correct": 1,
+  "explain": "Subtract the fixed fee: 57 − 12 = 45. Divide by the price per item: 45 ÷ 5 = 9 items."
+ },
+ {
+  "q": "A service charges a fixed fee of $15 plus $10 per item. If the total is $75, how many items?",
+  "options": [
+   "7",
+   "6",
+   "5",
+   "8"
+  ],
+  "correct": 1,
+  "explain": "Subtract the fixed fee: 75 − 15 = 60. Divide by the price per item: 60 ÷ 10 = 6 items."
+ },
+ {
+  "q": "A service charges a fixed fee of $8 plus $12 per item. If the total is $68, how many items?",
+  "options": [
+   "4",
+   "6",
+   "7",
+   "5"
+  ],
+  "correct": 3,
+  "explain": "Subtract the fixed fee: 68 − 8 = 60. Divide by the price per item: 60 ÷ 12 = 5 items."
+ },
+ {
+  "q": "A service charges a fixed fee of $21 plus $7 per item. If the total is $91, how many items?",
+  "options": [
+   "9",
+   "11",
+   "12",
+   "10"
+  ],
+  "correct": 3,
+  "explain": "Subtract the fixed fee: 91 − 21 = 70. Divide by the price per item: 70 ÷ 7 = 10 items."
+ },
+ {
+  "q": "A service charges a fixed fee of $6 plus $8 per item. If the total is $54, how many items?",
+  "options": [
+   "8",
+   "5",
+   "6",
+   "7"
+  ],
+  "correct": 2,
+  "explain": "Subtract the fixed fee: 54 − 6 = 48. Divide by the price per item: 48 ÷ 8 = 6 items."
+ }
+],
+  "sat-math-gra-c1-t2": [
+ {
+  "q": "What is x if 3x + 7 = 28?",
+  "options": [
+   "6",
+   "9",
+   "7",
+   "8"
+  ],
+  "correct": 2,
+  "explain": "Subtract 7 from both sides: 3x = 21. Divide by 3: x = 7."
+ },
+ {
+  "q": "What is x if 5x + 4 = 29?",
+  "options": [
+   "4",
+   "7",
+   "5",
+   "6"
+  ],
+  "correct": 2,
+  "explain": "Subtract 4 from both sides: 5x = 25. Divide by 5: x = 5."
+ },
+ {
+  "q": "What is x if 8x + 6 = 54?",
+  "options": [
+   "5",
+   "7",
+   "8",
+   "6"
+  ],
+  "correct": 3,
+  "explain": "Subtract 6 from both sides: 8x = 48. Divide by 8: x = 6."
+ },
+ {
+  "q": "What is x if 2x + 9 = 35?",
+  "options": [
+   "14",
+   "12",
+   "13",
+   "15"
+  ],
+  "correct": 2,
+  "explain": "Subtract 9 from both sides: 2x = 26. Divide by 2: x = 13."
+ },
+ {
+  "q": "What is x if 7x + 3 = 31?",
+  "options": [
+   "6",
+   "3",
+   "5",
+   "4"
+  ],
+  "correct": 3,
+  "explain": "Subtract 3 from both sides: 7x = 28. Divide by 7: x = 4."
+ },
+ {
+  "q": "What is x if 4x + 8 = 44?",
+  "options": [
+   "11",
+   "8",
+   "10",
+   "9"
+  ],
+  "correct": 3,
+  "explain": "Subtract 8 from both sides: 4x = 36. Divide by 4: x = 9."
+ }
+],
+  "sat-math-gra-c1-t3": [
+ {
+  "q": "A linear model is y = 18 + 7x. What value of x gives y = 60?",
+  "options": [
+   "7",
+   "8",
+   "5",
+   "6"
+  ],
+  "correct": 3,
+  "explain": "Set y equal to 60: the constant term 18 moves over, giving 7x = 42. Divide by 7: x = 6."
+ },
+ {
+  "q": "A linear model is y = 120 − 5x. What value of x gives y = 70?",
+  "options": [
+   "12",
+   "11",
+   "10",
+   "9"
+  ],
+  "correct": 2,
+  "explain": "Set y equal to 70: the constant term 120 moves over, giving −5x = −50. Divide by −5: x = 10."
+ },
+ {
+  "q": "A linear model is y = 45 + 12x. What value of x gives y = 117?",
+  "options": [
+   "8",
+   "6",
+   "7",
+   "5"
+  ],
+  "correct": 1,
+  "explain": "Set y equal to 117: the constant term 45 moves over, giving 12x = 72. Divide by 12: x = 6."
+ },
+ {
+  "q": "A linear model is y = 14 + 3x. What value of x gives y = 32?",
+  "options": [
+   "8",
+   "7",
+   "5",
+   "6"
+  ],
+  "correct": 3,
+  "explain": "Set y equal to 32: the constant term 14 moves over, giving 3x = 18. Divide by 3: x = 6."
+ },
+ {
+  "q": "A linear model is y = 25 + 4x. What value of x gives y = 57?",
+  "options": [
+   "9",
+   "7",
+   "8",
+   "10"
+  ],
+  "correct": 2,
+  "explain": "Set y equal to 57: the constant term 25 moves over, giving 4x = 32. Divide by 4: x = 8."
+ },
+ {
+  "q": "A linear model is y = 900 + 30x. What value of x gives y = 1050?",
+  "options": [
+   "5",
+   "6",
+   "7",
+   "4"
+  ],
+  "correct": 0,
+  "explain": "Set y equal to 1050: the constant term 900 moves over, giving 30x = 150. Divide by 30: x = 5."
+ }
+],
+  "sat-math-gra-c1-t4": [
+ {
+  "q": "Which equation has initial value 4 and rate of change 6?",
+  "options": [
+   "y = 6x + 4",
+   "y = 6x − 4",
+   "y = 10x + 4",
+   "y = 4x + 6"
+  ],
+  "correct": 0,
+  "explain": "In y = mx + b, the rate of change is the slope m (the coefficient of x) and the initial value is the constant b. So the correct equation is y = 6x + 4."
+ },
+ {
+  "q": "Which equation has initial value 12 and rate of change 9?",
+  "options": [
+   "y = 9x + 12",
+   "y = 21x + 12",
+   "y = 12x + 9",
+   "y = 9x − 12"
+  ],
+  "correct": 0,
+  "explain": "In y = mx + b, the rate of change is the slope m (the coefficient of x) and the initial value is the constant b. So the correct equation is y = 9x + 12."
+ },
+ {
+  "q": "Which equation has initial value 15 and rate of change 3?",
+  "options": [
+   "y = 3x + 15",
+   "y = 15x + 3",
+   "y = 3x − 15",
+   "y = 18x + 15"
+  ],
+  "correct": 0,
+  "explain": "In y = mx + b, the rate of change is the slope m (the coefficient of x) and the initial value is the constant b. So the correct equation is y = 3x + 15."
+ },
+ {
+  "q": "Which equation has initial value 8 and rate of change 5?",
+  "options": [
+   "y = 13x + 8",
+   "y = 5x + 8",
+   "y = 5x − 8",
+   "y = 8x + 5"
+  ],
+  "correct": 1,
+  "explain": "In y = mx + b, the rate of change is the slope m (the coefficient of x) and the initial value is the constant b. So the correct equation is y = 5x + 8."
+ },
+ {
+  "q": "Which equation has initial value 10 and rate of change 7?",
+  "options": [
+   "y = 7x + 10",
+   "y = 17x + 10",
+   "y = 10x + 7",
+   "y = 7x − 10"
+  ],
+  "correct": 0,
+  "explain": "In y = mx + b, the rate of change is the slope m (the coefficient of x) and the initial value is the constant b. So the correct equation is y = 7x + 10."
+ },
+ {
+  "q": "Which equation has initial value 20 and rate of change 4?",
+  "options": [
+   "y = 4x + 20",
+   "y = 4x − 20",
+   "y = 24x + 20",
+   "y = 20x + 4"
+  ],
+  "correct": 0,
+  "explain": "In y = mx + b, the rate of change is the slope m (the coefficient of x) and the initial value is the constant b. So the correct equation is y = 4x + 20."
+ }
+],
+  "sat-math-gra-c1-t5": [
+ {
+  "q": "For y = 2.5x + 10, what is x when y = 35?",
+  "options": [
+   "12",
+   "11",
+   "10",
+   "9"
+  ],
+  "correct": 2,
+  "explain": "Set y equal to 35: the constant term 10 moves over, giving 2.5x = 25. Divide by 2.5: x = 10."
+ },
+ {
+  "q": "For y = 1.5x + 12, what is x when y = 30?",
+  "options": [
+   "12",
+   "14",
+   "11",
+   "13"
+  ],
+  "correct": 0,
+  "explain": "Set y equal to 30: the constant term 12 moves over, giving 1.5x = 18. Divide by 1.5: x = 12."
+ },
+ {
+  "q": "For y = 0.75x + 20, what is x when y = 35?",
+  "options": [
+   "22",
+   "20",
+   "19",
+   "21"
+  ],
+  "correct": 1,
+  "explain": "Set y equal to 35: the constant term 20 moves over, giving 0.75x = 15. Divide by 0.75: x = 20."
+ },
+ {
+  "q": "For y = 4.5x + 5, what is x when y = 41?",
+  "options": [
+   "8",
+   "9",
+   "10",
+   "7"
+  ],
+  "correct": 0,
+  "explain": "Set y equal to 41: the constant term 5 moves over, giving 4.5x = 36. Divide by 4.5: x = 8."
+ },
+ {
+  "q": "For y = 2.25x + 14, what is x when y = 32?",
+  "options": [
+   "8",
+   "10",
+   "9",
+   "7"
+  ],
+  "correct": 0,
+  "explain": "Set y equal to 32: the constant term 14 moves over, giving 2.25x = 18. Divide by 2.25: x = 8."
+ },
+ {
+  "q": "For y = 3.5x + 9, what is x when y = 37?",
+  "options": [
+   "9",
+   "10",
+   "7",
+   "8"
+  ],
+  "correct": 3,
+  "explain": "Set y equal to 37: the constant term 9 moves over, giving 3.5x = 28. Divide by 3.5: x = 8."
+ }
+],
+  "sat-math-gra-c2-t1": [
+ {
+  "q": "In y = 2x + 3, what is the slope?",
+  "options": [
+   "2",
+   "−2",
+   "3",
+   "1"
+  ],
+  "correct": 0,
+  "explain": "In slope-intercept form y = mx + b, the slope is the number multiplying x. Here that is 2."
+ },
+ {
+  "q": "In y = 4x − 1, what is the slope?",
+  "options": [
+   "4",
+   "1",
+   "−4",
+   "−1"
+  ],
+  "correct": 0,
+  "explain": "In slope-intercept form y = mx + b, the slope is the number multiplying x. Here that is 4."
+ },
+ {
+  "q": "In y = −3x + 5, what is the slope?",
+  "options": [
+   "3",
+   "5",
+   "−2",
+   "−3"
+  ],
+  "correct": 3,
+  "explain": "In slope-intercept form y = mx + b, the slope is the number multiplying x. Here that is −3."
+ },
+ {
+  "q": "In y = 0x + 7, what is the slope?",
+  "options": [
+   "0",
+   "7",
+   "1",
+   "−1"
+  ],
+  "correct": 0,
+  "explain": "In slope-intercept form y = mx + b, the slope is the number multiplying x. Here that is 0."
+ },
+ {
+  "q": "In y = x − 6, what is the slope?",
+  "options": [
+   "−1",
+   "1",
+   "−6",
+   "6"
+  ],
+  "correct": 1,
+  "explain": "In slope-intercept form y = mx + b, the slope is the number multiplying x. Here that is 1."
+ },
+ {
+  "q": "In y = −2x − 4, what is the slope?",
+  "options": [
+   "2",
+   "−4",
+   "−2",
+   "4"
+  ],
+  "correct": 2,
+  "explain": "In slope-intercept form y = mx + b, the slope is the number multiplying x. Here that is −2."
+ }
+],
+  "sat-math-gra-c2-t2": [
+ {
+  "q": "For y = 3x + 2, which point lies on the line?",
+  "options": [
+   "(1, 5)",
+   "(0, 3)",
+   "(1, 2)",
+   "(2, 3)"
+  ],
+  "correct": 0,
+  "explain": "A point is on the line when its coordinates satisfy the equation. For x = 1: y = 5, which matches (1, 5)."
+ },
+ {
+  "q": "For y = −2x + 5, which point lies on the line?",
+  "options": [
+   "(0, −2)",
+   "(1, 5)",
+   "(5, −2)",
+   "(1, 3)"
+  ],
+  "correct": 3,
+  "explain": "A point is on the line when its coordinates satisfy the equation. For x = 1: y = 3, which matches (1, 3)."
+ },
+ {
+  "q": "For y = 4x − 3, which point lies on the line?",
+  "options": [
+   "(0, 4)",
+   "(1, −3)",
+   "(−3, 4)",
+   "(1, 1)"
+  ],
+  "correct": 3,
+  "explain": "A point is on the line when its coordinates satisfy the equation. For x = 1: y = 1, which matches (1, 1)."
+ },
+ {
+  "q": "For y = −x − 6, which point lies on the line?",
+  "options": [
+   "(1, −6)",
+   "(−6, −1)",
+   "(0, −1)",
+   "(1, −7)"
+  ],
+  "correct": 3,
+  "explain": "A point is on the line when its coordinates satisfy the equation. For x = 1: y = −7, which matches (1, −7)."
+ },
+ {
+  "q": "For y = 5x + 1, which point lies on the line?",
+  "options": [
+   "(1, 1)",
+   "(0, 5)",
+   "(1, 5)",
+   "(1, 6)"
+  ],
+  "correct": 3,
+  "explain": "A point is on the line when its coordinates satisfy the equation. For x = 1: y = 6, which matches (1, 6)."
+ },
+ {
+  "q": "For y = −3x − 2, which point lies on the line?",
+  "options": [
+   "(1, −5)",
+   "(−2, −3)",
+   "(1, −2)",
+   "(0, −3)"
+  ],
+  "correct": 0,
+  "explain": "A point is on the line when its coordinates satisfy the equation. For x = 1: y = −5, which matches (1, −5)."
+ }
+],
+  "sat-math-gra-c2-t3": [
+ {
+  "q": "What is the slope through (2, 5) and (6, 13)?",
+  "options": [
+   "3",
+   "1",
+   "2",
+   "−2"
+  ],
+  "correct": 2,
+  "explain": "Slope = (y₂ − y₁) ÷ (x₂ − x₁) = (13 − 5) ÷ (6 − 2) = 8 ÷ 4 = 2."
+ },
+ {
+  "q": "What is the slope through (−2, 7) and (4, −5)?",
+  "options": [
+   "2",
+   "−3",
+   "−2",
+   "−1"
+  ],
+  "correct": 2,
+  "explain": "Slope = (y₂ − y₁) ÷ (x₂ − x₁) = (−5 − 7) ÷ (4 − (−2)) = −12 ÷ 6 = −2."
+ },
+ {
+  "q": "What is the slope through (1, −3) and (5, 9)?",
+  "options": [
+   "4",
+   "3",
+   "2",
+   "−3"
+  ],
+  "correct": 1,
+  "explain": "Slope = (y₂ − y₁) ÷ (x₂ − x₁) = (9 − (−3)) ÷ (5 − 1) = 12 ÷ 4 = 3."
+ },
+ {
+  "q": "What is the slope through (−4, 2) and (2, 14)?",
+  "options": [
+   "−2",
+   "3",
+   "1",
+   "2"
+  ],
+  "correct": 3,
+  "explain": "Slope = (y₂ − y₁) ÷ (x₂ − x₁) = (14 − 2) ÷ (2 − (−4)) = 12 ÷ 6 = 2."
+ },
+ {
+  "q": "What is the slope through (0, 6) and (3, −3)?",
+  "options": [
+   "−2",
+   "3",
+   "−3",
+   "−4"
+  ],
+  "correct": 2,
+  "explain": "Slope = (y₂ − y₁) ÷ (x₂ − x₁) = (−3 − 6) ÷ (3 − 0) = −9 ÷ 3 = −3."
+ },
+ {
+  "q": "What is the slope through (5, 1) and (9, 5)?",
+  "options": [
+   "1",
+   "0",
+   "2",
+   "−1"
+  ],
+  "correct": 0,
+  "explain": "Slope = (y₂ − y₁) ÷ (x₂ − x₁) = (5 − 1) ÷ (9 − 5) = 4 ÷ 4 = 1."
+ }
+],
+  "sat-math-gra-c2-t4": [
+ {
+  "q": "What is the slope through (2, 5) and (6, 13)?",
+  "options": [
+   "3",
+   "1",
+   "2",
+   "−2"
+  ],
+  "correct": 2,
+  "explain": "Slope = (y₂ − y₁) ÷ (x₂ − x₁) = (13 − 5) ÷ (6 − 2) = 8 ÷ 4 = 2."
+ },
+ {
+  "q": "What is the slope through (−2, 7) and (4, −5)?",
+  "options": [
+   "2",
+   "−3",
+   "−2",
+   "−1"
+  ],
+  "correct": 2,
+  "explain": "Slope = (y₂ − y₁) ÷ (x₂ − x₁) = (−5 − 7) ÷ (4 − (−2)) = −12 ÷ 6 = −2."
+ },
+ {
+  "q": "What is the slope through (1, −3) and (5, 9)?",
+  "options": [
+   "4",
+   "3",
+   "2",
+   "−3"
+  ],
+  "correct": 1,
+  "explain": "Slope = (y₂ − y₁) ÷ (x₂ − x₁) = (9 − (−3)) ÷ (5 − 1) = 12 ÷ 4 = 3."
+ },
+ {
+  "q": "What is the slope through (−4, 2) and (2, 14)?",
+  "options": [
+   "−2",
+   "3",
+   "1",
+   "2"
+  ],
+  "correct": 3,
+  "explain": "Slope = (y₂ − y₁) ÷ (x₂ − x₁) = (14 − 2) ÷ (2 − (−4)) = 12 ÷ 6 = 2."
+ },
+ {
+  "q": "What is the slope through (0, 6) and (3, −3)?",
+  "options": [
+   "−2",
+   "3",
+   "−3",
+   "−4"
+  ],
+  "correct": 2,
+  "explain": "Slope = (y₂ − y₁) ÷ (x₂ − x₁) = (−3 − 6) ÷ (3 − 0) = −9 ÷ 3 = −3."
+ },
+ {
+  "q": "What is the slope through (5, 1) and (9, 5)?",
+  "options": [
+   "1",
+   "0",
+   "2",
+   "−1"
+  ],
+  "correct": 0,
+  "explain": "Slope = (y₂ − y₁) ÷ (x₂ − x₁) = (5 − 1) ÷ (9 − 5) = 4 ÷ 4 = 1."
+ }
+],
+  "sat-math-gra-c2-t5": [
+ {
+  "q": "Which equation is the line with slope 3 through (4, 2)?",
+  "options": [
+   "y − 2 = 4(x − 3)",
+   "y − 2 = 3(x − 4)",
+   "y + 2 = 3(x + 4)",
+   "y − 4 = 3(x − 2)"
+  ],
+  "correct": 1,
+  "explain": "Point-slope form is y − y₁ = m(x − x₁). Put the given slope in for m and the given point in for (x₁, y₁), keeping careful track of negative signs: y − 2 = 3(x − 4)."
+ },
+ {
+  "q": "Which equation is the line with slope −2 through (5, 3)?",
+  "options": [
+   "y − 3 = 5(x + 2)",
+   "y − 5 = −2(x − 3)",
+   "y + 3 = −2(x + 5)",
+   "y − 3 = −2(x − 5)"
+  ],
+  "correct": 3,
+  "explain": "Point-slope form is y − y₁ = m(x − x₁). Put the given slope in for m and the given point in for (x₁, y₁), keeping careful track of negative signs: y − 3 = −2(x − 5)."
+ },
+ {
+  "q": "Which equation is the line with slope 4 through (−1, −2)?",
+  "options": [
+   "y + 1 = 4(x + 2)",
+   "y + 2 = 4(x + 1)",
+   "y + 2 = −1(x − 4)",
+   "y − 2 = 4(x − 1)"
+  ],
+  "correct": 1,
+  "explain": "Point-slope form is y − y₁ = m(x − x₁). Put the given slope in for m and the given point in for (x₁, y₁), keeping careful track of negative signs: y + 2 = 4(x + 1)."
+ },
+ {
+  "q": "Which equation is the line with slope 1 through (6, 5)?",
+  "options": [
+   "y − 6 = 1(x − 5)",
+   "y − 5 = 1(x − 6)",
+   "y − 5 = 6(x − 1)",
+   "y + 5 = 1(x + 6)"
+  ],
+  "correct": 1,
+  "explain": "Point-slope form is y − y₁ = m(x − x₁). Put the given slope in for m and the given point in for (x₁, y₁), keeping careful track of negative signs: y − 5 = 1(x − 6)."
+ },
+ {
+  "q": "Which equation is the line with slope −3 through (−4, 2)?",
+  "options": [
+   "y − 2 = −3(x + 4)",
+   "y − 2 = −4(x + 3)",
+   "y + 4 = −3(x − 2)",
+   "y + 2 = −3(x − 4)"
+  ],
+  "correct": 0,
+  "explain": "Point-slope form is y − y₁ = m(x − x₁). Put the given slope in for m and the given point in for (x₁, y₁), keeping careful track of negative signs: y − 2 = −3(x + 4)."
+ },
+ {
+  "q": "Which equation is the line with slope 2 through (7, −3)?",
+  "options": [
+   "y − 3 = 2(x + 7)",
+   "y + 3 = 2(x − 7)",
+   "y − 7 = 2(x + 3)",
+   "y + 3 = 7(x − 2)"
+  ],
+  "correct": 1,
+  "explain": "Point-slope form is y − y₁ = m(x − x₁). Put the given slope in for m and the given point in for (x₁, y₁), keeping careful track of negative signs: y + 3 = 2(x − 7)."
+ }
+],
+  "sat-math-gra-c2-t6": [
+ {
+  "q": "For 2x + 3y = 12, what is the y-intercept?",
+  "options": [
+   "(0, 4)",
+   "(0, 6)",
+   "(6, 0)",
+   "(4, 0)"
+  ],
+  "correct": 0,
+  "explain": "The y-intercept is where the line crosses the y-axis, so set x = 0 and solve for y. That gives the point (0, 4)."
+ },
+ {
+  "q": "For −2x + 3y = 6, what is the y-intercept?",
+  "options": [
+   "(0, −3)",
+   "(0, 2)",
+   "(2, 0)",
+   "(−3, 0)"
+  ],
+  "correct": 1,
+  "explain": "The y-intercept is where the line crosses the y-axis, so set x = 0 and solve for y. That gives the point (0, 2)."
+ },
+ {
+  "q": "For 4x + 5y = 20, what is the y-intercept?",
+  "options": [
+   "(0, 5)",
+   "(5, 0)",
+   "(0, 4)",
+   "(4, 0)"
+  ],
+  "correct": 2,
+  "explain": "The y-intercept is where the line crosses the y-axis, so set x = 0 and solve for y. That gives the point (0, 4)."
+ },
+ {
+  "q": "For 3x − 2y = 12, what is the y-intercept?",
+  "options": [
+   "(−6, 0)",
+   "(0, −6)",
+   "(0, 4)",
+   "(4, 0)"
+  ],
+  "correct": 1,
+  "explain": "The y-intercept is where the line crosses the y-axis, so set x = 0 and solve for y. That gives the point (0, −6)."
+ },
+ {
+  "q": "For −4x + 2y = 8, what is the y-intercept?",
+  "options": [
+   "(0, −2)",
+   "(0, 4)",
+   "(4, 0)",
+   "(−2, 0)"
+  ],
+  "correct": 1,
+  "explain": "The y-intercept is where the line crosses the y-axis, so set x = 0 and solve for y. That gives the point (0, 4)."
+ },
+ {
+  "q": "For 5x + y = 10, what is the y-intercept?",
+  "options": [
+   "(2, 0)",
+   "(0, 10)",
+   "(10, 0)",
+   "(0, 2)"
+  ],
+  "correct": 1,
+  "explain": "The y-intercept is where the line crosses the y-axis, so set x = 0 and solve for y. That gives the point (0, 10)."
+ }
+],
+  "sat-math-gra-c2-t7": [
+ {
+  "q": "Which is equivalent to y = 2x + 3?",
+  "options": [
+   "2x − y = −3",
+   "2x − y = 3",
+   "2x + y = 3",
+   "x − 2y = 3"
+  ],
+  "correct": 0,
+  "explain": "Rearrange so the x and y terms are on the left and the constant is on the right (standard form Ax + By = C). Moving the x term across gives 2x − y = −3."
+ },
+ {
+  "q": "Which is equivalent to y = −2x + 4?",
+  "options": [
+   "−2x + y = 4",
+   "x + 2y = 4",
+   "−2x − y = 4",
+   "−2x − y = −4"
+  ],
+  "correct": 3,
+  "explain": "Rearrange so the x and y terms are on the left and the constant is on the right (standard form Ax + By = C). Moving the x term across gives −2x − y = −4."
+ },
+ {
+  "q": "Which is equivalent to y = 5x − 2?",
+  "options": [
+   "5x − y = 2",
+   "5x + y = −2",
+   "5x − y = −2",
+   "x − 5y = −2"
+  ],
+  "correct": 0,
+  "explain": "Rearrange so the x and y terms are on the left and the constant is on the right (standard form Ax + By = C). Moving the x term across gives 5x − y = 2."
+ },
+ {
+  "q": "Which is equivalent to y = 3x + 1?",
+  "options": [
+   "x − 3y = 1",
+   "3x + y = 1",
+   "3x − y = 1",
+   "3x − y = −1"
+  ],
+  "correct": 3,
+  "explain": "Rearrange so the x and y terms are on the left and the constant is on the right (standard form Ax + By = C). Moving the x term across gives 3x − y = −1."
+ },
+ {
+  "q": "Which is equivalent to y = −4x + 2?",
+  "options": [
+   "−4x + y = 2",
+   "x + 4y = 2",
+   "−4x − y = 2",
+   "−4x − y = −2"
+  ],
+  "correct": 3,
+  "explain": "Rearrange so the x and y terms are on the left and the constant is on the right (standard form Ax + By = C). Moving the x term across gives −4x − y = −2."
+ },
+ {
+  "q": "Which is equivalent to y = x − 3?",
+  "options": [
+   "x − y = −3",
+   "x + y = −3",
+   "x − y = 3",
+   "x + y = 3"
+  ],
+  "correct": 2,
+  "explain": "Rearrange so the x and y terms are on the left and the constant is on the right (standard form Ax + By = C). Moving the x term across gives x − y = 3."
+ }
+],
+  "sat-math-gra-c2-t8": [
+ {
+  "q": "For y = 2x + 3, what is y when x = 2?",
+  "options": [
+   "7",
+   "1",
+   "6",
+   "8"
+  ],
+  "correct": 0,
+  "explain": "Substitute x = 2 into the equation: y = 7."
+ },
+ {
+  "q": "For y = −3x + 4, what is y when x = 2?",
+  "options": [
+   "−2",
+   "7",
+   "−3",
+   "−1"
+  ],
+  "correct": 0,
+  "explain": "Substitute x = 2 into the equation: y = −2."
+ },
+ {
+  "q": "For y = 5x − 2, what is y when x = 2?",
+  "options": [
+   "8",
+   "9",
+   "−7",
+   "7"
+  ],
+  "correct": 0,
+  "explain": "Substitute x = 2 into the equation: y = 8."
+ },
+ {
+  "q": "For y = x + 7, what is y when x = 2?",
+  "options": [
+   "8",
+   "10",
+   "6",
+   "9"
+  ],
+  "correct": 3,
+  "explain": "Substitute x = 2 into the equation: y = 9."
+ },
+ {
+  "q": "For y = −4x − 1, what is y when x = 2?",
+  "options": [
+   "3",
+   "−9",
+   "−10",
+   "−8"
+  ],
+  "correct": 1,
+  "explain": "Substitute x = 2 into the equation: y = −9."
+ },
+ {
+  "q": "For y = 6x + 2, what is y when x = 2?",
+  "options": [
+   "14",
+   "15",
+   "13",
+   "−4"
+  ],
+  "correct": 0,
+  "explain": "Substitute x = 2 into the equation: y = 14."
+ }
+],
+  "sat-math-gra-c3-t1": [
+ {
+  "q": "Which pair solves x + y = 5 and x − y = −1?",
+  "options": [
+   "(2, 3)",
+   "(3, 2)",
+   "(−2, −3)",
+   "(−3, −2)"
+  ],
+  "correct": 0,
+  "explain": "Add the two equations: 2x = 4, so x = 2. Then y = 5 − (2) = 3. The solution is (2, 3)."
+ },
+ {
+  "q": "Which pair solves x + y = 3 and x − y = 5?",
+  "options": [
+   "(4, −1)",
+   "(5, −2)",
+   "(−1, 4)",
+   "(−4, 1)"
+  ],
+  "correct": 0,
+  "explain": "Add the two equations: 2x = 8, so x = 4. Then y = 3 − (4) = −1. The solution is (4, −1)."
+ },
+ {
+  "q": "Which pair solves x + y = 3 and x − y = −7?",
+  "options": [
+   "(2, −5)",
+   "(−2, 5)",
+   "(−1, 4)",
+   "(5, −2)"
+  ],
+  "correct": 1,
+  "explain": "Add the two equations: 2x = −4, so x = −2. Then y = 3 − (−2) = 5. The solution is (−2, 5)."
+ },
+ {
+  "q": "Which pair solves x + y = 8 and x − y = 4?",
+  "options": [
+   "(6, 2)",
+   "(7, 1)",
+   "(−6, −2)",
+   "(2, 6)"
+  ],
+  "correct": 0,
+  "explain": "Add the two equations: 2x = 12, so x = 6. Then y = 8 − (6) = 2. The solution is (6, 2)."
+ },
+ {
+  "q": "Which pair solves x + y = −3 and x − y = 5?",
+  "options": [
+   "(−1, 4)",
+   "(2, −5)",
+   "(−4, 1)",
+   "(1, −4)"
+  ],
+  "correct": 3,
+  "explain": "Add the two equations: 2x = 2, so x = 1. Then y = −3 − (1) = −4. The solution is (1, −4)."
+ },
+ {
+  "q": "Which pair solves x + y = −5 and x − y = −1?",
+  "options": [
+   "(−2, −3)",
+   "(2, 3)",
+   "(3, 2)",
+   "(−3, −2)"
+  ],
+  "correct": 3,
+  "explain": "Add the two equations: 2x = −6, so x = −3. Then y = −5 − (−3) = −2. The solution is (−3, −2)."
+ }
+],
+  "sat-math-gra-c3-t2": [
+ {
+  "q": "Solve y = 5 and x + y = 8. What is x?",
+  "options": [
+   "2",
+   "4",
+   "3",
+   "5"
+  ],
+  "correct": 2,
+  "explain": "Substitute y = 5 into x + y = 8: x + (5) = 8, so x = 3."
+ },
+ {
+  "q": "Solve y = −2 and x + y = 2. What is x?",
+  "options": [
+   "3",
+   "5",
+   "4",
+   "−2"
+  ],
+  "correct": 2,
+  "explain": "Substitute y = −2 into x + y = 2: x + (−2) = 2, so x = 4."
+ },
+ {
+  "q": "Solve y = 6 and x + y = 5. What is x?",
+  "options": [
+   "−2",
+   "−1",
+   "6",
+   "0"
+  ],
+  "correct": 1,
+  "explain": "Substitute y = 6 into x + y = 5: x + (6) = 5, so x = −1."
+ },
+ {
+  "q": "Solve y = 1 and x + y = 8. What is x?",
+  "options": [
+   "6",
+   "7",
+   "1",
+   "8"
+  ],
+  "correct": 1,
+  "explain": "Substitute y = 1 into x + y = 8: x + (1) = 8, so x = 7."
+ },
+ {
+  "q": "Solve y = −4 and x + y = −7. What is x?",
+  "options": [
+   "−4",
+   "−3",
+   "−2",
+   "−1"
+  ],
+  "correct": 1,
+  "explain": "Substitute y = −4 into x + y = −7: x + (−4) = −7, so x = −3."
+ },
+ {
+  "q": "Solve y = 8 and x + y = 10. What is x?",
+  "options": [
+   "8",
+   "3",
+   "1",
+   "2"
+  ],
+  "correct": 3,
+  "explain": "Substitute y = 8 into x + y = 10: x + (8) = 10, so x = 2."
+ }
+],
+  "sat-math-gra-c3-t3": [
+ {
+  "q": "Solve x + y = 7 and x − y = 1. What is x?",
+  "options": [
+   "2",
+   "6",
+   "3",
+   "4"
+  ],
+  "correct": 3,
+  "explain": "Add the two equations so y cancels: 2x = 7 + (1) = 8. Divide by 2: x = 4."
+ },
+ {
+  "q": "Solve x + y = 7 and x − y = −3. What is x?",
+  "options": [
+   "4",
+   "5",
+   "0",
+   "2"
+  ],
+  "correct": 3,
+  "explain": "Add the two equations so y cancels: 2x = 7 + (−3) = 4. Divide by 2: x = 2."
+ },
+ {
+  "q": "Solve x + y = 4 and x − y = −10. What is x?",
+  "options": [
+   "−5",
+   "7",
+   "−3",
+   "−1"
+  ],
+  "correct": 2,
+  "explain": "Add the two equations so y cancels: 2x = 4 + (−10) = −6. Divide by 2: x = −3."
+ },
+ {
+  "q": "Solve x + y = 4 and x − y = 8. What is x?",
+  "options": [
+   "6",
+   "4",
+   "8",
+   "−2"
+  ],
+  "correct": 0,
+  "explain": "Add the two equations so y cancels: 2x = 4 + (8) = 12. Divide by 2: x = 6."
+ },
+ {
+  "q": "Solve x + y = 10 and x − y = −8. What is x?",
+  "options": [
+   "1",
+   "9",
+   "−1",
+   "3"
+  ],
+  "correct": 0,
+  "explain": "Add the two equations so y cancels: 2x = 10 + (−8) = 2. Divide by 2: x = 1."
+ },
+ {
+  "q": "Solve x + y = −9 and x − y = 1. What is x?",
+  "options": [
+   "−6",
+   "−4",
+   "−5",
+   "−2"
+  ],
+  "correct": 1,
+  "explain": "Add the two equations so y cancels: 2x = −9 + (1) = −8. Divide by 2: x = −4."
+ }
+],
+  "sat-math-gra-c3-t4": [
+ {
+  "q": "Solve x + y = 7 and x − y = 1. What is x?",
+  "options": [
+   "2",
+   "6",
+   "3",
+   "4"
+  ],
+  "correct": 3,
+  "explain": "Add the two equations so y cancels: 2x = 7 + (1) = 8. Divide by 2: x = 4."
+ },
+ {
+  "q": "Solve x + y = 7 and x − y = −3. What is x?",
+  "options": [
+   "4",
+   "5",
+   "0",
+   "2"
+  ],
+  "correct": 3,
+  "explain": "Add the two equations so y cancels: 2x = 7 + (−3) = 4. Divide by 2: x = 2."
+ },
+ {
+  "q": "Solve x + y = 4 and x − y = −10. What is x?",
+  "options": [
+   "−5",
+   "7",
+   "−3",
+   "−1"
+  ],
+  "correct": 2,
+  "explain": "Add the two equations so y cancels: 2x = 4 + (−10) = −6. Divide by 2: x = −3."
+ },
+ {
+  "q": "Solve x + y = 4 and x − y = 8. What is x?",
+  "options": [
+   "6",
+   "4",
+   "8",
+   "−2"
+  ],
+  "correct": 0,
+  "explain": "Add the two equations so y cancels: 2x = 4 + (8) = 12. Divide by 2: x = 6."
+ },
+ {
+  "q": "Solve x + y = 10 and x − y = −8. What is x?",
+  "options": [
+   "1",
+   "9",
+   "−1",
+   "3"
+  ],
+  "correct": 0,
+  "explain": "Add the two equations so y cancels: 2x = 10 + (−8) = 2. Divide by 2: x = 1."
+ },
+ {
+  "q": "Solve x + y = −9 and x − y = 1. What is x?",
+  "options": [
+   "−6",
+   "−4",
+   "−5",
+   "−2"
+  ],
+  "correct": 1,
+  "explain": "Add the two equations so y cancels: 2x = −9 + (1) = −8. Divide by 2: x = −4."
+ }
+],
+  "sat-math-gra-c3-t5": [
+ {
+  "q": "Solve x + y = 7 and x − y = 1. What is x?",
+  "options": [
+   "2",
+   "6",
+   "3",
+   "4"
+  ],
+  "correct": 3,
+  "explain": "Add the two equations so y cancels: 2x = 7 + (1) = 8. Divide by 2: x = 4."
+ },
+ {
+  "q": "Solve x + y = 7 and x − y = −3. What is x?",
+  "options": [
+   "4",
+   "5",
+   "0",
+   "2"
+  ],
+  "correct": 3,
+  "explain": "Add the two equations so y cancels: 2x = 7 + (−3) = 4. Divide by 2: x = 2."
+ },
+ {
+  "q": "Solve x + y = 4 and x − y = −10. What is x?",
+  "options": [
+   "−5",
+   "7",
+   "−3",
+   "−1"
+  ],
+  "correct": 2,
+  "explain": "Add the two equations so y cancels: 2x = 4 + (−10) = −6. Divide by 2: x = −3."
+ },
+ {
+  "q": "Solve x + y = 4 and x − y = 8. What is x?",
+  "options": [
+   "6",
+   "4",
+   "8",
+   "−2"
+  ],
+  "correct": 0,
+  "explain": "Add the two equations so y cancels: 2x = 4 + (8) = 12. Divide by 2: x = 6."
+ },
+ {
+  "q": "Solve x + y = 10 and x − y = −8. What is x?",
+  "options": [
+   "1",
+   "9",
+   "−1",
+   "3"
+  ],
+  "correct": 0,
+  "explain": "Add the two equations so y cancels: 2x = 10 + (−8) = 2. Divide by 2: x = 1."
+ },
+ {
+  "q": "Solve x + y = −9 and x − y = 1. What is x?",
+  "options": [
+   "−6",
+   "−4",
+   "−5",
+   "−2"
+  ],
+  "correct": 1,
+  "explain": "Add the two equations so y cancels: 2x = −9 + (1) = −8. Divide by 2: x = −4."
+ }
+],
+  "sat-math-gra-c3-t6": [
+ {
+  "q": "Which situation gives one solution?",
+  "options": [
+   "a parabola and a line",
+   "two intersections",
+   "two nonparallel lines",
+   "two unrelated equations"
+  ],
+  "correct": 2,
+  "explain": "Two lines with different slopes (nonparallel) cross exactly once, so the system has one solution."
+ },
+ {
+  "q": "Which situation gives no solution?",
+  "options": [
+   "two distinct parallel lines",
+   "a parabola and a line",
+   "two unrelated equations",
+   "two intersections"
+  ],
+  "correct": 0,
+  "explain": "Distinct parallel lines never meet, so the system has no solution."
+ },
+ {
+  "q": "Which situation gives infinitely many solutions?",
+  "options": [
+   "two intersections",
+   "two unrelated equations",
+   "the same line",
+   "a parabola and a line"
+  ],
+  "correct": 2,
+  "explain": "The same line has every one of its points in common with itself, so there are infinitely many solutions."
+ },
+ {
+  "q": "Which situation gives one solution?",
+  "options": [
+   "a parabola and a line",
+   "two intersections",
+   "lines intersect once",
+   "two unrelated equations"
+  ],
+  "correct": 2,
+  "explain": "Lines that intersect once share exactly one point, so the system has one solution."
+ },
+ {
+  "q": "Which situation gives no solution?",
+  "options": [
+   "parallel lines with different intercepts",
+   "a parabola and a line",
+   "two unrelated equations",
+   "two intersections"
+  ],
+  "correct": 0,
+  "explain": "Parallel lines with different intercepts never meet, so there is no solution."
+ },
+ {
+  "q": "Which situation gives infinitely many solutions?",
+  "options": [
+   "two intersections",
+   "two unrelated equations",
+   "equivalent equations",
+   "a parabola and a line"
+  ],
+  "correct": 2,
+  "explain": "Equivalent equations describe the same line, so every point on it is a solution: infinitely many."
+ }
+],
+  "sat-math-gra-c4-t1": [
+ {
+  "q": "Which pair solves x + y = 5 and x − y = −1?",
+  "options": [
+   "(2, 3)",
+   "(3, 2)",
+   "(−2, −3)",
+   "(−3, −2)"
+  ],
+  "correct": 0,
+  "explain": "Add the two equations: 2x = 4, so x = 2. Then y = 5 − (2) = 3. The solution is (2, 3)."
+ },
+ {
+  "q": "Which pair solves x + y = 3 and x − y = 5?",
+  "options": [
+   "(4, −1)",
+   "(5, −2)",
+   "(−1, 4)",
+   "(−4, 1)"
+  ],
+  "correct": 0,
+  "explain": "Add the two equations: 2x = 8, so x = 4. Then y = 3 − (4) = −1. The solution is (4, −1)."
+ },
+ {
+  "q": "Which pair solves x + y = 3 and x − y = −7?",
+  "options": [
+   "(2, −5)",
+   "(−2, 5)",
+   "(−1, 4)",
+   "(5, −2)"
+  ],
+  "correct": 1,
+  "explain": "Add the two equations: 2x = −4, so x = −2. Then y = 3 − (−2) = 5. The solution is (−2, 5)."
+ },
+ {
+  "q": "Which pair solves x + y = 8 and x − y = 4?",
+  "options": [
+   "(6, 2)",
+   "(7, 1)",
+   "(−6, −2)",
+   "(2, 6)"
+  ],
+  "correct": 0,
+  "explain": "Add the two equations: 2x = 12, so x = 6. Then y = 8 − (6) = 2. The solution is (6, 2)."
+ },
+ {
+  "q": "Which pair solves x + y = −3 and x − y = 5?",
+  "options": [
+   "(−1, 4)",
+   "(2, −5)",
+   "(−4, 1)",
+   "(1, −4)"
+  ],
+  "correct": 3,
+  "explain": "Add the two equations: 2x = 2, so x = 1. Then y = −3 − (1) = −4. The solution is (1, −4)."
+ },
+ {
+  "q": "Which pair solves x + y = −5 and x − y = −1?",
+  "options": [
+   "(−2, −3)",
+   "(2, 3)",
+   "(3, 2)",
+   "(−3, −2)"
+  ],
+  "correct": 3,
+  "explain": "Add the two equations: 2x = −6, so x = −3. Then y = −5 − (−3) = −2. The solution is (−3, −2)."
+ }
+],
+  "sat-math-gra-c4-t2": [
+ {
+  "q": "One person is 6 years older than another. If the younger is 12, how old is the older?",
+  "options": [
+   "17",
+   "19",
+   "18",
+   "30"
+  ],
+  "correct": 2,
+  "explain": "The older person's age is the younger person's age plus 6: 12 + 6 = 18."
+ },
+ {
+  "q": "One person is 6 years older than another. If the younger is 15, how old is the older?",
+  "options": [
+   "21",
+   "22",
+   "36",
+   "20"
+  ],
+  "correct": 0,
+  "explain": "The older person's age is the younger person's age plus 6: 15 + 6 = 21."
+ },
+ {
+  "q": "One person is 6 years older than another. If the younger is 20, how old is the older?",
+  "options": [
+   "27",
+   "26",
+   "25",
+   "46"
+  ],
+  "correct": 1,
+  "explain": "The older person's age is the younger person's age plus 6: 20 + 6 = 26."
+ },
+ {
+  "q": "One person is 6 years older than another. If the younger is 8, how old is the older?",
+  "options": [
+   "14",
+   "15",
+   "13",
+   "22"
+  ],
+  "correct": 0,
+  "explain": "The older person's age is the younger person's age plus 6: 8 + 6 = 14."
+ },
+ {
+  "q": "One person is 6 years older than another. If the younger is 25, how old is the older?",
+  "options": [
+   "32",
+   "30",
+   "31",
+   "56"
+  ],
+  "correct": 2,
+  "explain": "The older person's age is the younger person's age plus 6: 25 + 6 = 31."
+ },
+ {
+  "q": "One person is 8 years older than another. If the younger is 14, how old is the older?",
+  "options": [
+   "21",
+   "23",
+   "36",
+   "22"
+  ],
+  "correct": 3,
+  "explain": "The older person's age is the younger person's age plus 8: 14 + 8 = 22."
+ }
+],
+  "sat-math-gra-c4-t3": [
+ {
+  "q": "A system has solution (2,3). If x and y are two ticket types, how many tickets total?",
+  "options": [
+   "6",
+   "5",
+   "7",
+   "4"
+  ],
+  "correct": 1,
+  "explain": "The total number of tickets is x + y = 2 + 3 = 5."
+ },
+ {
+  "q": "A system has solution (4,5). If x and y are two ticket types, how many tickets total?",
+  "options": [
+   "8",
+   "10",
+   "20",
+   "9"
+  ],
+  "correct": 3,
+  "explain": "The total number of tickets is x + y = 4 + 5 = 9."
+ },
+ {
+  "q": "A system has solution (6,2). If x and y are two ticket types, how many tickets total?",
+  "options": [
+   "12",
+   "7",
+   "9",
+   "8"
+  ],
+  "correct": 3,
+  "explain": "The total number of tickets is x + y = 6 + 2 = 8."
+ },
+ {
+  "q": "A system has solution (7,1). If x and y are two ticket types, how many tickets total?",
+  "options": [
+   "8",
+   "9",
+   "7",
+   "10"
+  ],
+  "correct": 0,
+  "explain": "The total number of tickets is x + y = 7 + 1 = 8."
+ },
+ {
+  "q": "A system has solution (3,8). If x and y are two ticket types, how many tickets total?",
+  "options": [
+   "24",
+   "12",
+   "10",
+   "11"
+  ],
+  "correct": 3,
+  "explain": "The total number of tickets is x + y = 3 + 8 = 11."
+ },
+ {
+  "q": "A system has solution (5,4). If x and y are two ticket types, how many tickets total?",
+  "options": [
+   "9",
+   "10",
+   "8",
+   "20"
+  ],
+  "correct": 0,
+  "explain": "The total number of tickets is x + y = 5 + 4 = 9."
+ }
+],
+  "sat-math-gra-c4-t4": [
+ {
+  "q": "How many solutions does 3x + 6 = 3x + 6 have?",
+  "options": [
+   "one",
+   "two",
+   "infinitely many",
+   "zero"
+  ],
+  "correct": 2,
+  "explain": "Both sides are identical, so every value of x works: infinitely many solutions."
+ },
+ {
+  "q": "How many solutions does 4x + 2 = 4x + 9 have?",
+  "options": [
+   "zero",
+   "infinitely many",
+   "one",
+   "two"
+  ],
+  "correct": 0,
+  "explain": "Subtracting 4x from both sides leaves 2 = 9, which is never true: zero solutions."
+ },
+ {
+  "q": "How many solutions does 2x + 5 = 7 have?",
+  "options": [
+   "one",
+   "infinitely many",
+   "zero",
+   "two"
+  ],
+  "correct": 0,
+  "explain": "2x + 5 = 7 gives 2x = 2, so x = 1: exactly one solution."
+ },
+ {
+  "q": "Which has infinitely many solutions?",
+  "options": [
+   "2x = 2x + 1",
+   "5x − 10 = 5x + 2",
+   "5x − 10 = 5(x − 2)",
+   "3x + 1 = 3x + 4"
+  ],
+  "correct": 2,
+  "explain": "5x − 10 = 5(x − 2) is true for every x, because 5(x − 2) = 5x − 10: infinitely many solutions."
+ },
+ {
+  "q": "Which has no solution?",
+  "options": [
+   "2x = 8",
+   "7x + 3 = 7x − 2",
+   "7x + 3 = 7x + 3",
+   "3x + 1 = 10"
+  ],
+  "correct": 1,
+  "explain": "7x + 3 = 7x − 2 simplifies to 3 = −2, which is never true, so there is no solution."
+ },
+ {
+  "q": "If two equations simplify to the same equation, how many solutions does the system have?",
+  "options": [
+   "one",
+   "zero",
+   "two",
+   "infinitely many"
+  ],
+  "correct": 3,
+  "explain": "If two equations simplify to the same equation, every solution of one is a solution of the other: infinitely many."
+ }
+],
+  "sat-math-gra-c5-t1": [
+ {
+  "q": "Solve x + 4 > 9",
+  "options": [
+   "x = 0",
+   "x > 5",
+   "x > 9",
+   "x < 5"
+  ],
+  "correct": 1,
+  "explain": "Solve it like an equation, but reverse the inequality sign whenever you multiply or divide both sides by a negative number. The solution is x > 5."
+ },
+ {
+  "q": "Solve x − 7 ≤ 2",
+  "options": [
+   "x ≤ 9",
+   "x < 5",
+   "x = 0",
+   "x > 9"
+  ],
+  "correct": 0,
+  "explain": "Solve it like an equation, but reverse the inequality sign whenever you multiply or divide both sides by a negative number. The solution is x ≤ 9."
+ },
+ {
+  "q": "Solve 3x > 12",
+  "options": [
+   "x > 4",
+   "x > 9",
+   "x < 5",
+   "x = 0"
+  ],
+  "correct": 0,
+  "explain": "Solve it like an equation, but reverse the inequality sign whenever you multiply or divide both sides by a negative number. The solution is x > 4."
+ },
+ {
+  "q": "Solve −2x ≥ 10",
+  "options": [
+   "x = 0",
+   "x < 5",
+   "x > 9",
+   "x ≤ −5"
+  ],
+  "correct": 3,
+  "explain": "Solve it like an equation, but reverse the inequality sign whenever you multiply or divide both sides by a negative number. The solution is x ≤ −5."
+ },
+ {
+  "q": "Solve x/5 < 3",
+  "options": [
+   "x > 9",
+   "x < 5",
+   "x = 0",
+   "x < 15"
+  ],
+  "correct": 3,
+  "explain": "Solve it like an equation, but reverse the inequality sign whenever you multiply or divide both sides by a negative number. The solution is x < 15."
+ },
+ {
+  "q": "Solve −x + 2 ≤ 8",
+  "options": [
+   "x = 0",
+   "x < 5",
+   "x > 9",
+   "x ≥ −6"
+  ],
+  "correct": 3,
+  "explain": "Solve it like an equation, but reverse the inequality sign whenever you multiply or divide both sides by a negative number. The solution is x ≥ −6."
+ }
+],
+  "sat-math-gra-c5-t2": [
+ {
+  "q": "A club sells x notebooks at $3 each plus $5 shipping; total is at most $50. Which inequality represents this?",
+  "options": [
+   "3x + 5 ≥ 50",
+   "100 + 12x ≥ 28",
+   "3x + 5 ≤ 50",
+   "80 + 4x > 20"
+  ],
+  "correct": 2,
+  "explain": "The total cost is $3 per notebook plus $5 shipping, and “at most $50” means ≤: 3x + 5 ≤ 50."
+ },
+ {
+  "q": "A club has $100 and spends $12 per event; at least $28 remains. Which inequality represents this?",
+  "options": [
+   "3x + 5 ≥ 50",
+   "100 + 12x ≥ 28",
+   "100 − 12x ≥ 28",
+   "80 + 4x > 20"
+  ],
+  "correct": 2,
+  "explain": "Starting with $100 and spending $12 per event leaves 100 − 12x, and “at least $28 remains” means ≥: 100 − 12x ≥ 28."
+ },
+ {
+  "q": "A tank has 80 L and loses 4 L/hour; it must contain more than 20 L. Which inequality represents this?",
+  "options": [
+   "100 + 12x ≥ 28",
+   "80 + 4x > 20",
+   "80 − 4x > 20",
+   "3x + 5 ≥ 50"
+  ],
+  "correct": 2,
+  "explain": "The tank loses 4 L each hour, so it holds 80 − 4x, and “more than 20 L” means >: 80 − 4x > 20."
+ },
+ {
+  "q": "A taxi charges $4 plus $2/mile; fare is no more than $30. Which inequality represents this?",
+  "options": [
+   "4 + 2x ≤ 30",
+   "100 + 12x ≥ 28",
+   "3x + 5 ≥ 50",
+   "80 + 4x > 20"
+  ],
+  "correct": 0,
+  "explain": "The fare is $4 plus $2 per mile, and “no more than $30” means ≤: 4 + 2x ≤ 30."
+ },
+ {
+  "q": "A student has 60 points and earns 5/task; total must be at least 90. Which inequality represents this?",
+  "options": [
+   "100 + 12x ≥ 28",
+   "60 + 5x ≥ 90",
+   "80 + 4x > 20",
+   "3x + 5 ≥ 50"
+  ],
+  "correct": 1,
+  "explain": "Points grow by 5 per task from 60, and “at least 90” means ≥: 60 + 5x ≥ 90."
+ },
+ {
+  "q": "A store has 200 items and sells 15/day; at least 50 remain. Which inequality represents this?",
+  "options": [
+   "200 − 15x ≥ 50",
+   "3x + 5 ≥ 50",
+   "80 + 4x > 20",
+   "100 + 12x ≥ 28"
+  ],
+  "correct": 0,
+  "explain": "The store loses 15 items per day from 200, so it holds 200 − 15x, and “at least 50 remain” means ≥: 200 − 15x ≥ 50."
+ }
+],
+  "sat-math-gra-c5-t3": [
+ {
+  "q": "Which point satisfies x + y ≤ 10 and x ≥ 2?",
+  "options": [
+   "(2,8)",
+   "(1,1)",
+   "(10,10)",
+   "(0,0)"
+  ],
+  "correct": 0,
+  "explain": "Substitute each point’s coordinates into every inequality. Only (2,8) makes all of them true."
+ },
+ {
+  "q": "Which point satisfies x + y ≥ 12 and y ≤ 5?",
+  "options": [
+   "(10,10)",
+   "(7,5)",
+   "(0,0)",
+   "(1,1)"
+  ],
+  "correct": 1,
+  "explain": "Substitute each point’s coordinates into every inequality. Only (7,5) makes all of them true."
+ },
+ {
+  "q": "Which point satisfies 2x + y ≤ 14 and x ≥ 3?",
+  "options": [
+   "(3,8)",
+   "(1,1)",
+   "(0,0)",
+   "(10,10)"
+  ],
+  "correct": 0,
+  "explain": "Substitute each point’s coordinates into every inequality. Only (3,8) makes all of them true."
+ },
+ {
+  "q": "Which point satisfies x + 2y ≤ 12 and y ≥ 2?",
+  "options": [
+   "(4,2)",
+   "(1,1)",
+   "(0,0)",
+   "(10,10)"
+  ],
+  "correct": 0,
+  "explain": "Substitute each point’s coordinates into every inequality. Only (4,2) makes all of them true."
+ },
+ {
+  "q": "Which point satisfies 3x + y ≥ 9 and x ≤ 2?",
+  "options": [
+   "(0,0)",
+   "(2,3)",
+   "(1,1)",
+   "(10,10)"
+  ],
+  "correct": 1,
+  "explain": "Substitute each point’s coordinates into every inequality. Only (2,3) makes all of them true."
+ },
+ {
+  "q": "Which point satisfies x + y < 8 and x ≥ 1?",
+  "options": [
+   "(10,10)",
+   "(−5,−5)",
+   "(2,5)",
+   "(0,0)"
+  ],
+  "correct": 2,
+  "explain": "Substitute each point’s coordinates into every inequality. Only (2,5) makes all of them true."
+ }
+],
+  "sat-math-gra-c6-t1": [
+ {
+  "q": "Which pair solves x + y = 5 and x − y = −1?",
+  "options": [
+   "(2, 3)",
+   "(3, 2)",
+   "(−2, −3)",
+   "(−3, −2)"
+  ],
+  "correct": 0,
+  "explain": "Add the two equations: 2x = 4, so x = 2. Then y = 5 − (2) = 3. The solution is (2, 3)."
+ },
+ {
+  "q": "Which pair solves x + y = 3 and x − y = 5?",
+  "options": [
+   "(4, −1)",
+   "(5, −2)",
+   "(−1, 4)",
+   "(−4, 1)"
+  ],
+  "correct": 0,
+  "explain": "Add the two equations: 2x = 8, so x = 4. Then y = 3 − (4) = −1. The solution is (4, −1)."
+ },
+ {
+  "q": "Which pair solves x + y = 3 and x − y = −7?",
+  "options": [
+   "(2, −5)",
+   "(−2, 5)",
+   "(−1, 4)",
+   "(5, −2)"
+  ],
+  "correct": 1,
+  "explain": "Add the two equations: 2x = −4, so x = −2. Then y = 3 − (−2) = 5. The solution is (−2, 5)."
+ },
+ {
+  "q": "Which pair solves x + y = 8 and x − y = 4?",
+  "options": [
+   "(6, 2)",
+   "(7, 1)",
+   "(−6, −2)",
+   "(2, 6)"
+  ],
+  "correct": 0,
+  "explain": "Add the two equations: 2x = 12, so x = 6. Then y = 8 − (6) = 2. The solution is (6, 2)."
+ },
+ {
+  "q": "Which pair solves x + y = −3 and x − y = 5?",
+  "options": [
+   "(−1, 4)",
+   "(2, −5)",
+   "(−4, 1)",
+   "(1, −4)"
+  ],
+  "correct": 3,
+  "explain": "Add the two equations: 2x = 2, so x = 1. Then y = −3 − (1) = −4. The solution is (1, −4)."
+ },
+ {
+  "q": "Which pair solves x + y = −5 and x − y = −1?",
+  "options": [
+   "(−2, −3)",
+   "(2, 3)",
+   "(3, 2)",
+   "(−3, −2)"
+  ],
+  "correct": 3,
+  "explain": "Add the two equations: 2x = −6, so x = −3. Then y = −5 − (−3) = −2. The solution is (−3, −2)."
+ }
+],
+  "sat-math-gra-c6-t2": [
+ {
+  "q": "Which value satisfies x > 3?",
+  "options": [
+   "2",
+   "4",
+   "1",
+   "3"
+  ],
+  "correct": 1,
+  "explain": "A value works only if it makes the inequality true. 4 does. A boundary value only counts when the inequality includes “=” (≤ or ≥), not for < or >."
+ },
+ {
+  "q": "Which value satisfies x ≤ −2?",
+  "options": [
+   "−2",
+   "−1",
+   "1",
+   "0"
+  ],
+  "correct": 0,
+  "explain": "A value works only if it makes the inequality true. −2 does. A boundary value only counts when the inequality includes “=” (≤ or ≥), not for < or >."
+ },
+ {
+  "q": "Which value satisfies y ≥ 5?",
+  "options": [
+   "4",
+   "3",
+   "2",
+   "5"
+  ],
+  "correct": 3,
+  "explain": "A value works only if it makes the inequality true. 5 does. A boundary value only counts when the inequality includes “=” (≤ or ≥), not for < or >."
+ },
+ {
+  "q": "Which value satisfies y < 0?",
+  "options": [
+   "1",
+   "0",
+   "2",
+   "−1"
+  ],
+  "correct": 3,
+  "explain": "A value works only if it makes the inequality true. −1 does. A boundary value only counts when the inequality includes “=” (≤ or ≥), not for < or >."
+ },
+ {
+  "q": "Which value satisfies x < 7?",
+  "options": [
+   "9",
+   "6",
+   "7",
+   "8"
+  ],
+  "correct": 1,
+  "explain": "A value works only if it makes the inequality true. 6 does. A boundary value only counts when the inequality includes “=” (≤ or ≥), not for < or >."
+ },
+ {
+  "q": "Which value satisfies y ≤ −3?",
+  "options": [
+   "−1",
+   "−2",
+   "−4",
+   "0"
+  ],
+  "correct": 2,
+  "explain": "A value works only if it makes the inequality true. −4 does. A boundary value only counts when the inequality includes “=” (≤ or ≥), not for < or >."
+ }
+],
+  "sat-math-gra-c6-t3": [
+ {
+  "q": "Which point satisfies x ≥ 2 and y ≥ 3?",
+  "options": [
+   "(−5,−5)",
+   "(3,4)",
+   "(0,0)",
+   "(1,1)"
+  ],
+  "correct": 1,
+  "explain": "Substitute each point’s coordinates into every inequality. Only (3,4) makes all of them true."
+ },
+ {
+  "q": "Which point satisfies x ≤ 5 and y < 1?",
+  "options": [
+   "(1,1)",
+   "(10,10)",
+   "(4,0)",
+   "(0,5)"
+  ],
+  "correct": 2,
+  "explain": "Substitute each point’s coordinates into every inequality. Only (4,0) makes all of them true."
+ },
+ {
+  "q": "Which point satisfies x > −1 and y ≤ 4?",
+  "options": [
+   "(10,10)",
+   "(−5,−5)",
+   "(0,5)",
+   "(0,4)"
+  ],
+  "correct": 3,
+  "explain": "Substitute each point’s coordinates into every inequality. Only (0,4) makes all of them true."
+ },
+ {
+  "q": "Which point satisfies x ≥ 1 and y ≥ −2?",
+  "options": [
+   "(0,0)",
+   "(1,−2)",
+   "(0,5)",
+   "(−5,−5)"
+  ],
+  "correct": 1,
+  "explain": "Substitute each point’s coordinates into every inequality. Only (1,−2) makes all of them true."
+ },
+ {
+  "q": "Which point satisfies x < 6 and y > 2?",
+  "options": [
+   "(5,3)",
+   "(0,0)",
+   "(10,10)",
+   "(−5,−5)"
+  ],
+  "correct": 0,
+  "explain": "Substitute each point’s coordinates into every inequality. Only (5,3) makes all of them true."
+ },
+ {
+  "q": "Which point satisfies x ≤ 0 and y ≤ 5?",
+  "options": [
+   "(1,1)",
+   "(5,0)",
+   "(10,10)",
+   "(0,5)"
+  ],
+  "correct": 3,
+  "explain": "Substitute each point’s coordinates into every inequality. Only (0,5) makes all of them true."
+ }
+],
+  "sat-math-gra-c6-t4": [
+ {
+  "q": "For ≤, what type of boundary is used?",
+  "options": [
+   "dashed",
+   "solid",
+   "curved",
+   "no boundary"
+  ],
+  "correct": 1,
+  "explain": "A ≤ inequality includes points on the boundary, so the boundary line is drawn solid."
+ },
+ {
+  "q": "For >, what type of boundary is used?",
+  "options": [
+   "solid",
+   "dashed",
+   "no boundary",
+   "curved"
+  ],
+  "correct": 1,
+  "explain": "A > inequality does not include the boundary, so the line is drawn dashed."
+ },
+ {
+  "q": "For ≥, what type of boundary is used?",
+  "options": [
+   "dashed",
+   "solid",
+   "curved",
+   "no boundary"
+  ],
+  "correct": 1,
+  "explain": "A ≥ inequality includes the boundary, so the line is drawn solid."
+ },
+ {
+  "q": "For <, what type of boundary is used?",
+  "options": [
+   "dashed",
+   "curved",
+   "solid",
+   "no boundary"
+  ],
+  "correct": 0,
+  "explain": "A < inequality does not include the boundary, so the line is drawn dashed."
+ },
+ {
+  "q": "Which symbol includes the boundary line?",
+  "options": [
+   "<",
+   "≤",
+   ">",
+   "≠"
+  ],
+  "correct": 1,
+  "explain": "Only the symbols ≤ and ≥ include the boundary line (drawn solid). < and > leave it out."
+ },
+ {
+  "q": "Which symbol excludes the boundary line?",
+  "options": [
+   "≥",
+   "<",
+   "≤",
+   "="
+  ],
+  "correct": 1,
+  "explain": "The symbols < and > exclude the boundary line (drawn dashed); ≤ and ≥ include it."
+ }
+],
+  "sat-math-gra-c6-t5": [
+ {
+  "q": "Which point satisfies y > x + 2?",
+  "options": [
+   "(−5,−5)",
+   "(0,4)",
+   "(0,0)",
+   "(5,1)"
+  ],
+  "correct": 1,
+  "explain": "Substitute each point’s coordinates into every inequality. Only (0,4) makes all of them true."
+ },
+ {
+  "q": "Which point satisfies y ≤ 2x − 1?",
+  "options": [
+   "(−5,−5)",
+   "(3,5)",
+   "(0,0)",
+   "(2,6)"
+  ],
+  "correct": 1,
+  "explain": "Substitute each point’s coordinates into every inequality. Only (3,5) makes all of them true."
+ },
+ {
+  "q": "Which point satisfies y < −x + 6?",
+  "options": [
+   "(5,1)",
+   "(2,2)",
+   "(2,6)",
+   "(10,10)"
+  ],
+  "correct": 1,
+  "explain": "Substitute each point’s coordinates into every inequality. Only (2,2) makes all of them true."
+ },
+ {
+  "q": "Which point satisfies y ≥ 3x − 4?",
+  "options": [
+   "(5,1)",
+   "(10,10)",
+   "(1,0)",
+   "(5,0)"
+  ],
+  "correct": 2,
+  "explain": "Substitute each point’s coordinates into every inequality. Only (1,0) makes all of them true."
+ },
+ {
+  "q": "Which point satisfies y ≤ −2x + 5?",
+  "options": [
+   "(10,10)",
+   "(2,1)",
+   "(5,1)",
+   "(2,6)"
+  ],
+  "correct": 1,
+  "explain": "Substitute each point’s coordinates into every inequality. Only (2,1) makes all of them true."
+ },
+ {
+  "q": "Which point satisfies y > 4x − 3?",
+  "options": [
+   "(5,1)",
+   "(10,10)",
+   "(1,2)",
+   "(1,1)"
+  ],
+  "correct": 2,
+  "explain": "Substitute each point’s coordinates into every inequality. Only (1,2) makes all of them true."
+ }
+],
+  "sat-math-gra-c6-t6": [
+ {
+  "q": "For y ≥ x and y ≤ 5, which region is the solution?",
+  "options": [
+   "outside both",
+   "above y = x and below y = 5",
+   "above both",
+   "below both"
+  ],
+  "correct": 1,
+  "explain": "Shade the region that satisfies both inequalities at once: above y = x and below y = 5."
+ },
+ {
+  "q": "For y > 2x and y < 8, which region is the solution?",
+  "options": [
+   "above y = 2x and below y = 8",
+   "above both",
+   "outside both",
+   "below both"
+  ],
+  "correct": 0,
+  "explain": "Shade the region that satisfies both inequalities at once: above y = 2x and below y = 8."
+ },
+ {
+  "q": "For y ≤ −x + 4 and y ≥ 1, which region is the solution?",
+  "options": [
+   "outside both",
+   "below both",
+   "above both",
+   "below y = −x + 4 and above y = 1"
+  ],
+  "correct": 3,
+  "explain": "Shade the region that satisfies both inequalities at once: below y = −x + 4 and above y = 1."
+ },
+ {
+  "q": "For x ≥ 2 and y ≤ 3, which region is the solution?",
+  "options": [
+   "right of x = 2 and below y = 3",
+   "above both",
+   "below both",
+   "outside both"
+  ],
+  "correct": 0,
+  "explain": "Shade the region that satisfies both inequalities at once: right of x = 2 and below y = 3."
+ },
+ {
+  "q": "For x < 5 and y > −1, which region is the solution?",
+  "options": [
+   "above both",
+   "outside both",
+   "left of x = 5 and above y = −1",
+   "below both"
+  ],
+  "correct": 2,
+  "explain": "Shade the region that satisfies both inequalities at once: left of x = 5 and above y = −1."
+ },
+ {
+  "q": "For y ≥ 3x − 2 and y ≤ x + 4, which region is the solution?",
+  "options": [
+   "above both",
+   "below both",
+   "outside both",
+   "above y = 3x − 2 and below y = x + 4"
+  ],
+  "correct": 3,
+  "explain": "Shade the region that satisfies both inequalities at once: above y = 3x − 2 and below y = x + 4."
+ }
+],
+  // ---- SAT · Math · Get ready: Algebra (6 questions per lesson: 5 shown + 1 bonus) ----
+  "sat-math-gra-t1": [
+ {
+  "q": "A movie theater charges a fixed fee of $6 plus $9 per ticket. A customer pays $42. How many tickets did the customer buy?",
+  "options": [
+   "3",
+   "4",
+   "5",
+   "6"
+  ],
+  "correct": 1,
+  "explain": "Write 6 + 9t = 42. Subtract 6: 9t = 36. Divide by 9: t = 4 tickets."
+ },
+ {
+  "q": "What is the value of x in 5x − 7 = 28?",
+  "options": [
+   "4",
+   "5",
+   "6",
+   "7"
+  ],
+  "correct": 3,
+  "explain": "Add 7 to both sides: 5x = 35. Divide by 5: x = 7."
+ },
+ {
+  "q": "If 3x + 11 = 32, what is the value of 2x?",
+  "options": [
+   "12",
+   "14",
+   "16",
+   "18"
+  ],
+  "correct": 1,
+  "explain": "Subtract 11: 3x = 21, so x = 7. The question asks for 2x, which is 14. (You could also stop at x = 7 and forget to double it, which is the trap.)"
+ },
+ {
+  "q": "What value of x satisfies 8 − 2x = −10?",
+  "options": [
+   "7",
+   "8",
+   "9",
+   "10"
+  ],
+  "correct": 2,
+  "explain": "Subtract 8 from both sides: −2x = −18. Divide by −2: x = 9."
+ },
+ {
+  "q": "A taxi fare is modeled by C = 2.50 + 1.75m, where m is the number of miles. If C = 16.50, what is m?",
+  "options": [
+   "6",
+   "7",
+   "8",
+   "9"
+  ],
+  "correct": 2,
+  "explain": "Substitute C = 16.50: 2.50 + 1.75m = 16.50. Subtract 2.50: 1.75m = 14. Divide by 1.75: m = 8."
+ },
+ {
+  "q": "If (x/4) + 3 = 8, what is x?",
+  "options": [
+   "16",
+   "20",
+   "24",
+   "32"
+  ],
+  "correct": 1,
+  "explain": "Subtract 3: x/4 = 5. Multiply both sides by 4: x = 20."
+ }
+],
+  "sat-math-gra-t2": [
+ {
+  "q": "Which value of x satisfies x + 7 > 12?",
+  "options": [
+   "4",
+   "5",
+   "6",
+   "3"
+  ],
+  "correct": 2,
+  "explain": "Subtract 7: x > 5. Only 6 is strictly greater than 5. (5 itself does not work because the sign is >, not ≥.)"
+ },
+ {
+  "q": "What is the solution to x − 9 ≤ 4?",
+  "options": [
+   "x ≤ 13",
+   "x ≥ 13",
+   "x ≤ −5",
+   "x ≥ −5"
+  ],
+  "correct": 0,
+  "explain": "Add 9 to both sides: x ≤ 13. Adding a number never flips the sign."
+ },
+ {
+  "q": "What is the solution to 6x > 30?",
+  "options": [
+   "x > 5",
+   "x < 5",
+   "x > 36",
+   "x < 36"
+  ],
+  "correct": 0,
+  "explain": "Divide both sides by 6 (positive, so the sign stays): x > 5."
+ },
+ {
+  "q": "What is the solution to −4x ≥ 20?",
+  "options": [
+   "x ≥ −5",
+   "x ≤ −5",
+   "x ≥ 5",
+   "x ≤ 5"
+  ],
+  "correct": 1,
+  "explain": "Divide both sides by −4. Dividing by a negative number reverses the inequality sign: x ≤ −5."
+ },
+ {
+  "q": "A student needs at least 75 points. The student currently has 58 points and earns x more points. Which inequality represents the situation?",
+  "options": [
+   "58 + x > 75",
+   "58 + x < 75",
+   "58 + x ≥ 75",
+   "58 + x ≤ 75"
+  ],
+  "correct": 2,
+  "explain": "“At least 75” means 75 or more, so the total must be greater than or equal to 75: 58 + x ≥ 75."
+ },
+ {
+  "q": "Which inequality has the solution x < −3?",
+  "options": [
+   "x + 3 < 0",
+   "x − 3 < 0",
+   "−x < 3",
+   "x + 3 > 0"
+  ],
+  "correct": 0,
+  "explain": "Subtract 3 from x + 3 < 0 to get x < −3. The others give x < 3, x > −3, and x > −3."
+ }
+],
+  "sat-math-gra-t3": [
+ {
+  "q": "What is the solution to 3x + 4 < 19?",
+  "options": [
+   "x < 5",
+   "x > 5",
+   "x < 23/3",
+   "x > 23/3"
+  ],
+  "correct": 0,
+  "explain": "Subtract 4: 3x < 15. Divide by 3: x < 5."
+ },
+ {
+  "q": "What is the solution to 5x − 8 ≥ 17?",
+  "options": [
+   "x ≥ 3",
+   "x ≤ 3",
+   "x ≥ 5",
+   "x ≤ 5"
+  ],
+  "correct": 2,
+  "explain": "Add 8: 5x ≥ 25. Divide by 5: x ≥ 5."
+ },
+ {
+  "q": "What is the solution to 7 − 2x > 15?",
+  "options": [
+   "x > −4",
+   "x < −4",
+   "x > 4",
+   "x < 4"
+  ],
+  "correct": 1,
+  "explain": "Subtract 7: −2x > 8. Divide by −2 and reverse the sign: x < −4."
+ },
+ {
+  "q": "A gym charges a $12 registration fee plus $4 per class. A student can spend at most $40. If x is the number of classes, which inequality represents the situation?",
+  "options": [
+   "12 + 4x ≥ 40",
+   "12 + 4x > 40",
+   "12 + 4x ≤ 40",
+   "12 + 4x < 40"
+  ],
+  "correct": 2,
+  "explain": "The total cost is 12 + 4x. “At most $40” means the cost can be 40 or less, so 12 + 4x ≤ 40."
+ },
+ {
+  "q": "Which value is in the solution set of 2x − 9 ≤ 13?",
+  "options": [
+   "12",
+   "11.5",
+   "10",
+   "12.5"
+  ],
+  "correct": 2,
+  "explain": "Add 9: 2x ≤ 22. Divide by 2: x ≤ 11. Of the choices, only 10 is 11 or less."
+ },
+ {
+  "q": "What is the solution to −3x + 5 ≥ 20?",
+  "options": [
+   "x ≥ −5",
+   "x ≤ −5",
+   "x ≥ 5",
+   "x ≤ 5"
+  ],
+  "correct": 1,
+  "explain": "Subtract 5: −3x ≥ 15. Divide by −3 and reverse the sign: x ≤ −5."
+ }
+],
+  "sat-math-gra-t4": [
+ {
+  "q": "What is the value of x in 4x + 7 = 2x + 19?",
+  "options": [
+   "4",
+   "5",
+   "6",
+   "7"
+  ],
+  "correct": 2,
+  "explain": "Subtract 2x from both sides: 2x + 7 = 19. Subtract 7: 2x = 12. Divide by 2: x = 6."
+ },
+ {
+  "q": "What is the value of x in 7x − 5 = 4x + 16?",
+  "options": [
+   "5",
+   "6",
+   "7",
+   "8"
+  ],
+  "correct": 2,
+  "explain": "Subtract 4x: 3x − 5 = 16. Add 5: 3x = 21. Divide by 3: x = 7."
+ },
+ {
+  "q": "Which equation has infinitely many solutions?",
+  "options": [
+   "3x + 2 = 3x + 5",
+   "4x + 8 = 4x + 8",
+   "5x − 1 = 2x + 8",
+   "2x + 6 = 2x + 9"
+  ],
+  "correct": 1,
+  "explain": "Both sides of 4x + 8 = 4x + 8 are identical, so every value of x works. The first and last are contradictions (no solution) and the third has exactly one solution."
+ },
+ {
+  "q": "Which equation has no solution?",
+  "options": [
+   "5x + 2 = 5x + 2",
+   "4x − 7 = 2x + 1",
+   "3x + 4 = 3x + 9",
+   "6x − 2 = 3x + 10"
+  ],
+  "correct": 2,
+  "explain": "Subtract 3x from both sides of 3x + 4 = 3x + 9 and you get 4 = 9, which is never true, so there is no solution."
+ },
+ {
+  "q": "If 9x + 4 = 6x + 25, what is x − 2?",
+  "options": [
+   "3",
+   "5",
+   "7",
+   "9"
+  ],
+  "correct": 1,
+  "explain": "Subtract 6x: 3x + 4 = 25. Subtract 4: 3x = 21, so x = 7. The question asks for x − 2 = 5."
+ },
+ {
+  "q": "A number is increased by 12 and gives the same result as twice the number minus 4. Which equation represents this situation?",
+  "options": [
+   "x + 12 = 2x − 4",
+   "x − 12 = 2x + 4",
+   "12x = 2x − 4",
+   "x + 4 = 2x − 12"
+  ],
+  "correct": 0,
+  "explain": "“Increased by 12” is x + 12. “Twice the number minus 4” is 2x − 4. “Gives the same result as” means they are equal: x + 12 = 2x − 4."
+ }
+],
+  "sat-math-gra-t5": [
+ {
+  "q": "What is x in 3(x + 4) = 24?",
+  "options": [
+   "3",
+   "4",
+   "5",
+   "6"
+  ],
+  "correct": 1,
+  "explain": "Divide both sides by 3: x + 4 = 8. Subtract 4: x = 4."
+ },
+ {
+  "q": "What is x in 2(3x − 5) = 14?",
+  "options": [
+   "3",
+   "4",
+   "5",
+   "6"
+  ],
+  "correct": 1,
+  "explain": "Divide by 2: 3x − 5 = 7. Add 5: 3x = 12. Divide by 3: x = 4."
+ },
+ {
+  "q": "What is x in 5(x − 2) + 3 = 18?",
+  "options": [
+   "4",
+   "5",
+   "6",
+   "7"
+  ],
+  "correct": 1,
+  "explain": "Subtract 3: 5(x − 2) = 15. Divide by 5: x − 2 = 3. Add 2: x = 5."
+ },
+ {
+  "q": "Which equation is equivalent to 4(2x − 3) = 20?",
+  "options": [
+   "8x − 3 = 20",
+   "8x − 12 = 20",
+   "8x − 7 = 20",
+   "6x − 12 = 20"
+  ],
+  "correct": 1,
+  "explain": "Distribute the 4 to both terms inside: 4 · 2x = 8x and 4 · 3 = 12, giving 8x − 12 = 20. (Forgetting to multiply the 3 by 4 gives the wrong choice 8x − 3.)"
+ },
+ {
+  "q": "What is x in −2(x + 5) = 18?",
+  "options": [
+   "−14",
+   "−9",
+   "−4",
+   "4"
+  ],
+  "correct": 0,
+  "explain": "Divide both sides by −2: x + 5 = −9. Subtract 5: x = −14."
+ },
+ {
+  "q": "A rectangle has length 2(x + 3) meters and width 4 meters. Its perimeter is 40 meters. What is x?",
+  "options": [
+   "2",
+   "3",
+   "4",
+   "5"
+  ],
+  "correct": 3,
+  "explain": "Perimeter = 2(length + width): 2(2(x + 3) + 4) = 40. Divide by 2: 2(x + 3) + 4 = 20. Subtract 4: 2(x + 3) = 16, so x + 3 = 8 and x = 5. Check: length 16, width 4, perimeter 2(16 + 4) = 40."
+ }
+],
+  "sat-math-gra-t6": [
+ {
+  "q": "What is x in 0.5(x + 4) = 7?",
+  "options": [
+   "8",
+   "10",
+   "12",
+   "14"
+  ],
+  "correct": 1,
+  "explain": "Multiply both sides by 2 (or divide by 0.5): x + 4 = 14. Subtract 4: x = 10."
+ },
+ {
+  "q": "What is x in 0.25x + 3 = 8?",
+  "options": [
+   "12",
+   "16",
+   "20",
+   "24"
+  ],
+  "correct": 2,
+  "explain": "Subtract 3: 0.25x = 5. Divide by 0.25 (same as multiplying by 4): x = 20."
+ },
+ {
+  "q": "What is x in (x + 6)/3 = 8?",
+  "options": [
+   "18",
+   "24",
+   "30",
+   "36"
+  ],
+  "correct": 0,
+  "explain": "Multiply both sides by 3: x + 6 = 24. Subtract 6: x = 18."
+ },
+ {
+  "q": "What is x in (2/3)(x − 3) = 10?",
+  "options": [
+   "12",
+   "15",
+   "18",
+   "21"
+  ],
+  "correct": 2,
+  "explain": "Multiply both sides by 3/2: x − 3 = 15. Add 3: x = 18."
+ },
+ {
+  "q": "What is x in 1.2(x − 5) = 18?",
+  "options": [
+   "15",
+   "18",
+   "20",
+   "25"
+  ],
+  "correct": 2,
+  "explain": "Divide by 1.2: x − 5 = 15. Add 5: x = 20."
+ },
+ {
+  "q": "A school club spends 0.4 of its budget on supplies. If that amount is $28, what is the total budget?",
+  "options": [
+   "$56",
+   "$60",
+   "$70",
+   "$72"
+  ],
+  "correct": 2,
+  "explain": "Let B be the budget: 0.4B = 28. Divide by 0.4: B = 70, so the budget is $70."
+ }
+],
+  "sat-math-gra-t7": [
+ {
+  "q": "If 4x − 9 = 15, what is x?",
+  "options": [
+   "4",
+   "5",
+   "6",
+   "8"
+  ],
+  "correct": 2,
+  "explain": "Add 9: 4x = 24. Divide by 4: x = 6."
+ },
+ {
+  "q": "What is the solution to −2x < 14?",
+  "options": [
+   "x < −7",
+   "x > −7",
+   "x < 7",
+   "x > 7"
+  ],
+  "correct": 1,
+  "explain": "Divide both sides by −2 and reverse the sign: x > −7."
+ },
+ {
+  "q": "What is the solution to 4x − 3 ≤ 13?",
+  "options": [
+   "x ≥ 4",
+   "x ≥ 10/4",
+   "x ≤ 4",
+   "x ≤ 10/4"
+  ],
+  "correct": 2,
+  "explain": "Add 3: 4x ≤ 16. Divide by 4 (positive, so the sign stays): x ≤ 4."
+ },
+ {
+  "q": "What is the value of x in 6x − 4 = 2x + 20?",
+  "options": [
+   "4",
+   "5",
+   "6",
+   "7"
+  ],
+  "correct": 2,
+  "explain": "Subtract 2x: 4x − 4 = 20. Add 4: 4x = 24. Divide by 4: x = 6."
+ },
+ {
+  "q": "What is x in 3(2x − 1) = 21?",
+  "options": [
+   "3",
+   "4",
+   "5",
+   "6"
+  ],
+  "correct": 1,
+  "explain": "Divide by 3: 2x − 1 = 7. Add 1: 2x = 8. Divide by 2: x = 4."
+ },
+ {
+  "q": "What is x in 0.2(x + 15) = 9?",
+  "options": [
+   "20",
+   "25",
+   "30",
+   "35"
+  ],
+  "correct": 2,
+  "explain": "Divide by 0.2 (multiply by 5): x + 15 = 45. Subtract 15: x = 30."
+ }
+],
   // ---- Chapter 1 · Acellular Life · Viruses (PMDC MDCAT syllabus) ----
   // 42 hand-authored, syllabus-accurate MCQs covering discovery, structure,
   // classification, lytic/lysogenic cycles, and the major viral diseases
@@ -866,6 +3522,47 @@ const COURSES = [
         ]},
       ]},
       { id:'sat-math', name:'Mathematics', type:'math', chapters:[
+        { id:'sat-math-getready-algebra', name:'Get ready: Algebra', topics:[
+          {id:'sat-math-gra-t1', group:'Solving linear equations and inequalities', name:'Two-step equations'},
+          {id:'sat-math-gra-t2', group:'Solving linear equations and inequalities', name:'One-step inequalities'},
+          {id:'sat-math-gra-t3', group:'Solving linear equations and inequalities', name:'Two-step inequalities'},
+          {id:'sat-math-gra-t4', group:'Solving linear equations and inequalities', name:'Equations with variables on both sides'},
+          {id:'sat-math-gra-t5', group:'Solving linear equations and inequalities', name:'Equations with parentheses'},
+          {id:'sat-math-gra-t6', group:'Solving linear equations and inequalities', name:'Equations with parentheses: decimals & fractions'},
+          {id:'sat-math-gra-t7', group:'Solving linear equations and inequalities', name:'Get ready: Algebra: Quiz 1'},
+          {id:"sat-math-gra-c1-t1", group:"Chapter 1 — Word problems and linear equations", name:"Two-step equations word problems"},
+          {id:"sat-math-gra-c1-t2", group:"Chapter 1 — Word problems and linear equations", name:"Linear equations word problems"},
+          {id:"sat-math-gra-c1-t3", group:"Chapter 1 — Word problems and linear equations", name:"Linear models word problems"},
+          {id:"sat-math-gra-c1-t4", group:"Chapter 1 — Word problems and linear equations", name:"Writing linear equations word problems"},
+          {id:"sat-math-gra-c1-t5", group:"Chapter 1 — Word problems and linear equations", name:"Linear equations word problems"},
+          {id:"sat-math-gra-c2-t1", group:"Chapter 2 — Linear equations and graphs", name:"Slope-intercept intro"},
+          {id:"sat-math-gra-c2-t2", group:"Chapter 2 — Linear equations and graphs", name:"Graph from slope-intercept form"},
+          {id:"sat-math-gra-c2-t3", group:"Chapter 2 — Linear equations and graphs", name:"Slope-intercept equation from graph"},
+          {id:"sat-math-gra-c2-t4", group:"Chapter 2 — Linear equations and graphs", name:"Slope-intercept from two points"},
+          {id:"sat-math-gra-c2-t5", group:"Chapter 2 — Linear equations and graphs", name:"Point-slope form"},
+          {id:"sat-math-gra-c2-t6", group:"Chapter 2 — Linear equations and graphs", name:"Graph from linear standard form"},
+          {id:"sat-math-gra-c2-t7", group:"Chapter 2 — Linear equations and graphs", name:"Convert linear equations to standard form"},
+          {id:"sat-math-gra-c2-t8", group:"Chapter 2 — Linear equations and graphs", name:"Linear equations in any form"},
+          {id:"sat-math-gra-c3-t1", group:"Chapter 3 — Systems of equations", name:"Solutions of systems of equations"},
+          {id:"sat-math-gra-c3-t2", group:"Chapter 3 — Systems of equations", name:"Systems of equations with substitution"},
+          {id:"sat-math-gra-c3-t3", group:"Chapter 3 — Systems of equations", name:"Combining equations"},
+          {id:"sat-math-gra-c3-t4", group:"Chapter 3 — Systems of equations", name:"Elimination strategies"},
+          {id:"sat-math-gra-c3-t5", group:"Chapter 3 — Systems of equations", name:"Systems of equations with elimination"},
+          {id:"sat-math-gra-c3-t6", group:"Chapter 3 — Systems of equations", name:"Reasoning with systems of equations"},
+          {id:"sat-math-gra-c4-t1", group:"Chapter 4 — Systems of equations — applications", name:"Systems of equations with graphing"},
+          {id:"sat-math-gra-c4-t2", group:"Chapter 4 — Systems of equations — applications", name:"Age word problems"},
+          {id:"sat-math-gra-c4-t3", group:"Chapter 4 — Systems of equations — applications", name:"Systems of equations word problems"},
+          {id:"sat-math-gra-c4-t4", group:"Chapter 4 — Systems of equations — applications", name:"Systems of equations word problems (with zero and infinite solutions)"},
+          {id:"sat-math-gra-c5-t1", group:"Chapter 5 — Inequalities", name:"Solutions of inequalities: algebraic"},
+          {id:"sat-math-gra-c5-t2", group:"Chapter 5 — Inequalities", name:"Two-variable inequalities word problems"},
+          {id:"sat-math-gra-c5-t3", group:"Chapter 5 — Inequalities", name:"Systems of inequalities word problems"},
+          {id:"sat-math-gra-c6-t1", group:"Chapter 6 — Graphing inequalities", name:"Systems of equations with graphing"},
+          {id:"sat-math-gra-c6-t2", group:"Chapter 6 — Graphing inequalities", name:"Solutions of inequalities: graphical"},
+          {id:"sat-math-gra-c6-t3", group:"Chapter 6 — Graphing inequalities", name:"Solutions of systems of inequalities"},
+          {id:"sat-math-gra-c6-t4", group:"Chapter 6 — Graphing inequalities", name:"Graphs of inequalities"},
+          {id:"sat-math-gra-c6-t5", group:"Chapter 6 — Graphing inequalities", name:"Two-variable inequalities from their graphs"},
+          {id:"sat-math-gra-c6-t6", group:"Chapter 6 — Graphing inequalities", name:"Systems of inequalities graphs"},
+        ]},
         { id:'sat-math-algebra', name:'Algebra', topics:[
           {id:'sat-math-alg-linear', name:'Linear Equations and Inequalities'},
           {id:'sat-math-alg-functions', name:'Functions'},
@@ -1078,6 +3775,11 @@ const TEMPLATES = {
    bigger than this get randomly sampled down each time; smaller
    or generated banks just use everything they have. */
 const QUIZ_LENGTH = 15;
+/* "Bonus" quizzes: the topic's bank holds 6 questions. Each attempt shuffles them,
+   shows the first 5, and only serves the 6th (bonus) if at least one of the 5 was wrong.
+   Score = correct answers (capped at 5) out of 5, so the bonus can only help. */
+const BONUS_MAIN_COUNT = 5;
+function isBonusQuizTopic(id){ return id.indexOf('sat-math-gra-') === 0; }   // every topic in SAT > Math > Get ready: Algebra
 
 /* Fisher–Yates-style random draw (true Math.random, not seeded) —
    picks up to `count` items from `bank` in random order without
@@ -1094,6 +3796,10 @@ function pickRandomQuestions(bank, count){
 }
 
 function generateQuestionBank(topic, type){
+  if(isBonusQuizTopic(topic.id) && CUSTOM_QUESTION_BANKS[topic.id]){
+    const b = CUSTOM_QUESTION_BANKS[topic.id];
+    return pickRandomQuestions(b, b.length);   // all 6, shuffled: first 5 main, 6th = bonus
+  }
   if(CUSTOM_QUESTION_BANKS[topic.id]){
     // Hand-authored banks can hold far more than one quiz's worth
     // (e.g. 42 Viruses questions) — each visit draws a fresh random
@@ -1474,7 +4180,8 @@ function startQuiz(topicId, courseId, subjectId, chapterId){
   const chapter = findChapter(subject, chapterId);
   const topic = findTopic(chapter, topicId);
   const bank = generateQuestionBank(topic, subject.type);
-  state.quiz = { bank, index:0, correctCount:0, selected:null, answered:null, locked:false };
+  const bonus = isBonusQuizTopic(topicId) && bank.length > BONUS_MAIN_COUNT;
+  state.quiz = { bank, index:0, correctCount:0, wrongCount:0, bonus, mainCount: bonus ? BONUS_MAIN_COUNT : bank.length, selected:null, answered:null, locked:false };
   go('quiz', { courseId, subjectId, chapterId, topicId });
 }
 
@@ -1494,12 +4201,22 @@ function checkAnswer(){
   q.locked = true;
   q.answered = q.selected;
   const question = q.bank[q.index];
-  if(q.answered === question.correct) q.correctCount++;
+  if(q.answered === question.correct) q.correctCount++; else q.wrongCount++;
   render();
+}
+/* Is there another question after the current one? In a bonus quiz the 6th question
+   is only served when at least one of the first 5 was answered wrongly. */
+function quizHasNext(q){
+  if(q.bonus){
+    if(q.index < q.mainCount-1) return true;
+    if(q.index === q.mainCount-1) return q.wrongCount > 0 && q.bank.length > q.mainCount;
+    return false;
+  }
+  return q.index < q.bank.length-1;
 }
 function nextQuiz(){
   const q = state.quiz;
-  if(q.index < q.bank.length-1){
+  if(quizHasNext(q)){
     q.index++; q.selected = null; q.answered = null; q.locked = false;
     render();
   } else {
@@ -1508,7 +4225,9 @@ function nextQuiz(){
 }
 function finishQuiz(){
   const q = state.quiz;
-  const pct = Math.round((q.correctCount / q.bank.length) * 100);
+  const pct = q.bonus
+    ? Math.round((Math.min(q.correctCount, q.mainCount) / q.mainCount) * 100)
+    : Math.round((q.correctCount / q.bank.length) * 100);
   const existing = progress[state.topicId] || { bestScore:0, attempts:0, mastered:false };
   existing.attempts += 1;
   existing.bestScore = Math.max(existing.bestScore, pct);
@@ -1686,14 +4405,15 @@ function renderTopicsView(){
   <div class="section-head">
     <div class="section-eyebrow">${esc(subject.name)}</div>
     <div class="section-title">${esc(chapter.name)}</div>
-    <div class="section-sub">${chapter.topics.length} topics · 15 questions each.</div>
+    <div class="section-sub">${chapter.topics.length} topics · ${chapter.topics.every(t=>isBonusQuizTopic(t.id)) ? '5 questions each, plus a bonus if you miss one.' : '15 questions each.'}</div>
   </div>
   <div class="row-list">
-    ${chapter.topics.map(t=>{
+    ${chapter.topics.map((t,ti)=>{
       const p = progress[t.id];
       const mastered = p?.mastered;
       const started = p && p.attempts > 0;
-      return `
+      const groupHead = (t.group && (ti===0 || chapter.topics[ti-1].group !== t.group)) ? `<div class="topic-group">${esc(t.group)}</div>` : '';
+      return `${groupHead}
       <button class="row-card ${mastered?'mastered':''}" data-quiz="${t.id}" data-course="${course.id}" data-subject="${subject.id}" data-chapter="${chapter.id}">
         <div class="row-icon">${mastered ? '✓' : ICONS.book}</div>
         <div class="row-body">
@@ -1718,15 +4438,20 @@ function renderTopicsView(){
 function renderQuizView(){
   const q = state.quiz;
   const question = q.bank[q.index];
-  const pctThroughQuiz = Math.round(((q.index) / q.bank.length) * 100);
-  const isBonus = (q.index+1) % 5 === 0;
+  const inBonus = q.bonus && q.index >= q.mainCount;
+  const shownTotal = q.bonus ? q.mainCount : q.bank.length;
+  const pctThroughQuiz = inBonus ? 100 : Math.round(((q.index) / shownTotal) * 100);
+  const isBonus = !q.bonus && (q.index+1) % 5 === 0;
+  const hasNext = quizHasNext(q);
+  const nextLabel = !hasNext ? 'See Results' : (q.bonus && q.index === q.mainCount-1 ? 'Next: Bonus Question' : 'Next Question');
 
   return `
   <div class="quiz-head">
     <button class="icon-btn" data-nav="topics" data-course="${state.courseId}" data-subject="${state.subjectId}" data-chapter="${state.chapterId}">${ICONS.back} Exit</button>
     <div class="quiz-progress-track"><div class="quiz-progress-fill" style="width:${pctThroughQuiz}%"></div></div>
-    <div class="quiz-count mono">${q.index+1}/${q.bank.length}</div>
+    <div class="quiz-count mono">${inBonus ? 'Bonus' : `${q.index+1}/${shownTotal}`}</div>
   </div>
+  ${inBonus ? `<div class="bonus-flag">★ Bonus question — get it right to make up for a miss</div>` : ''}
   ${isBonus ? `<div class="bonus-flag">★ Milestone question</div>` : ''}
   <div class="q-card">
     <div class="q-text">${esc(question.q)}</div>
@@ -1749,7 +4474,7 @@ function renderQuizView(){
     ${q.locked ? `<div class="explain"><strong>${q.answered===question.correct?'Correct.':'Not quite.'}</strong> ${esc(question.explain)}</div>` : ''}
     <div class="q-footer">
       ${!q.locked ? `<button class="btn-primary" data-check="1" ${q.selected===null?'disabled':''}>Check Answer</button>` : ''}
-      ${q.locked ? `<button class="btn-primary" data-next="1">${q.index<q.bank.length-1?'Next Question':'See Results'}</button>` : ''}
+      ${q.locked ? `<button class="btn-primary" data-next="1">${nextLabel}</button>` : ''}
     </div>
   </div>`;
 }
