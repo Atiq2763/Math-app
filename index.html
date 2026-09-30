@@ -33,7 +33,12 @@
   --correct-soft:#00b5b5;
   --incorrect:#ff0011;
   --incorrect-soft:#F7E6DE;
-  --shadow: 0 1px 2px rgba(18,24,43,.06), 0 8px 24px -12px rgba(18,24,43,.18);
+  --shadow: 0 2px 3px rgba(18,24,43,.10), 0 12px 26px -10px rgba(18,24,43,.30);
+  --card-border:#BDB396;
+  --teal:#00B8A9;
+  --teal-deep:#007F74;
+  --track:#D3DAE6;
+  --flame:#F2641A;
   --radius: 14px;
 }
 *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
@@ -126,7 +131,7 @@ nav.tabbar{
 .admit-card{
   position:relative;
   background:var(--paper-raised);
-  border:1px solid var(--rule);
+  border:1.5px solid var(--card-border);
   border-radius:var(--radius);
   box-shadow:var(--shadow);
   display:flex;
@@ -143,11 +148,12 @@ nav.tabbar{
 .star-btn.active{ color:var(--gold); }
 .star-btn svg{ width:19px; height:19px; }
 .admit-meta{ display:flex; align-items:center; gap:10px; font-size:11.5px; color:var(--ink-soft); }
-.progress-track{ flex:1; height:6px; border-radius:4px; background:var(--rule); overflow:hidden; }
-.progress-fill{ height:100%; background:var(--gold); border-radius:4px; }
+.progress-track{ flex:1; height:9px; border-radius:6px; background:var(--track); box-shadow:inset 0 0 0 1px rgba(18,24,43,.14); overflow:hidden; }
+.progress-fill{ height:100%; background:linear-gradient(90deg,var(--teal),var(--teal-deep)); border-radius:6px; min-width:0; transition:width .4s ease; }
 .progress-pct{ font-family:'IBM Plex Mono',monospace; font-size:11.5px; font-weight:600; color:var(--ink); min-width:30px; text-align:right; }
 .admit-stub{
-  width:64px; flex-shrink:0;
+  border:none; font:inherit; cursor:pointer;
+  width:70px; flex-shrink:0;
   background:var(--ink); color:var(--gold-soft);
   display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px;
   border-left:2px dashed var(--rule);
@@ -162,10 +168,56 @@ nav.tabbar{
 .admit-stub-num{ font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:15px; }
 .admit-stub-label{ font-size:8.5px; text-transform:uppercase; letter-spacing:.08em; opacity:.75; }
 
+/* ---------- Personalized dashboard ---------- */
+.brand-stats{ display:flex; gap:6px; flex-wrap:wrap; justify-content:flex-end; }
+.stat-pill.streak{ color:var(--flame); border-color:#F2B48E; background:#FFF4EC; }
+.stat-pill.streak.cold{ color:var(--ink-soft); border-color:var(--rule); background:var(--paper-raised); }
+.greet{ margin:2px 0 14px; }
+.greet-title{ font-family:'Source Serif 4',serif; font-weight:700; font-size:24px; line-height:1.2; }
+.greet-sub{ font-size:13.5px; color:var(--ink-soft); margin-top:4px; line-height:1.45; }
+.link-btn{ background:none; border:none; padding:0; font:inherit; font-size:12px; color:var(--teal-deep); text-decoration:underline; cursor:pointer; }
+.goal-card{
+  background:var(--paper-raised); border:1.5px solid var(--card-border); border-radius:var(--radius);
+  box-shadow:var(--shadow); padding:13px 15px 14px; margin-bottom:14px;
+}
+.goal-row{ display:flex; align-items:baseline; justify-content:space-between; gap:8px; margin-bottom:8px; }
+.goal-label{ font-size:11px; text-transform:uppercase; letter-spacing:.12em; font-weight:700; color:var(--gold); }
+.goal-count{ font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:14px; }
+.goal-done .goal-count{ color:var(--teal-deep); }
+.hero{
+  background:var(--ink); color:var(--paper); border-radius:var(--radius);
+  padding:18px 18px 16px; margin-bottom:22px; box-shadow:0 14px 30px -12px rgba(18,24,43,.55);
+  border:1.5px solid var(--ink); display:flex; flex-direction:column; gap:6px;
+}
+.hero-eyebrow{ font-size:10.5px; text-transform:uppercase; letter-spacing:.14em; font-weight:700; color:var(--teal); }
+.hero-course{ font-size:11.5px; color:#C9CBD8; }
+.hero-title{ font-family:'Source Serif 4',serif; font-weight:600; font-size:20px; line-height:1.25; }
+.hero-sub{ font-size:12.5px; color:#C9CBD8; line-height:1.45; }
+.hero-btn{
+  margin-top:10px; width:100%; border:none; border-radius:11px; padding:14px 16px;
+  background:var(--teal); color:#03231F; font-weight:700; font-size:15px; font-family:inherit; cursor:pointer;
+  box-shadow:0 6px 16px -6px rgba(0,184,169,.7);
+}
+.hero-btn:active{ transform:translateY(1px); }
+.sec-label{ font-size:11px; text-transform:uppercase; letter-spacing:.14em; font-weight:700; color:var(--gold); margin:4px 2px 10px; }
+.admit-stub-cta{ width:26px; height:26px; border-radius:50%; background:var(--teal); color:#03231F; display:flex; align-items:center; justify-content:center; margin-bottom:3px; }
+.admit-stub-cta svg{ width:14px; height:14px; }
+.admit-stub-label{ font-weight:700; opacity:.95; }
+.admit-sub{ font-size:11.5px; color:var(--ink-soft); }
+.mini-list{ display:flex; flex-direction:column; gap:8px; margin-bottom:6px; }
+.mini-card{
+  display:flex; align-items:center; gap:10px; background:var(--paper-raised);
+  border:1.5px solid var(--card-border); border-radius:12px; box-shadow:var(--shadow); padding:0 6px 0 0; overflow:hidden;
+}
+.mini-main{ flex:1; min-width:0; background:none; border:none; text-align:left; padding:12px 6px 12px 14px; font:inherit; color:inherit; cursor:pointer; }
+.mini-name{ font-weight:600; font-size:14px; }
+.mini-full{ font-size:11.5px; color:var(--ink-soft); margin-top:1px; }
+.mini-pct{ font-family:'IBM Plex Mono',monospace; font-size:11.5px; font-weight:600; color:var(--ink-soft); }
+
 /* ---------- Generic list rows (subjects, chapters, topics) ---------- */
 .row-list{ display:flex; flex-direction:column; gap:10px; }
 .row-card{
-  background:var(--paper-raised); border:1px solid var(--rule); border-radius:12px;
+  background:var(--paper-raised); border:1.5px solid var(--card-border); border-radius:12px;
   padding:14px 14px; display:flex; align-items:center; gap:12px;
   text-align:left; width:100%; box-shadow:var(--shadow);
 }
@@ -218,7 +270,7 @@ nav.tabbar{
 /* ---------- Quiz ---------- */
 .quiz-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
 .quiz-progress-track{ flex:1; height:6px; background:var(--rule); border-radius:4px; margin:0 12px; overflow:hidden; }
-.quiz-progress-fill{ height:100%; background:var(--gold); }
+.quiz-progress-fill{ height:100%; background:linear-gradient(90deg,var(--teal),var(--teal-deep)); }
 .quiz-count{ font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:600; color:var(--ink-soft); white-space:nowrap; }
 .bonus-flag{
   display:inline-flex; align-items:center; gap:5px; background:var(--gold-soft); color:var(--gold);
@@ -10668,6 +10720,8 @@ function startQuiz(topicId, courseId, subjectId, chapterId){
   const topic = findTopic(chapter, topicId);
   const bank = generateQuestionBank(topic, subject.type);
   const bonus = isBonusQuizTopic(topicId) && bank.length > BONUS_MAIN_COUNT;
+  activity.last = { courseId, subjectId, chapterId, topicId };
+  saveActivity();
   state.quiz = { bank, index:0, correctCount:0, wrongCount:0, bonus, mainCount: bonus ? BONUS_MAIN_COUNT : bank.length, selected:null, answered:null, locked:false };
   go('quiz', { courseId, subjectId, chapterId, topicId });
 }
@@ -10689,6 +10743,7 @@ function checkAnswer(){
   q.answered = q.selected;
   const question = q.bank[q.index];
   if(q.answered === question.correct) q.correctCount++; else q.wrongCount++;
+  recordAnswer();
   render();
 }
 /* Is there another question after the current one? In a bonus quiz the 6th question
@@ -10740,8 +10795,72 @@ function esc(s){
   return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
 
+/* ================================================================
+   DAILY ACTIVITY: streak, daily goal, last-practiced topic, name
+   ================================================================ */
+const ACT_KEY = 'merit_activity_v1';
+function loadActivity(){ try{ return JSON.parse(localStorage.getItem(ACT_KEY)) || {}; }catch(e){ return {}; } }
+let activity = loadActivity();   // { name, goal, days:{'YYYY-MM-DD':count}, last:{courseId,subjectId,chapterId,topicId} }
+function saveActivity(){ try{ localStorage.setItem(ACT_KEY, JSON.stringify(activity)); }catch(e){} }
+function dayKey(d){
+  d = d || new Date();
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+function todayCount(){ return (activity.days && activity.days[dayKey()]) || 0; }
+function dailyGoal(){ return activity.goal || 20; }
+/* Streak = consecutive days (ending today, or yesterday if you haven't practiced yet today) with at least 1 answered question. */
+function streakCount(){
+  const days = activity.days || {};
+  const d = new Date();
+  if(!days[dayKey(d)]) d.setDate(d.getDate()-1);
+  let n = 0;
+  while(days[dayKey(d)] > 0){ n++; d.setDate(d.getDate()-1); }
+  return n;
+}
+function recordAnswer(){
+  activity.days = activity.days || {};
+  const k = dayKey();
+  activity.days[k] = (activity.days[k] || 0) + 1;
+  saveActivity();
+}
+function flattenCourse(course){
+  const out = [];
+  course.subjects.forEach(s=>s.chapters.forEach(ch=>ch.topics.forEach(t=>out.push({courseId:course.id, subjectId:s.id, chapterId:ch.id, subject:s, chapter:ch, topic:t}))));
+  return out;
+}
+/* Where should "Continue" take the student in this course?
+   The last topic they practiced if it isn't mastered yet, otherwise the next unmastered topic after it. */
+function nextTargetFor(course, lastTopicId){
+  const list = flattenCourse(course);
+  if(!list.length) return null;
+  let start = 0;
+  if(lastTopicId){
+    const i = list.findIndex(x=>x.topic.id===lastTopicId);
+    if(i >= 0){
+      if(!progress[lastTopicId]?.mastered) return Object.assign({resume:true}, list[i]);
+      start = i+1;
+    }
+  }
+  for(let k=0;k<list.length;k++){
+    const x = list[(start+k) % list.length];
+    if(!progress[x.topic.id]?.mastered) return Object.assign({resume:false}, x);
+  }
+  return Object.assign({resume:false, allDone:true}, list[start % list.length]);
+}
+function activeCourseId(){
+  const c = activity.last && COURSES.find(x=>x.id===activity.last.courseId);
+  return c ? c.id : null;
+}
+function resumeCourse(courseId){
+  const course = findCourse(courseId);
+  const last = activity.last && activity.last.courseId===courseId ? activity.last.topicId : null;
+  const t = course && nextTargetFor(course, last);
+  if(!t) return go('subjects', {courseId});
+  startQuiz(t.topic.id, t.courseId, t.subjectId, t.chapterId);
+}
+
 function renderBreadcrumbs(){
-  const crumbs = [{label:'Courses', action:"data-nav='courses'"}];
+  const crumbs = [{label:'Home', action:"data-nav='courses'"}];
   const course = state.courseId ? findCourse(state.courseId) : null;
   const subject = course && state.subjectId ? findSubject(course, state.subjectId) : null;
   const chapter = subject && state.chapterId ? findChapter(subject, state.chapterId) : null;
@@ -10761,6 +10880,7 @@ function renderBreadcrumbs(){
 
 function renderTopbar(){
   const totalMastered = Object.values(progress).filter(p=>p.mastered).length;
+  const streak = streakCount();
   return `
   <header class="topbar">
     <div class="brand">
@@ -10771,7 +10891,10 @@ function renderTopbar(){
           <div class="brand-tag">Test Prep</div>
         </div>
       </div>
-      <div class="stat-pill mono">${totalMastered} mastered</div>
+      <div class="brand-stats">
+        <div class="stat-pill mono streak ${streak?'':'cold'}" title="Days in a row you answered at least one question">🔥 ${streak}-day streak</div>
+        <div class="stat-pill mono">🏆 ${totalMastered} mastered</div>
+      </div>
     </div>
     ${renderBreadcrumbs()}
   </header>`;
@@ -10779,7 +10902,7 @@ function renderTopbar(){
 
 function renderTabbar(){
   const tabs = [
-    {id:'courses', label:'Courses', icon:ICONS.book},
+    {id:'courses', label:'Home', icon:ICONS.book},
     {id:'progress', label:'Progress', icon:ICONS.chart},
     {id:'saved', label:'Saved', icon:ICONS.bookmark},
   ];
@@ -10793,40 +10916,120 @@ function renderTabbar(){
   </div></nav>`;
 }
 
-function renderCoursesView(){
-  const list = COURSES;
+const ICON_PLAY = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>`;
+
+function admitCardHTML(c){
+  const pct = courseProgressPct(c);
+  const isStarred = starred.has(c.id);
+  const started = pct > 0 || (activity.last && activity.last.courseId === c.id);
+  const done = flattenCourse(c).filter(x=>progress[x.topic.id]?.mastered).length;
+  const total = flattenCourse(c).length;
   return `
-  <div class="section-head">
-    <div class="section-eyebrow">Admit Cards</div>
-    <div class="section-title">Your Courses</div>
-    <div class="section-sub">Pick a course to start practicing.</div>
-  </div>
-  <div class="course-grid">
-    ${list.map(c=>{
-      const pct = courseProgressPct(c);
-      const isStarred = starred.has(c.id);
-      return `
-      <div class="admit-card">
-        <button class="admit-main" data-nav="subjects" data-course="${c.id}" style="background:none;border:none;">
-          <div class="admit-top">
-            <div>
-              <div class="admit-course-name">${esc(c.name)}</div>
-              <div class="admit-course-full">${esc(c.full)}</div>
-            </div>
-            <span class="star-btn ${isStarred?'active':''}" data-star="${c.id}">${isStarred?ICONS.starFilled:ICONS.star}</span>
-          </div>
-          <div class="admit-meta">
-            <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
-            <div class="progress-pct mono">${pct}%</div>
-          </div>
-        </button>
-        <div class="admit-stub">
-          <div class="admit-stub-num">${c.subjects.length}</div>
-          <div class="admit-stub-label">Subjects</div>
+  <div class="admit-card">
+    <button class="admit-main" data-nav="subjects" data-course="${c.id}" style="background:none;border:none;">
+      <div class="admit-top">
+        <div>
+          <div class="admit-course-name">${esc(c.name)}</div>
+          <div class="admit-course-full">${esc(c.full)}</div>
         </div>
-      </div>`;
-    }).join('')}
+        <span class="star-btn ${isStarred?'active':''}" data-star="${c.id}">${isStarred?ICONS.starFilled:ICONS.star}</span>
+      </div>
+      <div class="admit-meta">
+        <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
+        <div class="progress-pct mono">${pct}%</div>
+      </div>
+      <div class="admit-sub">${c.subjects.length} subjects · ${done}/${total} topics mastered</div>
+    </button>
+    <button class="admit-stub" data-resume="${c.id}" aria-label="${started?'Resume':'Start'} ${esc(c.name)}">
+      <div class="admit-stub-cta">${ICON_PLAY}</div>
+      <div class="admit-stub-label">${started?'Resume':'Start'}</div>
+    </button>
   </div>`;
+}
+
+function miniCardHTML(c){
+  const pct = courseProgressPct(c);
+  return `
+  <div class="mini-card">
+    <button class="mini-main" data-nav="subjects" data-course="${c.id}">
+      <div class="mini-name">${esc(c.name)}</div>
+      <div class="mini-full">${esc(c.full)}</div>
+    </button>
+    <span class="mini-pct">${pct}%</span>
+    <span class="star-btn ${starred.has(c.id)?'active':''}" data-star="${c.id}" aria-label="Pin ${esc(c.name)}">${starred.has(c.id)?ICONS.starFilled:ICONS.star}</span>
+  </div>`;
+}
+
+function greetingHTML(){
+  const name = activity.name ? esc(activity.name) : '';
+  const today = todayCount(), goal = dailyGoal(), streak = streakCount();
+  let sub;
+  if(today >= goal) sub = "Daily goal complete — anything extra is a bonus.";
+  else if(today === 0 && streak > 0) sub = `Keep your ${streak}-day streak alive — complete today's 5-minute drill.`;
+  else if(today === 0) sub = "Start your streak today — answer your first question.";
+  else sub = `${goal - today} more question${goal-today===1?'':'s'} to hit today's goal.`;
+  return `
+  <div class="greet">
+    <div class="greet-title">Welcome back${name ? ', '+name : ''}! ${today>=goal ? '🎉' : 'Ready for today’s goal?'}</div>
+    <div class="greet-sub">${sub} <button class="link-btn" data-setname>${name ? 'Change name' : 'Add your name'}</button></div>
+  </div>`;
+}
+
+function goalCardHTML(){
+  const today = todayCount(), goal = dailyGoal();
+  const pct = Math.min(100, Math.round(today/goal*100));
+  return `
+  <div class="goal-card ${today>=goal?'goal-done':''}">
+    <div class="goal-row">
+      <span class="goal-label">Today’s goal</span>
+      <span class="goal-count">${Math.min(today, 9999)} / ${goal} questions · <button class="link-btn" data-goal>Edit</button></span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
+  </div>`;
+}
+
+function heroHTML(){
+  const cid = activeCourseId() || COURSES.filter(c=>starred.has(c.id))[0]?.id || null;
+  if(!cid){
+    return `
+    <div class="hero">
+      <div class="hero-eyebrow">Get started</div>
+      <div class="hero-title">Which test are you preparing for?</div>
+      <div class="hero-sub">Pick one below and it becomes your home base. Star the ones you’re actively studying for.</div>
+      <button class="hero-btn" data-scrollall>Choose your test</button>
+    </div>`;
+  }
+  const course = findCourse(cid);
+  const lastId = activity.last && activity.last.courseId===cid ? activity.last.topicId : null;
+  const t = nextTargetFor(course, lastId);
+  if(!t) return '';
+  const label = t.resume ? 'Continue where you left off' : (lastId ? 'Up next' : 'Start here');
+  const btn = t.resume ? 'Continue practice' : 'Start practice';
+  return `
+  <div class="hero">
+    <div class="hero-eyebrow">${label}</div>
+    <div class="hero-course">${esc(course.name)} · ${esc(t.subject.name)}</div>
+    <div class="hero-title">${esc(t.topic.name)}</div>
+    <div class="hero-sub">${esc(t.chapter.name)}${t.allDone ? ' · everything here is mastered — sharpen it again' : ''}</div>
+    <button class="hero-btn" data-quiz="${t.topic.id}" data-course="${t.courseId}" data-subject="${t.subjectId}" data-chapter="${t.chapterId}">${btn} →</button>
+  </div>`;
+}
+
+function renderCoursesView(){
+  const heroId = activeCourseId();
+  const mine = COURSES.filter(c=>starred.has(c.id) || c.id===heroId)
+                      .sort((a,b)=> (b.id===heroId) - (a.id===heroId));
+  const rest = COURSES.filter(c=>!mine.includes(c));
+  return `
+  ${greetingHTML()}
+  ${goalCardHTML()}
+  ${heroHTML()}
+  ${mine.length ? `
+  <div class="sec-label">My courses</div>
+  <div class="course-grid" style="margin-bottom:24px">${mine.map(admitCardHTML).join('')}</div>` : ''}
+  <div class="sec-label" id="all-tests">All tests</div>
+  ${mine.length ? '' : '<div class="section-sub" style="margin:-4px 2px 10px">Tap ★ on the tests you’re studying for to pin them to the top.</div>'}
+  <div class="mini-list">${rest.map(miniCardHTML).join('')}</div>`;
 }
 
 function renderSubjectsView(){
@@ -11008,7 +11211,6 @@ function renderProgressView(){
       const pct = courseProgressPct(c);
       return `
       <button class="row-card" data-nav="subjects" data-course="${c.id}">
-        <div class="row-icon">${esc(c.icon)}</div>
         <div class="row-body">
           <div class="row-title">${esc(c.name)}</div>
           <div class="row-sub">${pct}% mastered</div>
@@ -11030,37 +11232,17 @@ function renderSavedView(){
     <div class="empty">
       ${ICONS.empty}
       <p><strong>No saved courses yet.</strong><br>Tap the star on any course to pin it here.</p>
+      <button class="hero-btn" style="max-width:260px" data-nav="courses">Browse all tests</button>
     </div>`;
   }
   return `
   <div class="section-head">
     <div class="section-eyebrow">Saved</div>
     <div class="section-title">Saved Courses</div>
+    <div class="section-sub">Your pinned tests — tap <strong>Start</strong> to jump straight back in.</div>
   </div>
   <div class="course-grid">
-    ${list.map(c=>{
-      const pct = courseProgressPct(c);
-      return `
-      <div class="admit-card">
-        <button class="admit-main" data-nav="subjects" data-course="${c.id}" style="background:none;border:none;">
-          <div class="admit-top">
-            <div>
-              <div class="admit-course-name">${esc(c.name)}</div>
-              <div class="admit-course-full">${esc(c.full)}</div>
-            </div>
-            <span class="star-btn active" data-star="${c.id}">${ICONS.starFilled}</span>
-          </div>
-          <div class="admit-meta">
-            <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
-            <div class="progress-pct mono">${pct}%</div>
-          </div>
-        </button>
-        <div class="admit-stub">
-          <div class="admit-stub-num">${c.subjects.length}</div>
-          <div class="admit-stub-label">Subjects</div>
-        </div>
-      </div>`;
-    }).join('')}
+    ${list.map(admitCardHTML).join('')}
   </div>`;
 }
 
@@ -11111,6 +11293,21 @@ document.getElementById('app').addEventListener('click', (e)=>{
   if(e.target.closest('[data-mexit]')){ mockExit(); return; }
   if(e.target.closest('[data-mreview]')){ mockToggleReview(); return; }
 
+  const resumeBtn = e.target.closest('[data-resume]');
+  if(resumeBtn){ resumeCourse(resumeBtn.dataset.resume); return; }
+  if(e.target.closest('[data-scrollall]')){ const el = document.getElementById('all-tests'); if(el) el.scrollIntoView({behavior:'smooth', block:'start'}); return; }
+  if(e.target.closest('[data-setname]')){
+    const nm = prompt('What should we call you?', activity.name || '');
+    if(nm !== null){ activity.name = nm.trim().slice(0,24); saveActivity(); render(); }
+    return;
+  }
+  if(e.target.closest('[data-goal]')){
+    const v = prompt('Daily goal — how many questions per day? (5–200)', String(dailyGoal()));
+    const n = parseInt(v, 10);
+    if(v !== null && n >= 5 && n <= 200){ activity.goal = n; saveActivity(); render(); }
+    return;
+  }
+
   const tabBtn = e.target.closest('[data-tab]');
   if(tabBtn){ goTab(tabBtn.dataset.tab); return; }
 
@@ -11160,4 +11357,4 @@ if('serviceWorker' in navigator){
 }
 </script>
 </body>
-</html>zz
+</html>
