@@ -371,38 +371,69 @@ nav.tabbar{
 .review-item .ra b{ color:var(--ink); }
 .review-item .wrong b{ color:var(--incorrect); }
 .review-item .right b{ color:var(--correct); }
-/* ---------- SAT Mock Test (deliberately different from the chapter rows) ---------- */
-.satmock-divider{ display:flex; align-items:center; gap:10px; margin:24px 2px 12px; font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:.14em; color:var(--gold); }
-.satmock-divider::before,.satmock-divider::after{ content:''; flex:1; height:1px; background:var(--rule); }
-.satmock-card{ display:block; width:100%; text-align:left; border:none; border-radius:18px; padding:18px 18px 16px; color:var(--paper); background:linear-gradient(135deg,#12182B 0%,#22305A 100%); box-shadow:var(--shadow); position:relative; overflow:hidden; cursor:pointer; font-family:inherit; }
-.satmock-card::after{ content:''; position:absolute; right:-46px; top:-46px; width:160px; height:160px; border-radius:50%; background:radial-gradient(circle,rgba(173,138,46,.5),rgba(173,138,46,0) 70%); pointer-events:none; }
-.satmock-card > *{ position:relative; z-index:1; }
-.satmock-top{ display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; }
-.satmock-tag{ font-size:10px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; padding:4px 10px; border-radius:999px; background:var(--gold); color:#fff; }
-.satmock-clock{ display:flex; align-items:center; gap:6px; font-family:'IBM Plex Mono',monospace; font-size:13px; font-weight:600; color:#F1E6C8; }
-.satmock-clock svg,.satmock-cta svg{ width:16px; height:16px; }
-.satmock-title{ font-family:'Source Serif 4',serif; font-size:25px; font-weight:700; line-height:1.15; }
-.satmock-meta{ margin-top:6px; font-size:12.5px; line-height:1.5; color:#C9CBD8; }
-.satmock-foot{ margin-top:16px; padding-top:12px; border-top:1px solid rgba(255,255,255,.16); display:flex; justify-content:space-between; align-items:center; font-size:12.5px; color:#F1E6C8; }
-.satmock-cta{ display:flex; align-items:center; gap:4px; font-weight:700; color:#fff; }
-.mock-tiles{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
-.mock-tile{ background:var(--paper-raised); border:1px solid var(--rule); border-radius:12px; padding:14px 6px; text-align:center; }
-.mock-tile b{ display:block; font-family:'IBM Plex Mono',monospace; font-size:22px; color:var(--ink); margin-bottom:2px; }
-.mock-tile span{ font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.1em; color:var(--ink-soft); }
-.mock-wrap.sat .mock-head{ background:var(--ink); border-bottom:none; }
-.mock-wrap.sat .mock-head .icon-btn{ color:#E9E6DA; }
-.mock-wrap.sat .mock-head .quiz-count{ color:#C9CBD8; }
-.mock-wrap.sat .mock-timer{ color:#F1E6C8; background:rgba(255,255,255,.1); border-radius:999px; padding:4px 16px; justify-self:center; }
-.mock-wrap.sat .mock-timer.warn{ color:#fff; background:var(--incorrect); }
-.mock-progress{ height:4px; background:var(--track); border-radius:99px; margin:0 0 14px; overflow:hidden; }
-.mock-progress div{ height:100%; background:var(--gold); transition:width .2s; }
-.review-item .rexp{ margin-top:8px; font-size:12.5px; color:var(--ink-soft); line-height:1.5; }
-.review-item .rexp b{ color:var(--ink); }
 .review-item .rnote{ margin-top:8px; padding:8px 10px; border-radius:8px; background:var(--gold-soft); font-size:12.5px; color:var(--ink); }
+/* ---------- Scientific calculator (docked panel) ---------- */
+#calc-root{ position:fixed; left:0; right:0; bottom:0; z-index:70; display:flex; justify-content:center; pointer-events:none; }
+#calc-root[hidden]{ display:none; }
+body.calc-open #app{ padding-bottom:var(--calc-h,0px); }
+.calc{
+  pointer-events:auto; width:100%; max-width:640px; background:#12182B; color:#F6F3EA;
+  border-radius:16px 16px 0 0; box-shadow:0 -10px 30px -8px rgba(18,24,43,.55);
+  padding:8px 10px calc(10px + env(safe-area-inset-bottom, 0px));
+  user-select:none; -webkit-user-select:none; touch-action:manipulation;
+  --ck-h:clamp(28px, 4.7vh, 40px);
+}
+.calc-bar{ display:flex; align-items:center; gap:8px; margin-bottom:6px; }
+.calc-title{ font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:#E2C877; flex:1; }
+.calc-bar button{
+  border:none; border-radius:8px; background:rgba(255,255,255,.10); color:#F6F3EA;
+  font:600 11.5px 'IBM Plex Mono',monospace; padding:4px 9px; cursor:pointer;
+}
+.calc-bar button.mode{ background:#AD8A2E; color:#fff; letter-spacing:.06em; }
+.calc-screen{ background:#0A0F1F; border-radius:10px; padding:6px 12px 8px; margin-bottom:8px; text-align:right; }
+.calc-expr{ font:500 14px 'IBM Plex Mono',monospace; color:#A9B0C8; min-height:20px; white-space:nowrap; overflow-x:auto; scrollbar-width:none; }
+.calc-expr::-webkit-scrollbar{ display:none; }
+.calc-res{ font:600 24px 'IBM Plex Mono',monospace; color:#fff; min-height:32px; line-height:32px; white-space:nowrap; overflow-x:auto; scrollbar-width:none; }
+.calc-res.live{ color:#8E97B5; }
+.calc-res.err{ color:#FF8A8A; }
+.calc-keys{ display:grid; grid-template-columns:repeat(5,1fr); gap:5px; }
+.calc.min .calc-keys{ display:none; }
+.calc.min .calc-screen{ margin-bottom:0; }
+.ck{
+  height:var(--ck-h); border:none; border-radius:9px; padding:0; cursor:pointer;
+  font:600 14px 'Inter',sans-serif; background:#F6F3EA; color:#12182B;
+}
+.ck:active{ transform:scale(.96); filter:brightness(.92); }
+.ck.fn{ background:#27304D; color:#E8E2CF; font-size:12.5px; }
+.ck.fn.on{ background:#E2C877; color:#12182B; }
+.ck.op{ background:#AD8A2E; color:#fff; font-size:17px; }
+.ck.eq{ background:#00B8A9; color:#fff; font-size:18px; }
+.ck.clr{ background:#6A2A35; color:#fff; font-size:12.5px; }
+.calc-chip{
+  display:inline-flex; align-items:center; gap:6px; border:1.5px solid var(--rule); background:var(--paper-raised);
+  color:var(--ink); border-radius:999px; padding:5px 11px; font:700 12px 'Inter',sans-serif; cursor:pointer; white-space:nowrap; margin-right:10px;
+}
+.calc-chip.on{ background:var(--ink); border-color:var(--ink); color:#fff; }
+
+/* ---------- SAT Math Mock Test card (deliberately unlike the chapter rows) ---------- */
+.satmock{
+  display:block; width:100%; text-align:left; margin-top:22px; border:none; border-radius:18px; padding:18px 18px 16px;
+  color:#F6F3EA; font:inherit; cursor:pointer; position:relative; overflow:hidden; box-shadow:var(--shadow);
+  background:linear-gradient(135deg,#12182B 0%,#1E2A4F 62%,#2B3B6E 100%);
+}
+.satmock::after{ content:''; position:absolute; right:-34px; top:-34px; width:150px; height:150px; border-radius:50%;
+  background:radial-gradient(circle, rgba(226,200,119,.55), rgba(226,200,119,0) 70%); pointer-events:none; }
+.satmock-tag{ font-size:10.5px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:#E2C877; }
+.satmock-title{ font-family:'Source Serif 4',serif; font-size:22px; font-weight:700; margin:6px 0 2px; }
+.satmock-state{ font-size:12.5px; color:#C9CBD8; }
+.satmock-meta{ display:flex; flex-wrap:wrap; gap:6px; margin-top:12px; }
+.satmock-meta span{ font-size:11.5px; font-weight:600; padding:4px 10px; border-radius:999px; background:rgba(255,255,255,.12); }
+.satmock-go{ margin-top:14px; display:inline-flex; align-items:center; gap:6px; background:#E2C877; color:#12182B; font-weight:700; font-size:13px; padding:9px 15px; border-radius:10px; }
 </style>
 </head>
 <body>
 <div id="app"></div>
+<div id="calc-root" hidden></div>
 
 <script>
 /* ================================================================
@@ -10410,75 +10441,72 @@ let starred = loadStarred();   // Set of courseId
    page refresh cannot reset the clock.
    ================================================================ */
 const MDCAT_MOCK = [["Which organelle is known as the powerhouse of the cell?",["Endoplasmic Reticulum","Ribosome","Golgi Body","Mitochondria"],3],["Which biomodule is the primary source of energy for humans?",["Nucleic Acids","Lipids","Carbohydrates","Proteins"],2],["The process of synthesis of RNA from DNA is called:",["Translation","Reverse Transcription","Replication","Transcription"],3],["Enzymes speed up chemical reactions by lowering:",["Free energy","Kinetic energy","Activation energy","Potential energy"],2],["Which of the following is an example of an acellular biological entity?",["Bacterium","Fungi","Amoeba","Virus"],3],["The fluid mosaic model of plasma membrane was proposed by:",["Watson and Crick","Robert Hooke","Schleiden and Schwann","Singer and Nicolson"],3],["Light-dependent reactions of photosynthesis occur in the:",["Outer membrane","Stroma","Thylakoid membrane","Matrix"],2],["Glycolysis takes place in which part of the cell?",["Mitochondrial matrix","Chloroplast","Cytoplasm","Cristae"],2],["Which hormone is responsible for lowering blood glucose levels?",["Insulin","Adrenaline","Glucagon","Thyroxine"],0],["The structural and functional unit of the human kidney is:",["Alveolus","Hepatocyte","Nephron","Neuron"],2],["During muscle contraction, calcium ions bind to:",["Actin","Tropomyosin","Myosin","Troponin"],3],["The universal donor blood group in the ABO system is:",["A negative","O positive","AB positive","O negative"],3],["Which part of the brain controls body temperature and hunger?",["Thalamus","Cerebellum","Hypothalamus","Medulla oblongata"],2],["The exchange of gases in human lungs occurs in the:",["Trachea","Bronchioles","Bronchi","Alveoli"],3],["In double fertilization in angiosperms, one sperm fuses with the egg to form:",["Zygote","Endosperm","Fruit","Seed coat"],0],["Which vitamin is necessary for blood clotting?",["Vitamin D","Vitamin K","Vitamin A","Vitamin C"],1],["The phase of cell division where chromosomes align at the equatorial plate is:",["Prophase","Telophase","Anaphase","Metaphase"],3],["Which antibody class is predominant in secretions like saliva and tears?",["IgG","IgE","IgA","IgM"],2],["The functional unit of contraction in a skeletal muscle fibre is:",["Sarcolemma","Z-disc","Myofibril","Sarcomere"],3],["Which nitrogenous base is present in RNA but absent in DNA?",["Uracil","Thymine","Adenine","Cytosine"],0],["Which organelle is known as the powerhouse of the cell?",["Mitochondria","Endoplasmic Reticulum","Golgi Body","Ribosome"],0],["Which biomodule is the primary source of energy for humans?",["Carbohydrates","Nucleic Acids","Lipids","Proteins"],0],["The process of synthesis of RNA from DNA is called:",["Translation","Reverse Transcription","Replication","Transcription"],3],["Enzymes speed up chemical reactions by lowering:",["Kinetic energy","Potential energy","Activation energy","Free energy"],2],["Which of the following is an example of an acellular biological entity?",["Fungi","Virus","Bacterium","Amoeba"],1],["The fluid mosaic model of plasma membrane was proposed by:",["Watson and Crick","Robert Hooke","Singer and Nicolson","Schleiden and Schwann"],2],["Light-dependent reactions of photosynthesis occur in the:",["Matrix","Outer membrane","Stroma","Thylakoid membrane"],3],["Glycolysis takes place in which part of the cell?",["Mitochondrial matrix","Chloroplast","Cytoplasm","Cristae"],2],["Which hormone is responsible for lowering blood glucose levels?",["Thyroxine","Glucagon","Insulin","Adrenaline"],2],["The structural and functional unit of the human kidney is:",["Nephron","Neuron","Alveolus","Hepatocyte"],0],["During muscle contraction, calcium ions bind to:",["Actin","Troponin","Myosin","Tropomyosin"],1],["The universal donor blood group in the ABO system is:",["O negative","A negative","O positive","AB positive"],0],["Which part of the brain controls body temperature and hunger?",["Hypothalamus","Cerebellum","Medulla oblongata","Thalamus"],0],["The exchange of gases in human lungs occurs in the:",["Bronchi","Bronchioles","Alveoli","Trachea"],2],["In double fertilization in angiosperms, one sperm fuses with the egg to form:",["Endosperm","Seed coat","Zygote","Fruit"],2],["Which vitamin is necessary for blood clotting?",["Vitamin C","Vitamin A","Vitamin D","Vitamin K"],3],["The phase of cell division where chromosomes align at the equatorial plate is:",["Prophase","Metaphase","Anaphase","Telophase"],1],["Which antibody class is predominant in secretions like saliva and tears?",["IgA","IgM","IgG","IgE"],0],["The functional unit of contraction in a skeletal muscle fibre is:",["Myofibril","Sarcomere","Sarcolemma","Z-disc"],1],["Which nitrogenous base is present in RNA but absent in DNA?",["Cytosine","Thymine","Adenine","Uracil"],3],["Which organelle is known as the powerhouse of the cell?",["Golgi Body","Ribosome","Mitochondria","Endoplasmic Reticulum"],2],["Which biomodule is the primary source of energy for humans?",["Lipids","Proteins","Carbohydrates","Nucleic Acids"],2],["The process of synthesis of RNA from DNA is called:",["Reverse Transcription","Translation","Replication","Transcription"],3],["Enzymes speed up chemical reactions by lowering:",["Potential energy","Activation energy","Kinetic energy","Free energy"],1],["Which of the following is an example of an acellular biological entity?",["Bacterium","Virus","Amoeba","Fungi"],1],["The fluid mosaic model of plasma membrane was proposed by:",["Schleiden and Schwann","Singer and Nicolson","Robert Hooke","Watson and Crick"],1],["Light-dependent reactions of photosynthesis occur in the:",["Matrix","Stroma","Outer membrane","Thylakoid membrane"],3],["Glycolysis takes place in which part of the cell?",["Mitochondrial matrix","Cristae","Cytoplasm","Chloroplast"],2],["Which hormone is responsible for lowering blood glucose levels?",["Thyroxine","Insulin","Glucagon","Adrenaline"],1],["The structural and functional unit of the human kidney is:",["Neuron","Alveolus","Hepatocyte","Nephron"],3],["During muscle contraction, calcium ions bind to:",["Myosin","Tropomyosin","Actin","Troponin"],3],["The universal donor blood group in the ABO system is:",["AB positive","A negative","O positive","O negative"],3],["Which part of the brain controls body temperature and hunger?",["Hypothalamus","Thalamus","Medulla oblongata","Cerebellum"],0],["The exchange of gases in human lungs occurs in the:",["Alveoli","Trachea","Bronchioles","Bronchi"],0],["In double fertilization in angiosperms, one sperm fuses with the egg to form:",["Fruit","Zygote","Seed coat","Endosperm"],1],["Which vitamin is necessary for blood clotting?",["Vitamin K","Vitamin D","Vitamin C","Vitamin A"],0],["The phase of cell division where chromosomes align at the equatorial plate is:",["Metaphase","Prophase","Anaphase","Telophase"],0],["Which antibody class is predominant in secretions like saliva and tears?",["IgG","IgM","IgE","IgA"],3],["The functional unit of contraction in a skeletal muscle fibre is:",["Z-disc","Sarcolemma","Myofibril","Sarcomere"],3],["Which nitrogenous base is present in RNA but absent in DNA?",["Cytosine","Uracil","Adenine","Thymine"],1],["Which organelle is known as the powerhouse of the cell?",["Ribosome","Endoplasmic Reticulum","Golgi Body","Mitochondria"],3],["Which biomodule is the primary source of energy for humans?",["Nucleic Acids","Lipids","Carbohydrates","Proteins"],2],["The process of synthesis of RNA from DNA is called:",["Translation","Reverse Transcription","Transcription","Replication"],2],["Enzymes speed up chemical reactions by lowering:",["Activation energy","Free energy","Potential energy","Kinetic energy"],0],["Which of the following is an example of an acellular biological entity?",["Amoeba","Virus","Fungi","Bacterium"],1],["The fluid mosaic model of plasma membrane was proposed by:",["Schleiden and Schwann","Watson and Crick","Singer and Nicolson","Robert Hooke"],2],["Light-dependent reactions of photosynthesis occur in the:",["Stroma","Outer membrane","Thylakoid membrane","Matrix"],2],["Glycolysis takes place in which part of the cell?",["Chloroplast","Mitochondrial matrix","Cristae","Cytoplasm"],3],["What is the oxidation state of Chromium in K2Cr2O7?",["+6","+7","+3","+2"],0],["Which gas law states that volume is directly proportional to temperature at constant pressure?",["Avogadro's Law","Charles's Law","Boyle's Law","Dalton's Law"],1],["The hybridization of carbon in ethane (C2H6) is:",["sp2","sp","dsp2","sp3"],3],["Which element has the highest electronegativity on the Pauling scale?",["Nitrogen","Chlorine","Fluorine","Oxygen"],2],["The rate of reaction usually increases with temperature because of increase in:",["Activation energy","Threshold energy","Number of effective collisions","Free energy"],2],["Which of the following is a strong electrolyte?",["H2CO3","HCl","NH4OH","CH3COOH"],1],["The bond angle in a water molecule (H2O) is approximately:",["180°","104.5°","120°","109.5°"],1],["Which type of isomerism is shown by 1-butanol and 2-butanol?",["Metamerism","Chain isomerism","Functional group isomerism","Position isomerism"],3],["The pH of a 0.01 M HCl solution is:",["7","1","3","2"],3],["Which transition element is commonly used as a catalyst in Haber process?",["Platinum (Pt)","Nickel (Ni)","Copper (Cu)","Iron (Fe)"],3],["Functional group present in aldehydes is:",["-CHO","-COOH","-OH","-CO-"],0],["According to Le Chatelier's principle, increasing pressure on a gas equilibrium shifts it towards:",["More moles of gas","Fewer moles of gas","Reactants always","No shift occurs"],1],["Which solution acts as a buffer?",["HNO3 + KNO3","CH3COOH + CH3COONa","HCl + NaCl","NaOH + NaCl"],1],["E1 reactions follow which order of kinetics?",["First order","Zero order","Second order","Third order"],0],["The shape of an sp2 hybridized molecule like BF3 is:",["Trigonal planar","Pyramidal","Tetrahedral","Linear"],0],["What is the oxidation state of Chromium in K2Cr2O7?",["+2","+7","+6","+3"],2],["Which gas law states that volume is directly proportional to temperature at constant pressure?",["Dalton's Law","Avogadro's Law","Charles's Law","Boyle's Law"],2],["The hybridization of carbon in ethane (C2H6) is:",["sp2","dsp2","sp3","sp"],2],["Which element has the highest electronegativity on the Pauling scale?",["Chlorine","Fluorine","Oxygen","Nitrogen"],1],["The rate of reaction usually increases with temperature because of increase in:",["Activation energy","Threshold energy","Free energy","Number of effective collisions"],3],["Which of the following is a strong electrolyte?",["H2CO3","NH4OH","HCl","CH3COOH"],2],["The bond angle in a water molecule (H2O) is approximately:",["120°","104.5°","180°","109.5°"],1],["Which type of isomerism is shown by 1-butanol and 2-butanol?",["Metamerism","Position isomerism","Functional group isomerism","Chain isomerism"],1],["The pH of a 0.01 M HCl solution is:",["7","3","1","2"],3],["Which transition element is commonly used as a catalyst in Haber process?",["Copper (Cu)","Nickel (Ni)","Iron (Fe)","Platinum (Pt)"],2],["Functional group present in aldehydes is:",["-CHO","-OH","-CO-","-COOH"],0],["According to Le Chatelier's principle, increasing pressure on a gas equilibrium shifts it towards:",["Fewer moles of gas","Reactants always","No shift occurs","More moles of gas"],0],["Which solution acts as a buffer?",["NaOH + NaCl","CH3COOH + CH3COONa","HCl + NaCl","HNO3 + KNO3"],1],["E1 reactions follow which order of kinetics?",["Zero order","Third order","Second order","First order"],3],["The shape of an sp2 hybridized molecule like BF3 is:",["Tetrahedral","Pyramidal","Linear","Trigonal planar"],3],["What is the oxidation state of Chromium in K2Cr2O7?",["+7","+3","+6","+2"],2],["Which gas law states that volume is directly proportional to temperature at constant pressure?",["Avogadro's Law","Boyle's Law","Dalton's Law","Charles's Law"],3],["The hybridization of carbon in ethane (C2H6) is:",["dsp2","sp2","sp3","sp"],2],["Which element has the highest electronegativity on the Pauling scale?",["Chlorine","Fluorine","Nitrogen","Oxygen"],1],["The rate of reaction usually increases with temperature because of increase in:",["Activation energy","Number of effective collisions","Threshold energy","Free energy"],1],["Which of the following is a strong electrolyte?",["NH4OH","HCl","H2CO3","CH3COOH"],1],["The bond angle in a water molecule (H2O) is approximately:",["109.5°","180°","120°","104.5°"],3],["Which type of isomerism is shown by 1-butanol and 2-butanol?",["Metamerism","Position isomerism","Chain isomerism","Functional group isomerism"],1],["The pH of a 0.01 M HCl solution is:",["7","1","2","3"],2,"The printed answer key lists D (3) for this question, but the correct answer is 2."],["Which transition element is commonly used as a catalyst in Haber process?",["Platinum (Pt)","Iron (Fe)","Nickel (Ni)","Copper (Cu)"],1],["Functional group present in aldehydes is:",["-CO-","-COOH","-OH","-CHO"],3],["According to Le Chatelier's principle, increasing pressure on a gas equilibrium shifts it towards:",["More moles of gas","Reactants always","Fewer moles of gas","No shift occurs"],2],["Which solution acts as a buffer?",["HNO3 + KNO3","HCl + NaCl","CH3COOH + CH3COONa","NaOH + NaCl"],2],["E1 reactions follow which order of kinetics?",["First order","Third order","Zero order","Second order"],0],["The shape of an sp2 hybridized molecule like BF3 is:",["Tetrahedral","Trigonal planar","Linear","Pyramidal"],1],["What is the oxidation state of Chromium in K2Cr2O7?",["+3","+2","+7","+6"],3],["Which gas law states that volume is directly proportional to temperature at constant pressure?",["Avogadro's Law","Dalton's Law","Boyle's Law","Charles's Law"],3],["The hybridization of carbon in ethane (C2H6) is:",["sp2","sp","sp3","dsp2"],2],["Which element has the highest electronegativity on the Pauling scale?",["Nitrogen","Fluorine","Chlorine","Oxygen"],1],["The rate of reaction usually increases with temperature because of increase in:",["Activation energy","Threshold energy","Number of effective collisions","Free energy"],2],["Which of the following is a strong electrolyte?",["H2CO3","NH4OH","CH3COOH","HCl"],3],["The bond angle in a water molecule (H2O) is approximately:",["180°","120°","104.5°","109.5°"],2],["Which type of isomerism is shown by 1-butanol and 2-butanol?",["Functional group isomerism","Position isomerism","Metamerism","Chain isomerism"],1],["The pH of a 0.01 M HCl solution is:",["2","7","3","1"],0],["What is the SI unit of electric flux?",["N/C","N·m²/C","J/C","Tesla"],1],["The work done by a conservative force along a closed path is always:",["Positive","Infinite","Zero","Negative"],2],["According to Einstein's photoelectric equation, maximum kinetic energy of photoelectrons depends on:",["Velocity of source","Intensity of incident light","Frequency of incident light","Time of illumination"],2],["The unit of capacitance is the Farad, which is equivalent to:",["Joule / Volt","Ampere / Volt","Coulomb / Volt","Volt / Coulomb"],2],["Resistance of an ideal ammeter should be:",["1 Ohm","Zero","Infinite","Very high"],1],["A body projected vertically upwards reaches max height. Its velocity at max height is:",["Equal to initial velocity","4.9 m/s","0 m/s","9.8 m/s"],2],["Step-up transformer increases which quantity?",["Voltage","Power","Current","Frequency"],0],["The half-life of a radioactive sample is related to decay constant λ by:",["0.693 × λ","1 / λ","λ / 0.693","0.693 / λ"],3],["Centripetal force performing circular motion does work equal to:",["Zero","Positive work","Negative work","Maximum work"],0],["Which electromagnetic wave has the shortest wavelength?",["Ultraviolet rays","X-rays","Radio waves","Gamma rays"],3],["Dimensional formula of Energy is identical to:",["Torque","Force","Momentum","Power"],0],["If the distance between two charges is doubled, the electrostatic force becomes:",["Double","Half","4 times","1/4th"],3],["What is the SI unit of electric flux?",["N·m²/C","N/C","Tesla","J/C"],0],["The work done by a conservative force along a closed path is always:",["Positive","Zero","Negative","Infinite"],1],["According to Einstein's photoelectric equation, maximum kinetic energy of photoelectrons depends on:",["Intensity of incident light","Frequency of incident light","Velocity of source","Time of illumination"],1],["The unit of capacitance is the Farad, which is equivalent to:",["Ampere / Volt","Volt / Coulomb","Coulomb / Volt","Joule / Volt"],2],["Resistance of an ideal ammeter should be:",["Infinite","1 Ohm","Very high","Zero"],3],["A body projected vertically upwards reaches max height. Its velocity at max height is:",["Equal to initial velocity","0 m/s","9.8 m/s","4.9 m/s"],1],["Step-up transformer increases which quantity?",["Voltage","Current","Frequency","Power"],0],["The half-life of a radioactive sample is related to decay constant λ by:",["0.693 × λ","λ / 0.693","1 / λ","0.693 / λ"],3],["Centripetal force performing circular motion does work equal to:",["Zero","Positive work","Maximum work","Negative work"],0],["Which electromagnetic wave has the shortest wavelength?",["Gamma rays","Radio waves","X-rays","Ultraviolet rays"],0],["Dimensional formula of Energy is identical to:",["Momentum","Force","Torque","Power"],2],["If the distance between two charges is doubled, the electrostatic force becomes:",["Half","1/4th","Double","4 times"],1],["What is the SI unit of electric flux?",["Tesla","N·m²/C","N/C","J/C"],1],["The work done by a conservative force along a closed path is always:",["Infinite","Zero","Positive","Negative"],1],["According to Einstein's photoelectric equation, maximum kinetic energy of photoelectrons depends on:",["Frequency of incident light","Intensity of incident light","Velocity of source","Time of illumination"],0],["The unit of capacitance is the Farad, which is equivalent to:",["Coulomb / Volt","Joule / Volt","Volt / Coulomb","Ampere / Volt"],0],["Resistance of an ideal ammeter should be:",["Zero","1 Ohm","Very high","Infinite"],0],["A body projected vertically upwards reaches max height. Its velocity at max height is:",["Equal to initial velocity","0 m/s","4.9 m/s","9.8 m/s"],1],["Step-up transformer increases which quantity?",["Voltage","Current","Frequency","Power"],0],["The half-life of a radioactive sample is related to decay constant λ by:",["1 / λ","λ / 0.693","0.693 × λ","0.693 / λ"],3],["Centripetal force performing circular motion does work equal to:",["Maximum work","Negative work","Zero","Positive work"],2],["Which electromagnetic wave has the shortest wavelength?",["X-rays","Ultraviolet rays","Radio waves","Gamma rays"],3],["Dimensional formula of Energy is identical to:",["Power","Torque","Momentum","Force"],1],["If the distance between two charges is doubled, the electrostatic force becomes:",["Double","1/4th","Half","4 times"],1],["What is the SI unit of electric flux?",["N·m²/C","J/C","N/C","Tesla"],0],["The work done by a conservative force along a closed path is always:",["Infinite","Negative","Zero","Positive"],2],["According to Einstein's photoelectric equation, maximum kinetic energy of photoelectrons depends on:",["Velocity of source","Time of illumination","Intensity of incident light","Frequency of incident light"],3],["The unit of capacitance is the Farad, which is equivalent to:",["Coulomb / Volt","Ampere / Volt","Joule / Volt","Volt / Coulomb"],0],["Choose the correct synonym of 'BENEVOLENT':",["Cruel","Arrogant","Greedy","Kind"],3],["Identify the correctly spelled word:",["Accomodate","Acommodate","Acomodate","Accommodate"],3],["She was proficient _____ speaking three languages.",["in","at","with","on"],0],["Choose the antonym of 'OBSOLETE':",["Modern","Ancient","Outdated","Old"],0],["Neither of the applicants _____ suitable for the job.",["were","are","is","have been"],2],["He prevented me _____ entering the lab.",["for","from","to","against"],1],["Choose the correct synonym of 'BENEVOLENT':",["Kind","Cruel","Arrogant","Greedy"],0],["Identify the correctly spelled word:",["Accommodate","Accomodate","Acommodate","Acomodate"],0],["She was proficient _____ speaking three languages.",["on","at","with","in"],3],["Choose the antonym of 'OBSOLETE':",["Modern","Outdated","Old","Ancient"],0],["Neither of the applicants _____ suitable for the job.",["are","is","have been","were"],1],["He prevented me _____ entering the lab.",["against","for","from","to"],2],["Look at this series: 2, 6, 18, 54, ... What number should come next?",["108","162","148","216"],1],["If CAT is coded as 3120, how is DOG coded in the same system?",["3157","4156","4157","4147"],2],["Statement: All doctors are surgeons. Some surgeons are specialists. Conclusion: Some doctors are specialists. Is this logically definite?",["False","Uncertain","True","None"],1,"The printed answer key lists A (False) for this question, but the correct answer is Uncertain."],["Point to a photo, Ali says 'He is the son of my father's only son.' Who is in photo?",["Himself","His Son","His Nephew","His Father"],1,"The printed answer key lists C (His Nephew) for this question, but the correct answer is His Son."],["Look at the series: 2, 6, 18, 54, ... What number should come next?",["148","162","108","216"],1],["If CAT is coded as 3120, how is DOG coded in the same system?",["3157","4157","4147","4156"],1]];
-const SAT_MOCK = [["If 3x + 7 = 25, what is x?",["4","6","8","10"],1,"The printed answer key lists A (4) for this question, but the correct answer is B (6).","Subtract 7 from both sides: 3x = 18. Divide by 3: x = 6."],["For y = 2x + 5, what is y when x = 7?",["12","14","19","24"],2,null,"Substitute x = 7: y = 2(7) + 5 = 14 + 5 = 19."],["An $80 item increases in price by 15%. What is the new price?",["$88","$92","$95","$102"],1,null,"A 15% increase means the new price is 115% of $80: 80 × 1.15 = $92."],["If 2x + y = 13 and x − y = 2, what is x?",["3","4","5","6"],2,null,"Add the two equations so y cancels: 3x = 15, so x = 5. Check: y = 13 − 10 = 3, and 5 − 3 = 2 ✓."],["A line passes through (2, 5) and (6, 17). What is its slope?",["2","3","4","6"],1,null,"Slope = (17 − 5) ÷ (6 − 2) = 12 ÷ 4 = 3."],["For x² − 7x + 12 = 0, what is the sum of the solutions?",["5","7","12","19"],1,null,"Factor: (x − 3)(x − 4) = 0, so the solutions are 3 and 4 and their sum is 7. (Shortcut: for x² + bx + c = 0, the sum of the solutions is −b.)"],["If f(x) = x² − 4x + 1, what is f(5)?",["4","5","6","10"],2,null,"f(5) = 5² − 4(5) + 1 = 25 − 20 + 1 = 6."],["What are the solutions of 2x² + 5x − 3 = 0?",["−3 and 1/2","3 and −1/2","−1 and 3/2","1 and −3/2"],0,null,"Factor: (2x − 1)(x + 3) = 0. So x = 1/2 or x = −3."],["P(t) = 120(1.04)^t. What is P(5), approximately?",["124.8","140.0","146.0","160.0"],2,null,"1.04⁵ ≈ 1.2167, so P(5) ≈ 120 × 1.2167 ≈ 146.0."],["If (x − 4)(x + k) = x² + 3x − 28, what is k?",["−7","−4","3","7"],3,null,"Expanding the left side gives x² + (k − 4)x − 4k. Matching the x-terms: k − 4 = 3, so k = 7. Check the constant: −4(7) = −28 ✓."],["A rectangular garden has length 3 m greater than width and area 40 m². What is the width?",["4","5","8","10"],1,null,"Let the width be w. Then w(w + 3) = 40, so w² + 3w − 40 = 0, which factors as (w + 8)(w − 5) = 0. A width can't be negative, so w = 5 m (length 8 m, area 40 m² ✓)."],["A linear relationship has x: 2, 5, 8 and y: 11, 20, 29. Which equation fits?",["y = 2x + 7","y = 3x + 5","y = 3x + 7","y = 4x + 3"],1,null,"The slope is (20 − 11) ÷ (5 − 2) = 3. Then 11 = 3(2) + b gives b = 5, so y = 3x + 5. Check x = 8: 3(8) + 5 = 29 ✓."],["A data set has 6 values. When the value 33 is removed, the remaining 5 values have a mean of 15. What was the mean of the original 6 values?",["15","18","20","21"],1,"The original question said the mean was already 18 and removed 30 from 6 values with the other 5 averaging 15, which gives 17.5, not 18. The removed value was changed from 30 to 33 so the keyed answer (18) is correct.","The 5 remaining values add up to 5 × 15 = 75. Adding back the removed 33 gives a total of 108 over 6 values: 108 ÷ 6 = 18."],["In a random sample, 320 of 500 students favor longer library hours. About how many of 2,000 students would be expected to favor it?",["640","1,000","1,280","1,600"],2,null,"320 ÷ 500 = 0.64 = 64%. Apply that to the whole group: 0.64 × 2,000 = 1,280."],["A recipe uses 2.5 cups of flour for 20 cookies. How much is needed for 36 cookies?",["4","4.5","5","5.5"],1,null,"2.5 ÷ 20 = 0.125 cup per cookie. 0.125 × 36 = 4.5 cups."],["A cylinder has radius 3 and height 10. What is its volume?",["30π","60π","90π","180π"],2,null,"V = πr²h = π(3²)(10) = 90π."],["A right triangle has legs 9 and 12. What is its hypotenuse?",["13","15","18","21"],1,null,"By the Pythagorean theorem: 9² + 12² = 81 + 144 = 225, and √225 = 15."],["A circle has center (3, −2) and radius 5. Which equation represents it?",["(x + 3)² + (y − 2)² = 25","(x − 3)² + (y + 2)² = 25","(x − 3)² + (y − 2)² = 5","(x + 3)² + (y + 2)² = 5"],1,null,"A circle with center (h, k) and radius r is (x − h)² + (y − k)² = r². With h = 3, k = −2 and r = 5: (x − 3)² + (y + 2)² = 25. The right side is r², not r."],["In a right triangle, sin θ = 3/5. What is cos θ?",["3/5","4/5","5/3","5/4"],1,null,"sin θ = opposite ÷ hypotenuse = 3/5, so opposite = 3 and hypotenuse = 5. The adjacent side is √(25 − 9) = 4, so cos θ = adjacent ÷ hypotenuse = 4/5."],["A circle has radius 8. What is the area of a 90° sector?",["16π","24π","32π","64π"],0,"The printed answer key lists C (32π) for this question, but the correct answer is A (16π).","The full circle has area π(8²) = 64π. A 90° sector is 90/360 = 1/4 of the circle: 64π ÷ 4 = 16π."],["g(x) = (x − 2)(x + 5). For what positive x is g(x) = 0?",["−5","−2","2","5"],2,null,"g(x) = 0 when x − 2 = 0 or x + 5 = 0, so x = 2 or x = −5. The positive one is 2."],["A company charges a fixed fee plus a constant amount per item. Four items cost $38 and 10 items cost $74. What is the fixed fee?",["$10","$12","$14","$18"],2,"The printed answer key lists B ($12) for this question, but the correct answer is C ($14).","Cost per item = (74 − 38) ÷ (10 − 4) = 36 ÷ 6 = $6. Four items cost 4 × 6 = $24, so the fixed fee is 38 − 24 = $14."]];   // [question, options, correctIndex, note, explanation]
-const MOCK_SECTIONS = [
-  { name:'Biology',           from:1,   to:68  },
-  { name:'Chemistry',         from:69,  to:122 },
-  { name:'Physics',           from:123, to:162 },
-  { name:'English',           from:163, to:174 },
-  { name:'Logical Reasoning', from:175, to:180 },
-];
-/* One engine, several mock tests. Each entry has its own question bank, time limit and
-   storage keys, so an MDCAT attempt and a SAT attempt never overwrite each other. */
-const MOCKS = {
-  mdcat: { id:'mdcat', title:'MDCAT MOCK TEST', eyebrow:'MDCAT · Full-length practice', data:MDCAT_MOCK, sections:MOCK_SECTIONS,
-           minutes:180, warnMin:10, bestKey:'merit_mock_best_v1', sessionKey:'merit_mock_session_v1',
-           courseId:'mdcat', subjectId:null, backNav:'subjects', backLabel:'Back to subjects', theme:'' },
-  sat:   { id:'sat', title:'SAT Mock Test', eyebrow:'SAT · Mathematics', data:SAT_MOCK, sections:[{ name:'Math', from:1, to:SAT_MOCK.length }],
-           minutes:32, warnMin:5, bestKey:'merit_mock_best_sat_v1', sessionKey:'merit_mock_session_sat_v1',
-           courseId:'sat', subjectId:'sat-math', backNav:'chapters', backLabel:'Back to chapters', theme:'sat' },
+const SAT_MATH_MOCK = [["If 3x + 7 = 25, what is x?",["4","6","8","10"],1,"Subtract 7 from both sides: 3x = 18. Divide by 3: x = 6."],["For y = 2x + 5, what is y when x = 7?",["12","14","19","24"],2,"Substitute x = 7: y = 2(7) + 5 = 14 + 5 = 19."],["An $80 item increases in price by 15%. What is the new price?",["$88","$92","$95","$102"],1,"15% of $80 is $12, so the new price is $80 + $12 = $92 (or 80 × 1.15 = 92)."],["If 2x + y = 13 and x − y = 2, what is x?",["3","4","5","6"],2,"Add the two equations so y cancels: 3x = 15, so x = 5."],["A line passes through (2, 5) and (6, 17). What is its slope?",["2","3","4","6"],1,"Slope = (17 − 5) ÷ (6 − 2) = 12 ÷ 4 = 3."],["For x² − 7x + 12 = 0, what is the sum of the solutions?",["5","7","12","19"],1,"Factor: x² − 7x + 12 = (x − 3)(x − 4), so the solutions are 3 and 4. Their sum is 7."],["If f(x) = x² − 4x + 1, what is f(5)?",["4","5","6","10"],2,"f(5) = 5² − 4(5) + 1 = 25 − 20 + 1 = 6."],["What are the solutions of 2x² + 5x − 3 = 0?",["−3 and 1/2","3 and −1/2","−1 and 3/2","1 and −3/2"],0,"Factor: 2x² + 5x − 3 = (2x − 1)(x + 3). Setting each factor to 0 gives x = 1/2 and x = −3."],["P(t) = 120(1.04)^t. What is P(5), approximately?",["124.8","140.0","146.0","160.0"],2,"P(5) = 120(1.04)⁵ ≈ 120 × 1.2167 ≈ 146.0."],["If (x − 4)(x + k) = x² + 3x − 28, what is k?",["−7","−4","3","7"],3,"Expand: (x − 4)(x + k) = x² + (k − 4)x − 4k. Matching the x-term: k − 4 = 3, so k = 7. Check the constant: −4(7) = −28 ✓."],["A rectangular garden has length 3 m greater than width and area 40 m². What is the width?",["4","5","8","10"],1,"Let the width be w. Then w(w + 3) = 40, so w² + 3w − 40 = 0, which factors as (w + 8)(w − 5) = 0. A width can't be negative, so w = 5."],["A linear relationship has x: 2, 5, 8 and y: 11, 20, 29. Which equation fits?",["y = 2x + 7","y = 3x + 5","y = 3x + 7","y = 4x + 3"],1,"The slope is (20 − 11) ÷ (5 − 2) = 3. Then 11 = 3(2) + b gives b = 5, so y = 3x + 5. Check x = 8: 3(8) + 5 = 29 ✓."],["If the value 33 is removed from a data set of 6 values, the remaining 5 values have mean 15. What was the original mean of the 6 values?",["15","18","20","21"],1,"The 5 remaining values total 5 × 15 = 75. Adding back the 33 gives an original total of 108 for 6 values, so the mean is 108 ÷ 6 = 18."],["In a random sample, 320 of 500 students favor longer library hours. About how many of 2,000 students would be expected to favor it?",["640","1,000","1,280","1,600"],2,"320 ÷ 500 = 0.64 of the sample favor it. Applying that to the population: 0.64 × 2,000 = 1,280."],["A recipe uses 2.5 cups of flour for 20 cookies. How much is needed for 36 cookies?",["4.0","4.5","5.0","5.5"],1,"2.5 ÷ 20 = 0.125 cup per cookie. Then 0.125 × 36 = 4.5 cups."],["A cylinder has radius 3 and height 10. What is its volume?",["30π","60π","90π","180π"],2,"V = πr²h = π(3²)(10) = 90π."],["A right triangle has legs 9 and 12. What is its hypotenuse?",["13","15","18","21"],1,"By the Pythagorean theorem: 9² + 12² = 81 + 144 = 225, so the hypotenuse is √225 = 15."],["A circle has center (3, −2) and radius 5. Which equation represents it?",["(x + 3)² + (y − 2)² = 25","(x − 3)² + (y + 2)² = 25","(x − 3)² + (y − 2)² = 5","(x + 3)² + (y + 2)² = 5"],1,"A circle with center (h, k) and radius r is (x − h)² + (y − k)² = r². With center (3, −2) and r = 5: (x − 3)² + (y + 2)² = 25."],["In a right triangle, sin θ = 3/5. What is cos θ?",["3/5","4/5","5/3","5/4"],1,"sin²θ + cos²θ = 1, so cos²θ = 1 − 9/25 = 16/25 and cos θ = 4/5 (the 3-4-5 triangle)."],["A circle has radius 8. What is the area of a 90° sector?",["16π","24π","32π","64π"],0,"A 90° sector is 90/360 = 1/4 of the circle. Area = (1/4)π(8²) = (1/4)(64π) = 16π."],["g(x) = (x − 2)(x + 5). For what positive x is g(x) = 0?",["−5","−2","2","5"],2,"g(x) = 0 when x − 2 = 0 or x + 5 = 0, so x = 2 or x = −5. The positive solution is x = 2."],["A company charges a fixed fee plus a constant amount per item. Four items cost $38 and 10 items cost $74. What is the fixed fee?",["$10","$12","$14","$18"],2,"The rate is (74 − 38) ÷ (10 − 4) = $6 per item. Then 38 = fixed fee + 6(4), so the fixed fee is 38 − 24 = $14."]];
+const MOCK_TESTS = {
+  mdcat:{ id:'mdcat', title:'MDCAT MOCK TEST', eyebrow:'MDCAT · Full-length practice', questions:MDCAT_MOCK, minutes:180, calc:false,
+    sections:[
+      { name:'Biology',           from:1,   to:68  },
+      { name:'Chemistry',         from:69,  to:122 },
+      { name:'Physics',           from:123, to:162 },
+      { name:'English',           from:163, to:174 },
+      { name:'Logical Reasoning', from:175, to:180 },
+    ],
+    bestKey:'merit_mock_best_v1', sessionKey:'merit_mock_session_v1',
+    courseId:'mdcat', subjectId:null,
+    backNav:'data-nav="subjects" data-course="mdcat"', backLabel:'Back to subjects' },
+  sat:{ id:'sat', title:'SAT MATH MOCK TEST', eyebrow:'SAT · Mathematics', questions:SAT_MATH_MOCK, minutes:32, calc:true,
+    sections:[ { name:'Mathematics', from:1, to:22 } ],
+    bestKey:'merit_mock_best_sat_v1', sessionKey:'merit_mock_session_sat_v1',
+    courseId:'sat', subjectId:'sat-math',
+    backNav:'data-nav="chapters" data-course="sat" data-subject="sat-math"', backLabel:'Back to chapters' },
 };
-function mockCfg(kind){ return MOCKS[kind] || MOCKS.mdcat; }
-function activeMockCfg(){ return mockCfg(state.mock ? state.mock.kind : state.mockKind); }
-function mockSectionOf(cfg, i){ const n = i+1; return cfg.sections.find(s=>n>=s.from && n<=s.to); }
+function mk(){ return MOCK_TESTS[state.mockId || 'mdcat']; }
+function mockWarnMs(){ return (mk().minutes >= 60 ? 10 : 5) * 60 * 1000; }
 
-function loadMockBest(kind){ try{ return JSON.parse(localStorage.getItem(mockCfg(kind).bestKey)) || null; }catch(e){ return null; } }
-function loadMockSession(kind){
-  const cfg = mockCfg(kind);
+function mockSectionOf(i){ const n = i+1; return mk().sections.find(s=>n>=s.from && n<=s.to); }
+function loadMockBest(id){ try{ return JSON.parse(localStorage.getItem(MOCK_TESTS[id || state.mockId || 'mdcat'].bestKey)) || null; }catch(e){ return null; } }
+function loadMockSession(id){
+  const T = MOCK_TESTS[id || state.mockId || 'mdcat'];
   try{
-    const s = JSON.parse(localStorage.getItem(cfg.sessionKey));
-    if(s && typeof s.endAt==='number' && Array.isArray(s.answers) && s.answers.length===cfg.data.length) return s;
+    const s = JSON.parse(localStorage.getItem(T.sessionKey));
+    if(s && typeof s.endAt==='number' && Array.isArray(s.answers) && s.answers.length===T.questions.length) return s;
   }catch(e){}
   return null;
 }
 function saveMockSession(){
   const m = state.mock; if(!m) return;
-  try{ localStorage.setItem(mockCfg(m.kind).sessionKey, JSON.stringify({ endAt:m.endAt, answers:m.answers, index:m.index })); }catch(e){}
+  try{ localStorage.setItem(mk().sessionKey, JSON.stringify({ endAt:m.endAt, answers:m.answers, index:m.index })); }catch(e){}
 }
-function clearMockSession(kind){ try{ localStorage.removeItem(mockCfg(kind).sessionKey); }catch(e){} }
+function clearMockSession(){ try{ localStorage.removeItem(mk().sessionKey); }catch(e){} }
 function fmtClock(ms){
   const t = Math.max(0, Math.ceil(ms/1000));
   const h = Math.floor(t/3600), mi = Math.floor((t%3600)/60), s = t%60;
-  const pad = n=>String(n).padStart(2,'0');
-  return h>0 ? h + ':' + pad(mi) + ':' + pad(s) : pad(mi) + ':' + pad(s);
+  return h + ':' + String(mi).padStart(2,'0') + ':' + String(s).padStart(2,'0');
 }
 
 let mockTimerId = null;
 function tickMockTimer(){
   const m = state.mock;
   if(!m || state.view!=='mock') return;
-  const cfg = mockCfg(m.kind);
   const left = m.endAt - Date.now();
   if(left <= 0){ submitMock(true); return; }
   const el = document.getElementById('mock-timer');
-  if(el){ el.textContent = fmtClock(left); el.classList.toggle('warn', left < cfg.warnMin*60*1000); }
+  if(el){ el.textContent = fmtClock(left); el.classList.toggle('warn', left < mockWarnMs()); }
 }
 function startMockTimer(){ if(mockTimerId===null) mockTimerId = setInterval(tickMockTimer, 1000); tickMockTimer(); }
 function stopMockTimer(){ if(mockTimerId!==null){ clearInterval(mockTimerId); mockTimerId = null; } }
 
-function openMockIntro(kind){ const cfg = mockCfg(kind); go('mockIntro', { courseId:cfg.courseId, subjectId:cfg.subjectId, chapterId:null, mockKind:cfg.id }); }
-function startMock(kind){
-  const cfg = mockCfg(kind);
-  state.mock = { kind:cfg.id, answers:new Array(cfg.data.length).fill(null), index:0, endAt:Date.now()+cfg.minutes*60000, palette:false, result:null, reviewOpen:false };
+function openMockIntro(id){ state.mockId = id || state.mockId || 'mdcat'; const T = mk(); go('mockIntro', { courseId:T.courseId, subjectId:T.subjectId, chapterId:null }); }
+function startMock(){
+  state.mock = { answers:new Array(mk().questions.length).fill(null), index:0, endAt:Date.now()+mk().minutes*60000, palette:false, result:null, reviewOpen:false };
   saveMockSession();
   go('mock');
 }
-function resumeMock(kind){
-  const cfg = mockCfg(kind);
-  const s = loadMockSession(cfg.id);
-  if(!s){ startMock(cfg.id); return; }
+function resumeMock(){
+  const s = loadMockSession();
+  if(!s){ startMock(); return; }
   const answers = s.answers.map(a=> (Number.isInteger(a) && a>=0 && a<=3) ? a : null);
-  state.mock = { kind:cfg.id, answers, index:Math.min(Math.max(Number(s.index)||0, 0), cfg.data.length-1), endAt:s.endAt, palette:false, result:null, reviewOpen:false };
+  state.mock = { answers, index:Math.min(Math.max(Number(s.index)||0, 0), mk().questions.length-1), endAt:s.endAt, palette:false, result:null, reviewOpen:false };
   if(s.endAt <= Date.now()){ submitMock(true); return; }
   go('mock');
 }
@@ -10490,62 +10518,70 @@ function mockPick(k){
 }
 function mockGo(n){
   const m = state.mock; if(!m) return;
-  m.index = Math.min(Math.max(n, 0), mockCfg(m.kind).data.length-1);
+  m.index = Math.min(Math.max(n, 0), mk().questions.length-1);
   m.palette = false;
   saveMockSession();
   go('mock');
 }
 function mockTogglePalette(){ state.mock.palette = !state.mock.palette; render(); }
 function mockExit(){
-  const cfg = activeMockCfg();
-  if(!confirm('Leave the test for now? The timer keeps running. You can resume from the ' + cfg.title + ' page until time runs out.')) return;
+  if(!confirm('Leave the test for now? The timer keeps running. You can resume from the ' + mk().title + ' page until time runs out.')) return;
   saveMockSession();
-  openMockIntro(cfg.id);
+  openMockIntro();
 }
 function submitMock(auto){
   const m = state.mock; if(!m) return;
-  const cfg = mockCfg(m.kind);
   const unanswered = m.answers.filter(a=>a===null).length;
   if(!auto){
     const msg = unanswered ? `You have ${unanswered} unanswered question${unanswered===1?'':'s'}. Submit the test now?` : 'Submit the test now?';
     if(!confirm(msg)) return;
   }
-  const total = cfg.data.length;
-  const sections = cfg.sections.map(s=>({ name:s.name, correct:0, total:s.to-s.from+1 }));
+  const total = mk().questions.length;
+  const sections = mk().sections.map(s=>({ name:s.name, correct:0, total:s.to-s.from+1 }));
   let score = 0;
   m.answers.forEach((a,i)=>{
-    if(a!==null && a===cfg.data[i][2]){
+    if(a!==null && a===mk().questions[i][2]){
       score++;
-      sections[cfg.sections.indexOf(mockSectionOf(cfg,i))].correct++;
+      sections[mk().sections.indexOf(mockSectionOf(i))].correct++;
     }
   });
-  const totalMs = cfg.minutes*60000;
+  const totalMs = mk().minutes*60000;
   const usedMs = Math.min(totalMs, Math.max(0, totalMs - Math.max(0, m.endAt - Date.now())));
   const pct = Math.round((score/total)*100);
   m.result = { score, total, pct, sections, unanswered, usedMs, auto:!!auto };
-  const best = loadMockBest(cfg.id) || { bestScore:0, attempts:0 };
+  const best = loadMockBest() || { bestScore:0, attempts:0 };
   best.attempts += 1;
   best.bestScore = Math.max(best.bestScore, score);
-  try{ localStorage.setItem(cfg.bestKey, JSON.stringify(best)); }catch(e){}
-  clearMockSession(cfg.id);
+  try{ localStorage.setItem(mk().bestKey, JSON.stringify(best)); }catch(e){}
+  clearMockSession();
   stopMockTimer();
   go('mockResults');
 }
 function mockToggleReview(){ state.mock.reviewOpen = !state.mock.reviewOpen; render(); }
 
-/* Entry point shown inside the MDCAT subjects list (gold row). */
-function renderMockRow(){
-  const cfg = MOCKS.mdcat;
-  const best = loadMockBest('mdcat');
-  const sess = loadMockSession('mdcat');
+function renderMockRow(id){
+  id = id || 'mdcat';
+  const T = MOCK_TESTS[id];
+  const best = loadMockBest(id);
+  const sess = loadMockSession(id);
   const sub = sess ? 'Test in progress · tap to resume'
-    : `${cfg.data.length} MCQs · ${cfg.minutes} min` + (best ? ` · Best: ${best.bestScore}/${cfg.data.length}` : '');
+    : `${T.questions.length} MCQs · ${T.minutes} min` + (best ? ` · Best: ${best.bestScore}/${T.questions.length}` : '');
+  if(id === 'sat'){
+    return `
+    <button class="satmock" data-mopen="sat" aria-label="Open ${esc(T.title)}">
+      <div class="satmock-tag">Full practice test</div>
+      <div class="satmock-title">SAT Math Mock Test</div>
+      <div class="satmock-state">${esc(sess ? 'Test in progress · tap to resume' : (best ? `Best score: ${best.bestScore}/${T.questions.length}` : 'Timed, exam-style, answers revealed at the end'))}</div>
+      <div class="satmock-meta"><span>${T.questions.length} MCQs</span><span>${T.minutes} min</span><span>Calculator available</span></div>
+      <span class="satmock-go">${sess ? 'Resume' : 'Start test'} ▸</span>
+    </button>`;
+  }
   return `
   <div class="row-list" style="margin-top:12px;">
-    <button class="row-card mock-row" data-mopen="mdcat">
+    <button class="row-card mock-row" data-mopen="${id}">
       <div class="row-icon">${ICONS.clock}</div>
       <div class="row-body">
-        <div class="row-title">${esc(cfg.title)}</div>
+        <div class="row-title">${esc(T.title)}</div>
         <div class="row-sub">${esc(sub)}</div>
       </div>
       <span class="row-chev">${ICONS.chevron}</span>
@@ -10553,45 +10589,24 @@ function renderMockRow(){
   </div>`;
 }
 
-/* Entry point shown below the chapters in SAT > Mathematics: a dark card, deliberately
-   different from the chapter rows above it. */
-function renderSatMockCard(){
-  const cfg = MOCKS.sat;
-  const best = loadMockBest('sat');
-  const sess = loadMockSession('sat');
-  const n = cfg.data.length;
-  const status = sess ? (sess.endAt <= Date.now() ? 'Time ran out · see results' : 'In progress · ' + fmtClock(sess.endAt-Date.now()) + ' left')
-                      : (best ? 'Best score ' + best.bestScore + '/' + n : 'Not attempted yet');
-  return `
-  <div class="satmock-divider"><span>Practice test</span></div>
-  <button class="satmock-card" data-mopen="sat">
-    <div class="satmock-top">
-      <span class="satmock-tag">Timed</span>
-      <span class="satmock-clock">${ICONS.clock} ${cfg.minutes} min</span>
-    </div>
-    <div class="satmock-title">${esc(cfg.title)}</div>
-    <div class="satmock-meta">${n} multiple-choice questions · Algebra, Advanced Math, Data Analysis, Geometry &amp; Trigonometry</div>
-    <div class="satmock-foot">
-      <span>${esc(status)}</span>
-      <span class="satmock-cta">${sess ? 'Resume' : 'Start'} ${ICONS.chevron}</span>
-    </div>
-  </button>`;
-}
-
 function renderMockIntroView(){
-  const cfg = mockCfg(state.mockKind);
-  const best = loadMockBest(cfg.id);
-  const sess = loadMockSession(cfg.id);
+  const T = mk();
+  const best = loadMockBest();
+  const sess = loadMockSession();
   const expired = sess && sess.endAt <= Date.now();
-  const total = cfg.data.length;
+  const total = T.questions.length;
   let action;
-  if(sess && expired) action = `<button class="btn-primary" data-mresume="${cfg.id}">See results (time ran out)</button>`;
-  else if(sess)       action = `<button class="btn-primary" data-mresume="${cfg.id}">Resume · ${fmtClock(sess.endAt-Date.now())} left</button>`;
-  else                action = `<button class="btn-primary" data-mstart="${cfg.id}">Start Test</button>`;
-  const perQ = Math.round(cfg.minutes*60/total);
-  const overview = cfg.sections.length > 1 ? `
-  <div class="row-list">
-    ${cfg.sections.map(s=>`
+  if(sess && expired) action = `<button class="btn-primary" data-mresume="1">See results (time ran out)</button>`;
+  else if(sess)       action = `<button class="btn-primary" data-mresume="1">Resume · ${fmtClock(sess.endAt-Date.now())} left</button>`;
+  else                action = `<button class="btn-primary" data-mstart="1">Start Test</button>`;
+  return `
+  <div class="section-head">
+    <div class="section-eyebrow">${esc(T.eyebrow)}</div>
+    <div class="section-title">${esc(T.title)}</div>
+    <div class="section-sub">${total} MCQs · ${T.minutes} minutes · 1 mark each${T.calc ? ' · calculator available' : ''}.</div>
+  </div>
+  ${T.sections.length > 1 ? `<div class="row-list">
+    ${T.sections.map(s=>`
     <div class="row-card static">
       <div class="row-icon">${s.to-s.from+1}</div>
       <div class="row-body">
@@ -10599,25 +10614,13 @@ function renderMockIntroView(){
         <div class="row-sub">Questions ${s.from}–${s.to}</div>
       </div>
     </div>`).join('')}
-  </div>` : `
-  <div class="mock-tiles">
-    <div class="mock-tile"><b>${total}</b><span>Questions</span></div>
-    <div class="mock-tile"><b>${cfg.minutes}</b><span>Minutes</span></div>
-    <div class="mock-tile"><b>~${Math.floor(perQ/60)}:${String(perQ%60).padStart(2,'0')}</b><span>Per question</span></div>
-  </div>`;
-  return `
-  <div class="section-head">
-    <div class="section-eyebrow">${esc(cfg.eyebrow)}</div>
-    <div class="section-title">${esc(cfg.title)}</div>
-    <div class="section-sub">${total} MCQs · ${cfg.minutes} minutes · 1 mark each.</div>
-  </div>
-  ${overview}
+  </div>` : ''}
   <div class="mastery-block">
     <div class="m-eyebrow">Before you start</div>
     <h3>${best ? `Best score: ${best.bestScore}/${total}` : 'Ready when you are'}</h3>
-    <p class="mock-legend">The ${cfg.minutes}-minute countdown starts when you tap Start and stays at the top of the screen. Answers are not revealed until you submit, and the test submits automatically when time runs out.</p>
+    <p class="mock-legend">The ${T.minutes}-minute countdown starts when you tap Start and stays at the top of the screen. Answers are not revealed until you submit, and the test submits automatically when time runs out.${T.calc ? ' Open the Calculator button inside the test to use the scientific calculator next to the questions.' : ''}</p>
     <div class="m-row">
-      <button class="btn-ghost" data-nav="${cfg.backNav}" data-course="${cfg.courseId}"${cfg.subjectId ? ` data-subject="${cfg.subjectId}"` : ''}>${esc(cfg.backLabel)}</button>
+      <button class="btn-ghost" ${T.backNav}>${T.backLabel}</button>
       ${action}
     </div>
   </div>`;
@@ -10625,17 +10628,16 @@ function renderMockIntroView(){
 
 function renderMockView(){
   const m = state.mock;
-  const cfg = mockCfg(m.kind);
-  const total = cfg.data.length;
+  const total = mk().questions.length;
   const i = m.index;
-  const item = cfg.data[i];
-  const sec = mockSectionOf(cfg, i);
+  const item = mk().questions[i];
+  const sec = mockSectionOf(i);
   const answered = m.answers.filter(a=>a!==null).length;
   const left = m.endAt - Date.now();
 
   const palette = m.palette ? `
   <div class="pal-wrap">
-    ${cfg.sections.map(s=>`
+    ${mk().sections.map(s=>`
       <div class="pal-title">${esc(s.name)}</div>
       <div class="pal">
         ${Array.from({length:s.to-s.from+1}, (_,k)=>{
@@ -10647,14 +10649,12 @@ function renderMockView(){
   </div>` : '';
 
   return `
-  <div class="mock-wrap ${cfg.theme}">
   <div class="mock-head">
     <button class="icon-btn" data-mexit="1">${ICONS.back} Exit</button>
-    <div class="mock-timer mono ${left<cfg.warnMin*60*1000?'warn':''}" id="mock-timer">${fmtClock(left)}</div>
+    <div class="mock-timer mono ${left<mockWarnMs()?'warn':''}" id="mock-timer">${fmtClock(left)}</div>
     <div class="quiz-count mono" style="text-align:right;">${i+1}/${total}</div>
   </div>
-  ${cfg.theme==='sat' ? `<div class="mock-progress"><div style="width:${Math.round(answered/total*100)}%"></div></div>` : ''}
-  <div class="mock-sub"><span>${esc(sec.name)}</span><span class="mono">${answered}/${total} answered</span></div>
+  <div class="mock-sub"><span>${esc(sec.name)}</span>${mk().calc ? calcChipHTML() : ''}<span class="mono">${answered}/${total} answered</span></div>
   <div class="q-card">
     <div class="q-text"><span class="mock-qn mono">Q.${i+1}</span> ${esc(item[0])}</div>
     <div class="options">
@@ -10673,30 +10673,37 @@ function renderMockView(){
     <button class="btn-ghost" data-mpal="1">${m.palette?'Hide':'Show'} question list</button>
     <button class="btn-primary" data-msubmit="1">Submit test</button>
   </div>
-  ${palette}
-  </div>`;
+  ${palette}`;
 }
 
 function renderMockResultsView(){
   const m = state.mock;
-  const cfg = mockCfg(m.kind);
   const r = m.result;
   const wrong = [];
-  cfg.data.forEach((item,i)=>{ if(m.answers[i]!==item[2]) wrong.push(i); });
+  mk().questions.forEach((item,i)=>{ if(m.answers[i]!==item[2]) wrong.push(i); });
   const review = m.reviewOpen ? wrong.map(i=>{
-    const item = cfg.data[i];
+    const item = mk().questions[i];
     const a = m.answers[i];
     return `
     <div class="review-item">
       <div class="rq"><span class="mono">Q.${i+1}</span>${esc(item[0])}</div>
       <div class="ra ${a===null?'':'wrong'}">Your answer: <b>${a===null ? 'Not answered' : String.fromCharCode(65+a)+'. '+esc(item[1][a])}</b></div>
       <div class="ra right">Correct answer: <b>${String.fromCharCode(65+item[2])}. ${esc(item[1][item[2]])}</b></div>
-      ${item[4] ? `<div class="rexp"><b>How to solve:</b> ${esc(item[4])}</div>` : ''}
       ${item[3] ? `<div class="rnote">${esc(item[3])}</div>` : ''}
     </div>`;
   }).join('') : '';
-  const sectionRows = cfg.sections.length > 1 ? `
-  <div class="row-list" style="margin-top:16px;">
+
+  return `
+  <div class="result-card" style="--pct:${r.pct}">
+    <div class="result-ring"><span class="result-ring-label mono">${r.pct}%</span></div>
+    <div class="result-title">${r.score} / ${r.total} correct</div>
+    <div class="result-sub">${r.auto ? 'Time ran out · ' : ''}Time used ${fmtClock(r.usedMs)} · ${r.unanswered} unanswered</div>
+    <div class="result-actions">
+      <button class="btn-ghost" ${mk().backNav}>${mk().backLabel}</button>
+      <button class="btn-primary" data-mstart="1">Retake Test</button>
+    </div>
+  </div>
+  ${r.sections.length > 1 ? `<div class="row-list" style="margin-top:16px;">
     ${r.sections.map(s=>`
     <div class="row-card static">
       <div class="row-icon mono" style="font-size:12px;">${Math.round((s.correct/s.total)*100)}%</div>
@@ -10705,24 +10712,299 @@ function renderMockResultsView(){
         <div class="row-sub">${s.correct} / ${s.total} correct</div>
       </div>
     </div>`).join('')}
-  </div>` : '';
-
-  return `
-  <div class="result-card" style="--pct:${r.pct}">
-    <div class="result-ring"><span class="result-ring-label mono">${r.pct}%</span></div>
-    <div class="result-title">${r.score} / ${r.total} correct</div>
-    <div class="result-sub">${r.auto ? 'Time ran out · ' : ''}Time used ${fmtClock(r.usedMs)} · ${r.unanswered} unanswered</div>
-    <div class="result-actions">
-      <button class="btn-ghost" data-nav="${cfg.backNav}" data-course="${cfg.courseId}"${cfg.subjectId ? ` data-subject="${cfg.subjectId}"` : ''}>${esc(cfg.backLabel)}</button>
-      <button class="btn-primary" data-mstart="${cfg.id}">Retake Test</button>
-    </div>
-  </div>
-  ${sectionRows}
+  </div>` : ''}
   <div class="mock-actions">
     <button class="btn-ghost" data-mreview="1" ${wrong.length? '' : 'disabled'}>${m.reviewOpen?'Hide':'Review'} ${wrong.length} missed question${wrong.length===1?'':'s'}</button>
   </div>
   ${review}`;
 }
+
+/* ================================================================
+   SCIENTIFIC CALCULATOR
+   A docked panel that lives OUTSIDE #app, so it keeps its state
+   (expression, Ans, DEG/RAD) while the person moves from question to
+   question. It is available in every Mathematics subject quiz and in
+   the SAT Math Mock Test, and never blocks the page: the question
+   stays scrollable above it.
+   ================================================================ */
+const CALC_MODE_KEY = 'merit_calc_angle_v1';
+const calc = { open:false, min:false, second:false, deg:true, expr:'', res:'', fresh:false, err:false, ans:0, shown:false };
+try{ if(localStorage.getItem(CALC_MODE_KEY) === 'rad') calc.deg = false; }catch(e){}
+const CALC_FUNCS = ['sin⁻¹(','cos⁻¹(','tan⁻¹(','sin(','cos(','tan(','log(','ln(','√(','∛(','abs('];
+const CALC_BIN = '+−×÷^';
+const ICON_CALC = `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2.5" width="14" height="19" rx="2.5"/><rect x="8" y="5.5" width="8" height="3.5" rx="1"/><path d="M8.5 13h.01M12 13h.01M15.5 13h.01M8.5 16.5h.01M12 16.5h.01M15.5 16.5h.01"/></svg>`;
+
+/* ---- expression engine: a small recursive-descent parser (no eval) ---- */
+function calcEval(src){
+  let s = String(src).replace(/\s+/g, '');
+  let depth = 0;
+  for(const ch of s){ if(ch === '(') depth++; else if(ch === ')'){ depth--; if(depth < 0) throw new Error('paren'); } }
+  s += ')'.repeat(depth);                       // auto-close open brackets
+  let i = 0;
+  const bad = () => { throw new Error('math'); };
+  const toR = x => calc.deg ? x * Math.PI / 180 : x;
+  const fromR = x => calc.deg ? x * 180 / Math.PI : x;
+  const tidy = r => Math.abs(r) < 1e-14 ? 0 : r;
+  const fact = n => { if(n < 0 || Math.floor(n) !== n || n > 170) bad(); let r = 1; for(let k = 2; k <= n; k++) r *= k; return r; };
+  function fn(f, v){
+    switch(f){
+      case 'sin(': return tidy(Math.sin(toR(v)));
+      case 'cos(': return tidy(Math.cos(toR(v)));
+      case 'tan(':
+        if(calc.deg){ const m = ((v % 180) + 180) % 180; if(Math.abs(m - 90) < 1e-9) bad(); }
+        else if(Math.abs(Math.cos(v)) < 1e-12) bad();
+        return tidy(Math.tan(toR(v)));
+      case 'sin⁻¹(': if(Math.abs(v) > 1) bad(); return tidy(fromR(Math.asin(v)));
+      case 'cos⁻¹(': if(Math.abs(v) > 1) bad(); return tidy(fromR(Math.acos(v)));
+      case 'tan⁻¹(': return tidy(fromR(Math.atan(v)));
+      case 'log(': if(v <= 0) bad(); return Math.log10(v);
+      case 'ln(':  if(v <= 0) bad(); return Math.log(v);
+      case '√(':   if(v < 0) bad(); return Math.sqrt(v);
+      case '∛(':   return Math.cbrt(v);
+      case 'abs(': return Math.abs(v);
+    }
+    return bad();
+  }
+  const startsFactor = () => { const c = s[i]; return c !== undefined && /[0-9.(πeA√∛sctla]/.test(c); };
+  function parseExpr(){
+    let v = parseTerm();
+    for(;;){
+      const c = s[i];
+      if(c === '+'){ i++; v += parseTerm(); }
+      else if(c === '−' || c === '-'){ i++; v -= parseTerm(); }
+      else break;
+    }
+    return v;
+  }
+  function parseTerm(){
+    let v = parseUnary();
+    for(;;){
+      const c = s[i];
+      if(c === '×' || c === '*'){ i++; v *= parseUnary(); }
+      else if(c === '÷' || c === '/'){ i++; v /= parseUnary(); }
+      else if(startsFactor()){ v *= parsePower(); }          // implicit multiplication: 2π, 3(4+5), 2sin(30)
+      else break;
+    }
+    return v;
+  }
+  function parseUnary(){
+    if(s[i] === '−' || s[i] === '-'){ i++; return -parseUnary(); }   // so −2^2 = −4
+    if(s[i] === '+'){ i++; return parseUnary(); }
+    return parsePower();
+  }
+  function parsePower(){
+    const base = parsePostfix();
+    if(s[i] === '^'){ i++; const ex = parseUnary(); const r = Math.pow(base, ex); if(!isFinite(r)) bad(); return r; }
+    return base;
+  }
+  function parsePostfix(){
+    let v = parsePrimary();
+    for(;;){
+      if(s[i] === '!'){ i++; v = fact(v); }
+      else if(s[i] === '%'){ i++; v = v / 100; }
+      else break;
+    }
+    return v;
+  }
+  function parsePrimary(){
+    const c = s[i];
+    if(c === '('){ i++; const v = parseExpr(); if(s[i] !== ')') bad(); i++; return v; }
+    if(c !== undefined && /[0-9.]/.test(c)){
+      let j = i; while(j < s.length && /[0-9.]/.test(s[j])) j++;
+      const t = s.slice(i, j); if(t === '.' || (t.match(/\./g) || []).length > 1) bad();
+      i = j; return parseFloat(t);
+    }
+    if(s.startsWith('π', i)){ i++; return Math.PI; }
+    if(s.startsWith('Ans', i)){ i += 3; return calc.ans; }
+    if(c === 'e'){ i++; return Math.E; }
+    for(const f of CALC_FUNCS){
+      if(s.startsWith(f, i)){ i += f.length; const v = parseExpr(); if(s[i] !== ')') bad(); i++; return fn(f, v); }
+    }
+    return bad();
+  }
+  const out = parseExpr();
+  if(i !== s.length) bad();
+  if(typeof out !== 'number' || !isFinite(out)) bad();
+  return out;
+}
+function calcFmt(v){
+  if(!isFinite(v)) return 'Error';
+  if(Math.abs(v) < 1e-14) return '0';
+  const str = String(parseFloat(v.toPrecision(12)));
+  if(/e/i.test(str)){ const [m, e] = str.split(/e/i); return m + '×10^' + e.replace('+', ''); }
+  return str;
+}
+
+/* ---- keypad logic ---- */
+function calcInsert(str, kind){
+  if(calc.err){ calc.expr = ''; calc.err = false; calc.fresh = false; calc.res = ''; }
+  if(calc.fresh){                                   // right after "="
+    calc.expr = (kind === 'bin' || kind === 'post') ? 'Ans' : '';
+    calc.fresh = false; calc.res = '';
+  }
+  let e = calc.expr; const last = e.slice(-1);
+  if(kind === 'num'){
+    if(str === '.'){
+      const seg = e.match(/[0-9.]*$/)[0];
+      if(seg.includes('.')) return;
+      if(seg === '') str = '0.';
+    }
+  } else if(kind === 'bin'){
+    if(e === ''){ if(str !== '−') e = 'Ans'; }
+    else if(last === '(' && str !== '−') return;
+    else if(CALC_BIN.includes(last)){
+      if(str === '−' && '×÷^'.includes(last)){ /* unary minus after an operator */ }
+      else e = e.slice(0, -1);                      // replace the previous operator
+    }
+  } else if(kind === 'post'){
+    if(e === '' || last === '(' || CALC_BIN.includes(last)) return;
+  } else if(kind === 'close'){
+    const opens = (e.match(/\(/g) || []).length, closes = (e.match(/\)/g) || []).length;
+    if(opens <= closes || last === '(') return;
+  }
+  calc.expr = e + str;
+}
+function calcDelete(){
+  if(calc.err){ calc.err = false; calc.res = ''; }
+  calc.fresh = false;
+  const m = calc.expr.match(/(sin⁻¹\(|cos⁻¹\(|tan⁻¹\(|sin\(|cos\(|tan\(|log\(|ln\(|√\(|∛\(|abs\(|\^\(−1\)|Ans|π)$/);
+  calc.expr = m ? calc.expr.slice(0, -m[0].length) : calc.expr.slice(0, -1);
+}
+function calcLive(){
+  calc.res = ''; calc.err = false;
+  const e = calc.expr;
+  if(!e || /^[0-9.]*$/.test(e)) return;             // a plain number needs no preview
+  try{ calc.res = calcFmt(calcEval(e)); }catch(_){ calc.res = ''; }
+}
+const CALC_KEYMAP = {
+  add:['+','bin'], sub:['−','bin'], mul:['×','bin'], div:['÷','bin'], pow:['^','bin'],
+  lp:['(','open'], rp:[')','close'], pi:['π','const'], e:['e','const'], ans:['Ans','const'],
+  sin:['sin(','fn'], cos:['cos(','fn'], tan:['tan(','fn'], asin:['sin⁻¹(','fn'], acos:['cos⁻¹(','fn'], atan:['tan⁻¹(','fn'],
+  log:['log(','fn'], ln:['ln(','fn'], pow10:['10^(','fn'], powe:['e^(','fn'],
+  sqrt:['√(','fn'], cbrt:['∛(','fn'], abs:['abs(','fn'],
+  sq:['^2','post'], cube:['^3','post'], inv:['^(−1)','post'], fact:['!','post'], pct:['%','post'],
+};
+function calcKey(k){
+  if(k === 'ac'){ calc.expr = ''; calc.res = ''; calc.fresh = false; calc.err = false; }
+  else if(k === 'del'){ calcDelete(); calcLive(); }
+  else if(k === 'eq'){
+    if(!calc.expr) return;
+    try{ const v = calcEval(calc.expr); calc.ans = v; calc.res = calcFmt(v); calc.fresh = true; calc.err = false; }
+    catch(_){ calc.res = 'Error'; calc.err = true; calc.fresh = false; }
+  }
+  else if(/^[0-9]$/.test(k) || k === '.'){ calcInsert(k, 'num'); calcLive(); }
+  else if(CALC_KEYMAP[k]){ const [str, kind] = CALC_KEYMAP[k]; calcInsert(str, kind); calcLive(); }
+  calcScreen();
+}
+
+/* ---- rendering ---- */
+function calcKeyDefs(){
+  const s = calc.second;
+  return [
+    {k:'2nd', t:'2nd', c:'fn' + (s ? ' on' : ''), a:'Second function'},
+    {k:s?'asin':'sin', t:s?'sin⁻¹':'sin', c:'fn'}, {k:s?'acos':'cos', t:s?'cos⁻¹':'cos', c:'fn'}, {k:s?'atan':'tan', t:s?'tan⁻¹':'tan', c:'fn'},
+    {k:'del', t:'DEL', c:'clr', a:'Delete'},
+    {k:s?'pow10':'log', t:s?'10ˣ':'log', c:'fn'}, {k:s?'powe':'ln', t:s?'eˣ':'ln', c:'fn'},
+    {k:s?'cbrt':'sqrt', t:s?'∛':'√', c:'fn'}, {k:s?'cube':'sq', t:s?'x³':'x²', c:'fn'}, {k:'pow', t:'xʸ', c:'fn', a:'Power'},
+    {k:'lp', t:'('}, {k:'rp', t:')'},
+    {k:s?'abs':'inv', t:s?'|x|':'1/x', c:'fn'}, {k:s?'pct':'fact', t:s?'%':'n!', c:'fn'},
+    {k:'ac', t:'AC', c:'clr', a:'All clear'},
+    {k:'7',t:'7'},{k:'8',t:'8'},{k:'9',t:'9'},{k:'div',t:'÷',c:'op',a:'Divide'},{k:'pi',t:'π',c:'fn'},
+    {k:'4',t:'4'},{k:'5',t:'5'},{k:'6',t:'6'},{k:'mul',t:'×',c:'op',a:'Multiply'},{k:'e',t:'e',c:'fn'},
+    {k:'1',t:'1'},{k:'2',t:'2'},{k:'3',t:'3'},{k:'sub',t:'−',c:'op',a:'Subtract'},{k:'ans',t:'Ans',c:'fn'},
+    {k:'0',t:'0'},{k:'.',t:'.'},{k:'add',t:'+',c:'op',a:'Add'},{k:'eq',t:'=',c:'eq',span:2,a:'Equals'},
+  ];
+}
+function calcRender(){
+  const root = document.getElementById('calc-root'); if(!root) return;
+  root.innerHTML = `
+  <div class="calc ${calc.min ? 'min' : ''}" role="dialog" aria-label="Scientific calculator">
+    <div class="calc-bar">
+      <span class="calc-title">Calculator</span>
+      <button class="mode" data-ck="deg" aria-label="Angle mode">${calc.deg ? 'DEG' : 'RAD'}</button>
+      <button data-ck="min" aria-label="${calc.min ? 'Expand' : 'Minimize'} calculator">${calc.min ? '▴' : '▾'}</button>
+      <button data-ck="close" aria-label="Close calculator">✕</button>
+    </div>
+    <div class="calc-screen"><div class="calc-expr" id="calc-expr"></div><div class="calc-res" id="calc-res"></div></div>
+    <div class="calc-keys">${calcKeyDefs().map(d =>
+      `<button class="ck ${d.c || ''}" data-ck="${d.k}" ${d.span ? `style="grid-column:span ${d.span}"` : ''} aria-label="${esc(d.a || d.t)}">${esc(d.t)}</button>`).join('')}</div>
+  </div>`;
+  calcScreen();
+  calcMeasure();
+}
+function calcScreen(){
+  const ex = document.getElementById('calc-expr'), rs = document.getElementById('calc-res');
+  if(!ex || !rs) return;
+  ex.textContent = calc.expr;
+  ex.scrollLeft = ex.scrollWidth;
+  rs.textContent = calc.res || (calc.expr ? '' : '0');
+  rs.className = 'calc-res' + (calc.err ? ' err' : (!calc.fresh && calc.res ? ' live' : (!calc.res && !calc.expr ? ' live' : '')));
+}
+function calcMeasure(){
+  const el = document.querySelector('#calc-root .calc');
+  document.documentElement.style.setProperty('--calc-h', (el ? el.offsetHeight : 0) + 'px');
+}
+function calcChips(){ document.querySelectorAll('[data-calc-toggle]').forEach(b => b.classList.toggle('on', calc.open)); }
+function calcAvailable(){
+  if(state.view === 'quiz'){
+    const c = findCourse(state.courseId); const sj = c && findSubject(c, state.subjectId);
+    return !!(sj && sj.type === 'math');
+  }
+  if(state.view === 'mock') return !!MOCK_TESTS[state.mockId || 'mdcat'].calc;
+  return false;
+}
+function syncCalculator(){
+  const root = document.getElementById('calc-root'); if(!root) return;
+  const avail = calcAvailable();
+  if(!avail) calc.open = false;                      // leaving a math quiz closes it
+  const show = avail && calc.open;
+  root.hidden = !show;
+  document.body.classList.toggle('calc-open', show);
+  if(show){ if(!calc.shown || !root.firstElementChild) calcRender(); else calcMeasure(); }
+  else document.documentElement.style.setProperty('--calc-h', '0px');
+  calc.shown = show;
+}
+function calcToggle(){ calc.open = !calc.open; syncCalculator(); calcChips(); }
+function calcChipHTML(){
+  return `<button class="calc-chip ${calc.open ? 'on' : ''}" data-calc-toggle="1" aria-label="Toggle scientific calculator">${ICON_CALC}<span>Calculator</span></button>`;
+}
+(function initCalculator(){
+  const root = document.getElementById('calc-root'); if(!root) return;
+  root.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-ck]'); if(!b) return;
+    const k = b.dataset.ck;
+    if(k === 'close'){ calc.open = false; syncCalculator(); calcChips(); return; }
+    if(k === 'min'){ calc.min = !calc.min; calcRender(); return; }
+    if(k === 'deg'){
+      calc.deg = !calc.deg;
+      try{ localStorage.setItem(CALC_MODE_KEY, calc.deg ? 'deg' : 'rad'); }catch(_){}
+      if(!calc.fresh) calcLive();
+      calcRender(); return;
+    }
+    if(k === '2nd'){ calc.second = !calc.second; calcRender(); return; }
+    calcKey(k);
+  });
+  document.addEventListener('keydown', (e) => {
+    if(!calc.open || root.hidden || e.ctrlKey || e.metaKey || e.altKey) return;
+    const t = e.target;
+    if(t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+    const k = e.key; let map = null;
+    if(/^[0-9]$/.test(k)) map = k;
+    else if(k === '.') map = '.';
+    else if(k === '+') map = 'add'; else if(k === '-') map = 'sub'; else if(k === '*') map = 'mul'; else if(k === '/') map = 'div';
+    else if(k === '(') map = 'lp'; else if(k === ')') map = 'rp'; else if(k === '^') map = 'pow';
+    else if(k === '!') map = 'fact'; else if(k === '%') map = 'pct';
+    else if(k === 'Enter' || k === '=' || k === 'Backspace' || k === 'Escape'){
+      // only when the calculator itself (or nothing) has focus, so Enter still presses focused quiz buttons
+      const inCalc = t && t.closest && t.closest('#calc-root');
+      if(!(inCalc || t === document.body || !t)) return;
+      map = k === 'Backspace' ? 'del' : k === 'Escape' ? 'close' : 'eq';
+    }
+    if(!map) return;
+    e.preventDefault();
+    if(map === 'close'){ calc.open = false; syncCalculator(); calcChips(); } else calcKey(map);
+  });
+})();
 
 /* ================================================================
    LOOKUPS
@@ -11143,7 +11425,7 @@ function renderSubjectsView(){
       </button>`;
     }).join('')}
   </div>
-  ${course.id==='mdcat' ? renderMockRow() : ''}`;
+  ${course.id==='mdcat' ? renderMockRow('mdcat') : ''}`;
 }
 
 function renderChaptersView(){
@@ -11170,7 +11452,7 @@ function renderChaptersView(){
       </button>`;
     }).join('')}
   </div>
-  ${subject.id==='sat-math' ? renderSatMockCard() : ''}`;
+  ${(course.id==='sat' && subject.id==='sat-math') ? renderMockRow('sat') : ''}`;
 }
 
 function renderTopicsView(){
@@ -11228,6 +11510,7 @@ function renderQuizView(){
   <div class="quiz-head">
     <button class="icon-btn" data-nav="topics" data-course="${state.courseId}" data-subject="${state.subjectId}" data-chapter="${state.chapterId}">${ICONS.back} Exit</button>
     <div class="quiz-progress-track"><div class="quiz-progress-fill" style="width:${pctThroughQuiz}%"></div></div>
+    ${calcAvailable() ? calcChipHTML() : ''}
     <div class="quiz-count mono">${inBonus ? 'Bonus' : `${q.index+1}/${shownTotal}`}</div>
   </div>
   ${inBonus ? `<div class="bonus-flag">★ Bonus question — get it right to make up for a miss</div>` : ''}
@@ -11361,6 +11644,7 @@ function render(){
     ${hideTabbar ? '' : renderTabbar()}
   `;
   if(isMock) startMockTimer(); else stopMockTimer();
+  syncCalculator();
 }
 
 /* ================================================================
@@ -11368,12 +11652,12 @@ function render(){
    ================================================================ */
 document.getElementById('app').addEventListener('click', (e)=>{
   // ---- MDCAT mock test controls ----
+  const calcT = e.target.closest('[data-calc-toggle]');
+  if(calcT){ calcToggle(); return; }
   const mOpen = e.target.closest('[data-mopen]');
   if(mOpen){ openMockIntro(mOpen.dataset.mopen); return; }
-  const mStart = e.target.closest('[data-mstart]');
-  if(mStart){ startMock(mStart.dataset.mstart); return; }
-  const mResume = e.target.closest('[data-mresume]');
-  if(mResume){ resumeMock(mResume.dataset.mresume); return; }
+  if(e.target.closest('[data-mstart]')){ startMock(); return; }
+  if(e.target.closest('[data-mresume]')){ resumeMock(); return; }
   const mPick = e.target.closest('[data-mpick]');
   if(mPick){ mockPick(Number(mPick.dataset.mpick)); return; }
   const mGo = e.target.closest('[data-mgo]');
@@ -11449,4 +11733,4 @@ if('serviceWorker' in navigator){
 }
 </script>
 </body>
-</html>ssss
+</html>
