@@ -247,6 +247,7 @@ nav.tabbar{
   border:1px solid var(--ink);
 }
 .mastery-block .m-eyebrow{ font-size:10.5px; text-transform:uppercase; letter-spacing:.14em; color:var(--gold); font-weight:700; }
+.mastery-block .m-eyebrow.teal{ color:var(--teal); }   /* same teal as "Continue where you left off" */
 .mastery-block h3{ margin:0; font-size:18px; }
 .mastery-block p{ margin:0; font-size:12.5px; color:#C9CBD8; line-height:1.5; }
 .mastery-block .m-row{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:4px; }
@@ -11657,7 +11658,7 @@ function renderProgressView(){
     <div class="section-sub">Across all courses.</div>
   </div>
   <div class="mastery-block">
-    <div class="m-eyebrow">Overall Mastery</div>
+    <div class="m-eyebrow teal">Overall Mastery</div>
     <h3>${overallPct}%</h3>
     <p>${masteredCount} of ${allTopics.length} topics mastered · ${startedCount} topics started.</p>
   </div>
