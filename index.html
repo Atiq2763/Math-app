@@ -11007,6 +11007,85 @@ function calcChipHTML(){
 })();
 
 /* ================================================================
+   BACK-BUTTON SUPPORT (History API)
+   Every screen the person opens is recorded as a browser-history
+   entry, so the phone's Back button / swipe-back steps back ONE
+   screen instead of closing the whole app. Rules:
+   - opening a new screen pushes an entry;
+   - going "up" to a screen that is already in the stack (Exit, Back
+     to Topics, breadcrumbs, tabs) rewinds the history to it, so Back
+     never bounces between duplicate screens;
+   - quiz <-> results and mock <-> mock results swap in place;
+   - leaving a running mock test with Back asks first, like Exit does.
+   ================================================================ */
+const NAV_FIELDS = ['tab','view','courseId','subjectId','chapterId','topicId','mockId'];
+const NAV_TRANSIENT = [['quiz','results'],['mock','mockResults']];
+let navIndex = 0, navIgnore = 0, navPending = null;
+const navKeys = {};
+function navSnap(){ const s = {}; NAV_FIELDS.forEach(f => { s[f] = state[f] === undefined ? null : state[f]; }); return s; }
+function navKey(s){
+  // only the fields that identify THIS screen (a stale topicId must not make "topics" look like a new screen)
+  switch(s.view){
+    case 'subjects': return ['subjects', s.courseId].join('|');
+    case 'chapters': return ['chapters', s.courseId, s.subjectId].join('|');
+    case 'topics':   return ['topics', s.courseId, s.subjectId, s.chapterId].join('|');
+    case 'quiz': case 'results': return [s.view, s.courseId, s.subjectId, s.chapterId, s.topicId].join('|');
+    case 'mockIntro': case 'mock': case 'mockResults': return [s.view, s.mockId || 'mdcat'].join('|');
+    default: return [s.view, s.tab].join('|');          // courses / progressView / savedView
+  }
+}
+function navSameGroup(a, b){ return a === b || NAV_TRANSIENT.some(g => g.includes(a) && g.includes(b)); }
+function navSafeState(y){ return { nav:navSnap(), i:navIndex, y:y || 0 }; }
+function navCommit(prevY){
+  try{
+    const snap = navSnap(), key = navKey(snap), curKey = navKeys[navIndex];
+    const curView = curKey ? curKey.split('|')[0] : null;
+    // remember where the old screen was scrolled to
+    const hs = history.state; if(hs && hs.nav) history.replaceState({ nav:hs.nav, i:hs.i, y:prevY || 0 }, '');
+    if(key === curKey){ history.replaceState(navSafeState(0), ''); return; }
+    // already in the stack behind us? rewind to it instead of piling up
+    for(let j = navIndex - 1; j >= 0; j--){
+      if(navKeys[j] === key){ navIgnore++; navPending = snap; history.go(j - navIndex); return; }
+    }
+    if(curView && navSameGroup(curView, snap.view)){ navKeys[navIndex] = key; history.replaceState(navSafeState(0), ''); return; }
+    navIndex++;
+    Object.keys(navKeys).forEach(k => { if(+k >= navIndex) delete navKeys[k]; });
+    navKeys[navIndex] = key;
+    history.pushState(navSafeState(0), '');
+  }catch(e){ /* history unavailable (e.g. sandboxed frame): the app still works, just without Back support */ }
+}
+window.addEventListener('popstate', (e) => {
+  const st = e.state;
+  if(navIgnore > 0){                                  // we triggered this ourselves (rewind / cancelled leave)
+    navIgnore--;
+    if(st && typeof st.i === 'number') navIndex = st.i;
+    if(navPending){ navKeys[navIndex] = navKey(navPending); try{ history.replaceState({ nav:navPending, i:navIndex, y:0 }, ''); }catch(_){} navPending = null; }
+    return;
+  }
+  if(!st || !st.nav) return;
+  const t = Object.assign({}, st.nav);
+  // Back during a running mock test: ask first (same wording as the Exit button)
+  if(state.view === 'mock' && t.view !== 'mock' && t.view !== 'mockResults'){
+    if(!confirm('Leave the test for now? The timer keeps running. You can resume from the ' + mk().title + ' page until time runs out.')){
+      navIgnore++; history.go(navIndex - st.i); return;
+    }
+    saveMockSession();
+  }
+  // a screen that needs live data we no longer have falls back to its parent
+  if(t.view === 'quiz' && !(state.quiz && state.topicId === t.topicId)) t.view = 'topics';
+  if(t.view === 'results' && !(state.lastScore != null && state.topicId === t.topicId)) t.view = 'topics';
+  if(t.view === 'mock'){ if(!(state.mock && state.mockId === t.mockId)) t.view = 'mockIntro'; else if(state.mock.result) t.view = 'mockResults'; }
+  if(t.view === 'mockResults' && !(state.mock && state.mock.result && state.mockId === t.mockId)) t.view = 'mockIntro';
+  NAV_FIELDS.forEach(f => { if(f === 'mockId' && !t.mockId) return; state[f] = t[f]; });
+  navIndex = st.i;
+  navKeys[navIndex] = navKey(t);
+  if(t.view !== st.nav.view){ try{ history.replaceState({ nav:t, i:navIndex, y:0 }, ''); }catch(_){} }
+  render();
+  window.scrollTo(0, st.y || 0);
+});
+try{ if('scrollRestoration' in history) history.scrollRestoration = 'manual'; }catch(e){}
+
+/* ================================================================
    LOOKUPS
    ================================================================ */
 function findCourse(id){ return COURSES.find(c=>c.id===id); }
@@ -11071,16 +11150,20 @@ const state = {
 };
 
 function go(view, patch){
+  const prevY = window.scrollY || 0;
   Object.assign(state, patch||{});
   state.view = view;
   render();
+  navCommit(prevY);
   window.scrollTo({top:0, behavior:'instant' in window.scrollTo ? 'instant' : 'auto'});
 }
 function goTab(tab){
+  const prevY = window.scrollY || 0;
   state.tab = tab;
   state.view = tab === 'progress' ? 'progressView' : tab === 'saved' ? 'savedView' : 'courses';
   state.courseId = null; state.subjectId = null; state.chapterId = null; state.topicId = null; state.quiz = null;
   render();
+  navCommit(prevY);
 }
 
 function startQuiz(topicId, courseId, subjectId, chapterId){
@@ -11724,6 +11807,7 @@ document.getElementById('app').addEventListener('click', (e)=>{
    INIT
    ================================================================ */
 render();
+try{ navKeys[0] = navKey(navSnap()); history.replaceState(navSafeState(0), ''); }catch(e){}
 
 /* ---- PWA: register service worker for offline support ---- */
 if('serviceWorker' in navigator){
