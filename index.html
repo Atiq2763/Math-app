@@ -483,6 +483,7 @@ button.stat-pill.link.on{ background:var(--ink); border-color:var(--ink); color:
 .hit-title{ font-weight:600; font-size:14px; }
 .hit-path{ font-size:11.5px; color:var(--ink-soft); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .hit-badge{ font-size:12px; font-weight:700; color:var(--teal-deep); }
+.my-empty{ border:1.5px dashed var(--rule); border-radius:12px; padding:16px 14px; margin-bottom:22px; text-align:center; font-size:13px; color:var(--ink-soft); }
 .no-hits{ text-align:center; color:var(--ink-soft); font-size:13.5px; padding:22px 8px; }
 
 .prac-card{ background:var(--paper-raised); border:1.5px solid var(--card-border); border-radius:var(--radius); box-shadow:var(--shadow); padding:14px; margin-bottom:12px; display:flex; flex-direction:column; gap:10px; }
@@ -11631,14 +11632,15 @@ function homeListHTML(){
     return c ? `<div class="course-grid">${admitCardHTML(c)}</div>` : '';
   }
   const heroId = activeCourseId();
-  const mine = COURSES.filter(c=>starred.has(c.id) || c.id===heroId).sort((a,b)=> (b.id===heroId) - (a.id===heroId));
-  const rest = COURSES.filter(c=>!mine.includes(c));
+  // "My courses" = only the courses the person has starred (★). Nothing starred -> the list stays empty.
+  const mine = COURSES.filter(c=>starred.has(c.id)).sort((a,b)=> (b.id===heroId) - (a.id===heroId));
+  const rest = COURSES.filter(c=>!starred.has(c.id));
   return `
-  ${mine.length ? `
   <div class="sec-label">My courses</div>
-  <div class="course-grid" style="margin-bottom:24px">${mine.map(admitCardHTML).join('')}</div>` : ''}
+  ${mine.length
+    ? `<div class="course-grid" style="margin-bottom:24px">${mine.map(admitCardHTML).join('')}</div>`
+    : '<div class="my-empty">No courses starred yet. Tap ★ on a course below to add it here.</div>'}
   <div class="sec-label" id="all-tests">All tests</div>
-  ${mine.length ? '' : '<div class="section-sub" style="margin:-4px 2px 10px">Tap ★ on the tests you’re studying for to pin them to the top.</div>'}
   <div class="mini-list">${rest.map(miniCardHTML).join('')}</div>`;
 }
 function searchBoxHTML(){
