@@ -430,6 +430,72 @@ body.calc-open #app{ padding-bottom:var(--calc-h,0px); }
 .satmock-meta{ display:flex; flex-wrap:wrap; gap:6px; margin-top:12px; }
 .satmock-meta span{ font-size:11.5px; font-weight:600; padding:4px 10px; border-radius:999px; background:rgba(255,255,255,.12); }
 .satmock-go{ margin-top:14px; display:inline-flex; align-items:center; gap:6px; background:#E2C877; color:#12182B; font-weight:700; font-size:13px; padding:9px 15px; border-radius:10px; }
+/* ---------- Home redesign: cards, goal, top bar, search, Practice ---------- */
+.brand{ flex-wrap:wrap; row-gap:10px; }
+.brand-stats{ flex:1 1 100%; justify-content:flex-start; gap:6px; }
+@media (min-width:520px){ .brand-stats{ flex:0 1 auto; justify-content:flex-end; } }
+.stat-pill{ font-size:11.5px; padding:5px 10px; white-space:nowrap; }
+button.stat-pill{ cursor:pointer; font-family:'IBM Plex Mono',monospace; }
+button.stat-pill.link{ color:var(--teal-deep); border-color:var(--teal); background:#EAF8F6; }
+button.stat-pill.link.on{ background:var(--ink); border-color:var(--ink); color:#fff; }
+
+.admit-card{ flex-direction:column; }
+.admit-main{ text-align:left; width:100%; padding:16px 16px 12px; gap:10px; }
+.admit-top{ align-items:center; gap:10px; }
+.admit-titles{ flex:1; min-width:0; }
+.course-badge{ width:40px; height:40px; border-radius:12px; background:var(--gold-soft); display:flex; align-items:center; justify-content:center; font-size:21px; flex-shrink:0; }
+.admit-stats{ font-size:12.5px; font-weight:600; color:var(--ink); }
+.admit-progress{ display:flex; flex-direction:column; gap:6px; }
+.admit-progress-head{ display:flex; justify-content:space-between; align-items:baseline; font-size:12.5px; font-weight:600; color:var(--ink); }
+.admit-progress-head .mono{ font-family:'IBM Plex Mono',monospace; font-size:12px; }
+.admit-note{ font-size:11.5px; color:var(--ink-soft); }
+.admit-continue{ background:var(--gold-soft); border-radius:10px; padding:9px 11px; font-size:12.5px; line-height:1.4; color:var(--ink); }
+.admit-continue small{ display:block; color:var(--ink-soft); font-size:11.5px; margin-top:2px; }
+.admit-cta{ padding:0 16px 16px; }
+.cta-btn{ width:100%; border:none; border-radius:11px; padding:12px 14px; font:700 14px 'Inter',sans-serif; background:var(--ink); color:var(--paper); cursor:pointer; }
+.cta-btn.start{ background:var(--teal); color:#03231F; }
+.cta-btn:active{ transform:translateY(1px); }
+.mini-badge{ width:34px; height:34px; border-radius:10px; background:var(--gold-soft); display:flex; align-items:center; justify-content:center; font-size:17px; flex-shrink:0; margin-left:10px; }
+.mini-stats{ font-size:11px; color:var(--ink-soft); margin-top:3px; }
+.mini-main{ padding-left:2px; }
+
+.goal-left{ margin-top:9px; font-size:12.5px; font-weight:600; color:var(--flame); }
+.goal-done .goal-left{ color:var(--teal-deep); }
+
+.search-wrap{ position:relative; margin:4px 0 10px; }
+.search-wrap input{
+  width:100%; border:1.5px solid var(--card-border); background:var(--paper-raised); color:var(--ink);
+  border-radius:12px; padding:12px 38px 12px 38px; font:500 14px 'Inter',sans-serif; outline:none;
+}
+.search-wrap input:focus{ border-color:var(--teal); box-shadow:0 0 0 3px rgba(0,184,169,.18); }
+.search-wrap input::-webkit-search-cancel-button{ display:none; }
+.search-ico{ position:absolute; left:13px; top:50%; transform:translateY(-50%); font-size:14px; pointer-events:none; }
+.search-clear{ position:absolute; right: 8px; top:50%; transform:translateY(-50%); border:none; background:none; color:var(--ink-soft); font-size:15px; padding:6px 8px; cursor:pointer; }
+.chip-row{ display:flex; gap:7px; overflow-x:auto; padding:2px 0 12px; margin-bottom:6px; scrollbar-width:none; }
+.chip-row::-webkit-scrollbar{ display:none; }
+.chip{ border:1.5px solid var(--rule); background:var(--paper-raised); color:var(--ink-soft); border-radius:999px; padding:6px 13px; font:700 12px 'Inter',sans-serif; white-space:nowrap; cursor:pointer; }
+.chip.on{ background:var(--ink); border-color:var(--ink); color:#fff; }
+.topic-hit{
+  display:flex; align-items:center; gap:10px; width:100%; text-align:left; cursor:pointer; font:inherit; color:inherit;
+  background:var(--paper-raised); border:1.5px solid var(--card-border); border-radius:12px; padding:11px 13px; margin-bottom:8px;
+}
+.hit-main{ flex:1; min-width:0; display:flex; flex-direction:column; gap:2px; }
+.hit-title{ font-weight:600; font-size:14px; }
+.hit-path{ font-size:11.5px; color:var(--ink-soft); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.hit-badge{ font-size:12px; font-weight:700; color:var(--teal-deep); }
+.no-hits{ text-align:center; color:var(--ink-soft); font-size:13.5px; padding:22px 8px; }
+
+.prac-card{ background:var(--paper-raised); border:1.5px solid var(--card-border); border-radius:var(--radius); box-shadow:var(--shadow); padding:14px; margin-bottom:12px; display:flex; flex-direction:column; gap:10px; }
+.prac-head{ display:flex; gap:12px; align-items:center; }
+.prac-ico{ width:42px; height:42px; border-radius:12px; background:var(--gold-soft); display:flex; align-items:center; justify-content:center; font-size:21px; flex-shrink:0; }
+.prac-title{ font-family:'Source Serif 4',serif; font-weight:600; font-size:17px; }
+.prac-sub{ font-size:12.5px; color:var(--ink-soft); line-height:1.4; margin-top:1px; }
+.prac-note{ font-size:11.5px; font-weight:700; color:var(--teal-deep); }
+.prac-btn{ width:100%; border:none; border-radius:11px; padding:11px 14px; font:700 14px 'Inter',sans-serif; background:var(--ink); color:var(--paper); cursor:pointer; }
+.prac-btn:disabled{ opacity:.4; cursor:default; }
+.prac-btn.alt{ background:var(--paper); color:var(--ink); border:1.5px solid var(--rule); text-align:left; display:flex; justify-content:space-between; }
+.q-src{ font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--gold); margin-bottom:8px; }
+.tabbar-inner{ grid-template-columns:repeat(4,1fr); }
 </style>
 </head>
 <body>
@@ -10948,6 +11014,7 @@ function calcMeasure(){
 function calcChips(){ document.querySelectorAll('[data-calc-toggle]').forEach(b => b.classList.toggle('on', calc.open)); }
 function calcAvailable(){
   if(state.view === 'quiz'){
+    if(state.quiz && state.quiz.custom) return !!state.quiz.custom.calc;
     const c = findCourse(state.courseId); const sj = c && findSubject(c, state.subjectId);
     return !!(sj && sj.type === 'math');
   }
@@ -11126,6 +11193,7 @@ function chapterProgressPct(chapter){
    ICONS (inline SVG, stroke = currentColor)
    ================================================================ */
 const ICONS = {
+  bolt: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/></svg>`,
   clock: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>`,
   book: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>`,
   chart: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>`,
@@ -11161,7 +11229,7 @@ function go(view, patch){
 function goTab(tab){
   const prevY = window.scrollY || 0;
   state.tab = tab;
-  state.view = tab === 'progress' ? 'progressView' : tab === 'saved' ? 'savedView' : 'courses';
+  state.view = tab === 'progress' ? 'progressView' : tab === 'saved' ? 'savedView' : tab === 'practice' ? 'practiceView' : 'courses';
   state.courseId = null; state.subjectId = null; state.chapterId = null; state.topicId = null; state.quiz = null;
   render();
   navCommit(prevY);
@@ -11196,7 +11264,8 @@ function checkAnswer(){
   q.locked = true;
   q.answered = q.selected;
   const question = q.bank[q.index];
-  if(q.answered === question.correct) q.correctCount++; else q.wrongCount++;
+  if(q.answered === question.correct) q.correctCount++;
+  else { q.wrongCount++; if(question.src){ q.missed = q.missed || []; if(!q.missed.includes(question.src)) q.missed.push(question.src); } }
   recordAnswer();
   render();
 }
@@ -11221,6 +11290,11 @@ function nextQuiz(){
 }
 function finishQuiz(){
   const q = state.quiz;
+  if(q.custom){                                   // Practice-tab sets never change a topic's mastery
+    state.lastScore = Math.round((q.correctCount / q.bank.length) * 100);
+    if(q.custom.kind === 'daily' && activity.daily){ activity.daily.done = true; activity.daily.score = state.lastScore; saveActivity(); }
+    go('results'); return;
+  }
   const pct = q.bonus
     ? Math.round((Math.min(q.correctCount, q.mainCount) / q.mainCount) * 100)
     : Math.round((q.correctCount / q.bank.length) * 100);
@@ -11234,6 +11308,7 @@ function finishQuiz(){
   go('results');
 }
 function retryQuiz(){
+  if(state.quiz && state.quiz.custom){ startPractice(state.quiz.custom.kind); return; }
   startQuiz(state.topicId, state.courseId, state.subjectId, state.chapterId);
 }
 function toggleStar(courseId){
@@ -11332,87 +11407,7 @@ function renderBreadcrumbs(){
   }).join('')}</div>`;
 }
 
-function renderTopbar(){
-  const totalMastered = Object.values(progress).filter(p=>p.mastered).length;
-  const streak = streakCount();
-  return `
-  <header class="topbar">
-    <div class="brand">
-      <div class="brand-mark">
-        <div class="brand-badge">M</div>
-        <div>
-          <div class="brand-name">Merit</div>
-          <div class="brand-tag">Test Prep</div>
-        </div>
-      </div>
-      <div class="brand-stats">
-        <div class="stat-pill mono streak ${streak?'':'cold'}" title="Days in a row you answered at least one question">🔥 ${streak}-day streak</div>
-        <div class="stat-pill mono">🏆 ${totalMastered} mastered</div>
-      </div>
-    </div>
-    ${renderBreadcrumbs()}
-  </header>`;
-}
-
-function renderTabbar(){
-  const tabs = [
-    {id:'courses', label:'Home', icon:ICONS.book},
-    {id:'progress', label:'Progress', icon:ICONS.chart},
-    {id:'saved', label:'Saved', icon:ICONS.bookmark},
-  ];
-  return `<nav class="tabbar"><div class="tabbar-inner">
-    ${tabs.map(t=>`
-      <button class="tab-btn ${state.tab===t.id?'active':''}" data-tab="${t.id}">
-        ${t.icon}
-        <span>${t.label}</span>
-        <span class="dot"></span>
-      </button>`).join('')}
-  </div></nav>`;
-}
-
 const ICON_PLAY = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>`;
-
-function admitCardHTML(c){
-  const pct = courseProgressPct(c);
-  const isStarred = starred.has(c.id);
-  const started = pct > 0 || (activity.last && activity.last.courseId === c.id);
-  const done = flattenCourse(c).filter(x=>progress[x.topic.id]?.mastered).length;
-  const total = flattenCourse(c).length;
-  return `
-  <div class="admit-card">
-    <button class="admit-main" data-nav="subjects" data-course="${c.id}" style="background:none;border:none;">
-      <div class="admit-top">
-        <div>
-          <div class="admit-course-name">${esc(c.name)}</div>
-          <div class="admit-course-full">${esc(c.full)}</div>
-        </div>
-        <span class="star-btn ${isStarred?'active':''}" data-star="${c.id}">${isStarred?ICONS.starFilled:ICONS.star}</span>
-      </div>
-      <div class="admit-meta">
-        <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
-        <div class="progress-pct mono">${pct}%</div>
-      </div>
-      <div class="admit-sub">${c.subjects.length} subjects · ${done}/${total} topics mastered</div>
-    </button>
-    <button class="admit-stub" data-resume="${c.id}" aria-label="${started?'Resume':'Start'} ${esc(c.name)}">
-      <div class="admit-stub-cta">${ICON_PLAY}</div>
-      <div class="admit-stub-label">${started?'Resume':'Start'}</div>
-    </button>
-  </div>`;
-}
-
-function miniCardHTML(c){
-  const pct = courseProgressPct(c);
-  return `
-  <div class="mini-card">
-    <button class="mini-main" data-nav="subjects" data-course="${c.id}">
-      <div class="mini-name">${esc(c.name)}</div>
-      <div class="mini-full">${esc(c.full)}</div>
-    </button>
-    <span class="mini-pct">${pct}%</span>
-    <span class="star-btn ${starred.has(c.id)?'active':''}" data-star="${c.id}" aria-label="Pin ${esc(c.name)}">${starred.has(c.id)?ICONS.starFilled:ICONS.star}</span>
-  </div>`;
-}
 
 function greetingHTML(){
   const name = activity.name ? esc(activity.name) : '';
@@ -11426,19 +11421,6 @@ function greetingHTML(){
   <div class="greet">
     <div class="greet-title">Welcome back${name ? ', '+name : ''}! ${today>=goal ? '🎉' : 'Ready for today’s goal?'}</div>
     <div class="greet-sub">${sub} <button class="link-btn" data-setname>${name ? 'Change name' : 'Add your name'}</button></div>
-  </div>`;
-}
-
-function goalCardHTML(){
-  const today = todayCount(), goal = dailyGoal();
-  const pct = Math.min(100, Math.round(today/goal*100));
-  return `
-  <div class="goal-card ${today>=goal?'goal-done':''}">
-    <div class="goal-row">
-      <span class="goal-label">Today’s goal</span>
-      <span class="goal-count">${Math.min(today, 9999)} / ${goal} questions · <button class="link-btn" data-goal>Edit</button></span>
-    </div>
-    <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
   </div>`;
 }
 
@@ -11469,21 +11451,335 @@ function heroHTML(){
   </div>`;
 }
 
-function renderCoursesView(){
+/* ================================================================
+   HOME REDESIGN + PRACTICE TAB
+   ================================================================ */
+const COURSE_EMOJI = { mdcat:'🩺', ecat:'⚙️', sat:'📝', 'fast-nuces':'💻', 'lums-lcat':'🎓', 'nust-net':'🛠️' };
+const COURSE_SHORT = { 'fast-nuces':'FAST', 'lums-lcat':'LUMS', 'nust-net':'NUST' };
+const CHIP_ORDER = ['sat','mdcat','ecat','fast-nuces','lums-lcat','nust-net'];
+function courseEmoji(c){ return COURSE_EMOJI[c.id] || '📘'; }
+function courseShort(c){ return COURSE_SHORT[c.id] || c.name; }
+function courseCounts(c){
+  const topics = allTopicsOfCourse(c);
+  const done = topics.filter(t=>progress[t.id]?.mastered).length;
+  const attempted = topics.filter(t=>progress[t.id]?.attempts>0).length;
+  return { total:topics.length, done, attempted, subjects:c.subjects.length };
+}
+function masteredTotal(){
+  let n = 0; COURSES.forEach(c=>allTopicsOfCourse(c).forEach(t=>{ if(progress[t.id]?.mastered) n++; })); return n;
+}
+function shuffled(a){ const x = a.slice(); for(let i=x.length-1;i>0;i--){ const j = Math.floor(Math.random()*(i+1)); [x[i],x[j]] = [x[j],x[i]]; } return x; }
+
+function admitCardHTML(c){
+  const n = courseCounts(c);
+  const isStarred = starred.has(c.id);
+  const started = n.attempted > 0 || (activity.last && activity.last.courseId === c.id);
+  const exact = n.total ? (n.done / n.total) * 100 : 0;
+  const pct = Math.round(exact);
+  const barW = n.done > 0 ? Math.max(exact, 2) : 0;
+  const note = n.done === 0 ? 'Start your preparation' : (pct < 1 ? '<1% complete' : `${pct}% complete`);
+  let cont = '';
+  if(started){
+    const last = activity.last && activity.last.courseId === c.id ? activity.last.topicId : null;
+    const t = nextTargetFor(c, last);
+    if(t){
+      const chDone = t.chapter.topics.filter(x=>progress[x.id]?.mastered).length;
+      cont = `<div class="admit-continue"><strong>Continue:</strong> ${esc(t.chapter.name)} → ${esc(t.topic.name)}<small>${chDone} of ${t.chapter.topics.length} topics mastered in this chapter</small></div>`;
+    }
+  }
+  return `
+  <div class="admit-card">
+    <button class="admit-main" data-nav="subjects" data-course="${c.id}" style="background:none;border:none;">
+      <div class="admit-top">
+        <span class="course-badge" aria-hidden="true">${courseEmoji(c)}</span>
+        <div class="admit-titles">
+          <div class="admit-course-name">${esc(c.name)}</div>
+          <div class="admit-course-full">${esc(c.full)}</div>
+        </div>
+        <span class="star-btn ${isStarred?'active':''}" data-star="${c.id}">${isStarred?ICONS.starFilled:ICONS.star}</span>
+      </div>
+      <div class="admit-stats">📚 ${n.subjects} Subject${n.subjects===1?'':'s'} · ${n.total} Topics</div>
+      <div class="admit-progress">
+        <div class="admit-progress-head"><span>${n.done} / ${n.total} topics mastered</span><span class="mono">${pct}%</span></div>
+        <div class="progress-track"><div class="progress-fill" style="width:${barW}%"></div></div>
+        <div class="admit-note">${note}</div>
+      </div>
+      ${cont}
+    </button>
+    <div class="admit-cta">
+      <button class="cta-btn ${started?'':'start'}" data-resume="${c.id}">${started ? `Continue ${esc(c.name)} →` : 'Start preparing →'}</button>
+    </div>
+  </div>`;
+}
+
+function miniCardHTML(c){
+  const n = courseCounts(c);
+  return `
+  <div class="mini-card">
+    <span class="mini-badge" aria-hidden="true">${courseEmoji(c)}</span>
+    <button class="mini-main" data-nav="subjects" data-course="${c.id}">
+      <div class="mini-name">${esc(c.name)}</div>
+      <div class="mini-full">${esc(c.full)}</div>
+      <div class="mini-stats">📚 ${n.subjects} Subject${n.subjects===1?'':'s'} · ${n.total} Topics · ${n.done}/${n.total} mastered</div>
+    </button>
+    <span class="star-btn ${starred.has(c.id)?'active':''}" data-star="${c.id}" aria-label="Pin ${esc(c.name)}">${starred.has(c.id)?ICONS.starFilled:ICONS.star}</span>
+  </div>`;
+}
+
+function goalCardHTML(){
+  const today = todayCount(), goal = dailyGoal();
+  const pct = Math.min(100, Math.round(today/goal*100));
+  const left = Math.max(0, goal - today);
+  const line = left === 0 ? '🎉 Goal complete — anything extra is a bonus'
+    : `🔥 ${left} question${left===1?'':'s'} left today`;
+  return `
+  <div class="goal-card ${today>=goal?'goal-done':''}">
+    <div class="goal-row">
+      <span class="goal-label">Today’s Goal</span>
+      <span class="goal-count">${Math.min(today, 9999)} / ${goal} questions · <button class="link-btn" data-goal>Edit</button></span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
+    <div class="goal-left">${line}</div>
+  </div>`;
+}
+
+function renderTopbar(){
+  const totalMastered = masteredTotal();
+  const streak = streakCount();
+  return `
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">
+        <div class="brand-badge">M</div>
+        <div>
+          <div class="brand-name">Merit</div>
+          <div class="brand-tag">Test Prep</div>
+        </div>
+      </div>
+      <div class="brand-stats">
+        <div class="stat-pill mono streak ${streak?'':'cold'}" title="Days in a row you answered at least one question">🔥 ${streak} Day Streak</div>
+        <div class="stat-pill mono">🏆 ${totalMastered} Topic${totalMastered===1?'':'s'} Mastered</div>
+        <button class="stat-pill mono link ${state.tab==='progress'?'on':''}" data-tab="progress">📊 Progress</button>
+      </div>
+    </div>
+    ${renderBreadcrumbs()}
+  </header>`;
+}
+
+function renderTabbar(){
+  const tabs = [
+    {id:'courses', label:'Home', icon:ICONS.book},
+    {id:'practice', label:'Practice', icon:ICONS.bolt},
+    {id:'progress', label:'Progress', icon:ICONS.chart},
+    {id:'saved', label:'Saved', icon:ICONS.bookmark},
+  ];
+  return `<nav class="tabbar"><div class="tabbar-inner">
+    ${tabs.map(t=>`
+      <button class="tab-btn ${state.tab===t.id?'active':''}" data-tab="${t.id}">
+        ${t.icon}
+        <span>${t.label}</span>
+        <span class="dot"></span>
+      </button>`).join('')}
+  </div></nav>`;
+}
+
+/* ---- search + filter on Home ---- */
+let homeQuery = '', homeFilter = 'all', practiceScope = null, _searchIdx = null;
+function searchIndex(){
+  if(_searchIdx) return _searchIdx;
+  _searchIdx = [];
+  COURSES.forEach(c=>c.subjects.forEach(s=>s.chapters.forEach(ch=>ch.topics.forEach(t=>{
+    _searchIdx.push({ c, s, ch, t, hay:(c.name+' '+s.name+' '+ch.name+' '+t.name).toLowerCase(), name:t.name.toLowerCase() });
+  }))));
+  return _searchIdx;
+}
+function runSearch(q, filter){
+  const toks = q.toLowerCase().split(/\s+/).filter(Boolean);
+  const hits = [];
+  for(const x of searchIndex()){
+    if(filter !== 'all' && x.c.id !== filter) continue;
+    if(!toks.every(t => x.hay.includes(t))) continue;
+    let score = toks.every(t => x.name.includes(t)) ? 0 : 1;
+    if(x.name.startsWith(toks[0])) score -= 0.5;
+    hits.push({ x, score });
+  }
+  hits.sort((a,b) => a.score - b.score);
+  return hits.map(h => h.x);
+}
+function topicHitHTML(x){
+  const done = progress[x.t.id]?.mastered;
+  return `
+  <button class="topic-hit" data-quiz="${x.t.id}" data-course="${x.c.id}" data-subject="${x.s.id}" data-chapter="${x.ch.id}">
+    <span class="hit-main"><span class="hit-title">${esc(x.t.name)}</span><span class="hit-path">${esc(x.c.name)} · ${esc(x.s.name)} · ${esc(x.ch.name)}</span></span>
+    <span class="hit-badge">${done ? '✓ Mastered' : 'Practice →'}</span>
+  </button>`;
+}
+function homeListHTML(){
+  const q = homeQuery.trim();
+  if(q){
+    const toks = q.toLowerCase().split(/\s+/).filter(Boolean);
+    const courses = COURSES.filter(c => (homeFilter === 'all' || c.id === homeFilter) && toks.every(t => (c.name+' '+c.full).toLowerCase().includes(t)));
+    const hits = runSearch(q, homeFilter);
+    if(!courses.length && !hits.length) return `<div class="no-hits">No courses or topics match “${esc(q)}”.</div>`;
+    const shown = hits.slice(0, 40);
+    return `
+    ${courses.length ? `<div class="sec-label">Courses</div><div class="mini-list" style="margin-bottom:16px">${courses.map(miniCardHTML).join('')}</div>` : ''}
+    ${hits.length ? `<div class="sec-label">Topics · ${hits.length} found</div>${shown.map(topicHitHTML).join('')}${hits.length > shown.length ? `<div class="no-hits" style="padding:8px">Showing the first ${shown.length}. Type more to narrow it down.</div>` : ''}` : ''}`;
+  }
+  if(homeFilter !== 'all'){
+    const c = findCourse(homeFilter);
+    return c ? `<div class="course-grid">${admitCardHTML(c)}</div>` : '';
+  }
   const heroId = activeCourseId();
-  const mine = COURSES.filter(c=>starred.has(c.id) || c.id===heroId)
-                      .sort((a,b)=> (b.id===heroId) - (a.id===heroId));
+  const mine = COURSES.filter(c=>starred.has(c.id) || c.id===heroId).sort((a,b)=> (b.id===heroId) - (a.id===heroId));
   const rest = COURSES.filter(c=>!mine.includes(c));
   return `
-  ${greetingHTML()}
-  ${goalCardHTML()}
-  ${heroHTML()}
   ${mine.length ? `
   <div class="sec-label">My courses</div>
   <div class="course-grid" style="margin-bottom:24px">${mine.map(admitCardHTML).join('')}</div>` : ''}
   <div class="sec-label" id="all-tests">All tests</div>
   ${mine.length ? '' : '<div class="section-sub" style="margin:-4px 2px 10px">Tap ★ on the tests you’re studying for to pin them to the top.</div>'}
   <div class="mini-list">${rest.map(miniCardHTML).join('')}</div>`;
+}
+function searchBoxHTML(){
+  const chips = [['all','All']].concat(CHIP_ORDER.map(id => { const c = findCourse(id); return c ? [id, courseShort(c)] : null; }).filter(Boolean));
+  return `
+  <div class="search-wrap">
+    <span class="search-ico" aria-hidden="true">🔍</span>
+    <input type="search" id="home-search" data-home-search="1" placeholder="Search courses or topics..." value="${esc(homeQuery)}" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="search" aria-label="Search courses or topics">
+    <button class="search-clear" data-search-clear="1" aria-label="Clear search" ${homeQuery ? '' : 'hidden'}>✕</button>
+  </div>
+  <div class="chip-row" role="tablist" aria-label="Filter by test">${chips.map(([id,label]) => `<button class="chip ${homeFilter===id?'on':''}" data-hfilter="${id}">${esc(label)}</button>`).join('')}</div>`;
+}
+function renderCoursesView(){
+  return `
+  ${greetingHTML()}
+  ${goalCardHTML()}
+  ${heroHTML()}
+  ${searchBoxHTML()}
+  <div id="home-list">${homeListHTML()}</div>`;
+}
+
+/* ---- Practice tab ---- */
+function practiceScopeId(){
+  if(practiceScope === 'all' || (practiceScope && findCourse(practiceScope))) return practiceScope;
+  return activeCourseId() || 'all';
+}
+function practiceTopics(scope){
+  const out = [];
+  (scope === 'all' ? COURSES : COURSES.filter(c => c.id === scope)).forEach(c =>
+    c.subjects.forEach(s => s.chapters.forEach(ch => ch.topics.forEach(t => out.push({ c, s, ch, t })))));
+  return out;
+}
+function questionsFromTopic(x, n){
+  const bank = generateQuestionBank(x.t, x.s.type);
+  return pickRandomQuestions(bank, Math.min(n, bank.length)).map(q => ({
+    q:q.q, options:q.options.slice(), correct:q.correct, explain:q.explain || '',
+    src: x.c.name + ' · ' + x.t.name, math: x.s.type === 'math',
+  }));
+}
+function buildMixed(scope, n){
+  n = n || 10;
+  const all = practiceTopics(scope);
+  if(!all.length) return [];
+  const real = shuffled(all.filter(x => CUSTOM_QUESTION_BANKS[x.t.id]));
+  const rest = shuffled(all.filter(x => !CUSTOM_QUESTION_BANKS[x.t.id]));
+  const order = real.concat(rest);
+  const qs = [];
+  for(let round = 0; qs.length < n && round < 3; round++){
+    for(const x of order){
+      if(qs.length >= n) break;
+      const pool = questionsFromTopic(x, 3);
+      if(pool[round]) qs.push(pool[round]);
+    }
+  }
+  return shuffled(qs).slice(0, n);
+}
+function weakTopics(scope){
+  return practiceTopics(scope).filter(x => { const p = progress[x.t.id]; return p && p.attempts > 0 && !p.mastered; })
+    .sort((a,b) => progress[a.t.id].bestScore - progress[b.t.id].bestScore);
+}
+function buildWeak(scope){
+  const qs = [];
+  weakTopics(scope).slice(0, 5).forEach(x => qs.push(...questionsFromTopic(x, 2)));
+  return shuffled(qs).slice(0, 10);
+}
+function dailySet(scope){
+  const key = dayKey() + '|' + scope;
+  if(!(activity.daily && activity.daily.key === key && Array.isArray(activity.daily.questions) && activity.daily.questions.length)){
+    activity.daily = { key, questions: buildMixed(scope, 10), done:false, score:null };
+    saveActivity();
+  }
+  return activity.daily;
+}
+function dailyStatus(scope){
+  const d = activity.daily;
+  return d && d.key === dayKey() + '|' + scope && d.done ? d : null;
+}
+function startPractice(kind){
+  const scope = practiceScopeId();
+  let qs = [], title = '';
+  if(kind === 'mixed'){ title = 'Mixed Practice'; qs = buildMixed(scope, 10); }
+  else if(kind === 'weak'){ title = 'Weak Topics'; qs = buildWeak(scope); }
+  else if(kind === 'daily'){ title = 'Daily Questions'; qs = dailySet(scope).questions.map(q => Object.assign({}, q, { options:q.options.slice() })); }
+  if(!qs.length) return;
+  state.quiz = { bank:qs, index:0, correctCount:0, wrongCount:0, bonus:false, mainCount:qs.length, selected:null, answered:null, locked:false, missed:[],
+                 custom:{ kind, scope, title, calc: qs.some(q => q.math) } };
+  go('quiz', { courseId:null, subjectId:null, chapterId:null, topicId:'custom:' + kind });
+}
+function renderPracticeView(){
+  const scope = practiceScopeId();
+  const chips = [['all','All courses']].concat(CHIP_ORDER.map(id => { const c = findCourse(id); return c ? [id, courseShort(c)] : null; }).filter(Boolean));
+  const weakN = weakTopics(scope).length;
+  const done = dailyStatus(scope);
+  const scopeName = scope === 'all' ? 'all courses' : findCourse(scope).name;
+  return `
+  <div class="section-head">
+    <div class="section-eyebrow">Practice</div>
+    <div class="section-title">Practice Hub</div>
+    <div class="section-sub">Pick a mode and start straight away.</div>
+  </div>
+  <div class="sec-label">Practise from</div>
+  <div class="chip-row">${chips.map(([id,label]) => `<button class="chip ${scope===id?'on':''}" data-pscope="${id}">${esc(label)}</button>`).join('')}</div>
+
+  <div class="prac-card">
+    <div class="prac-head"><span class="prac-ico" aria-hidden="true">🔀</span>
+      <div><div class="prac-title">Mixed Practice</div><div class="prac-sub">10 random questions from ${esc(scopeName)}, one from each topic, so you revise a bit of everything.</div></div></div>
+    <button class="prac-btn" data-pstart="mixed">Start Mixed Practice →</button>
+  </div>
+
+  <div class="prac-card">
+    <div class="prac-head"><span class="prac-ico" aria-hidden="true">🎯</span>
+      <div><div class="prac-title">Weak Topics</div><div class="prac-sub">${weakN ? `${weakN} topic${weakN===1?'':'s'} in ${esc(scopeName)} where your best score is still under ${MASTERY_THRESHOLD}%. Questions come from the lowest-scoring ones first.` : `Nothing here yet. Finish a few topic quizzes in ${esc(scopeName)} and the ones you haven’t mastered will show up here.`}</div></div></div>
+    <button class="prac-btn" data-pstart="weak" ${weakN ? '' : 'disabled'}>${weakN ? 'Practise my weak topics →' : 'No weak topics yet'}</button>
+  </div>
+
+  <div class="prac-card">
+    <div class="prac-head"><span class="prac-ico" aria-hidden="true">⏱️</span>
+      <div><div class="prac-title">Timed Test</div><div class="prac-sub">Full exam-style mock tests with a countdown. Answers appear only after you submit.</div></div></div>
+    ${Object.values(MOCK_TESTS).map(T => `<button class="prac-btn alt" data-mopen="${T.id}"><span>${esc(T.title)}</span><span>${T.questions.length} MCQs · ${T.minutes} min ▸</span></button>`).join('')}
+  </div>
+
+  <div class="prac-card">
+    <div class="prac-head"><span class="prac-ico" aria-hidden="true">📅</span>
+      <div><div class="prac-title">Daily Questions</div><div class="prac-sub">Today’s set of 10 for ${esc(scopeName)}. It stays the same all day and a new set arrives tomorrow.</div></div></div>
+    ${done ? `<div class="prac-note">✓ Done today · scored ${done.score}%</div>` : ''}
+    <button class="prac-btn" data-pstart="daily">${done ? 'Practise today’s set again →' : 'Start today’s questions →'}</button>
+  </div>`;
+}
+function renderPracticeResultsView(){
+  const q = state.quiz, pct = state.lastScore, total = q.bank.length;
+  const missed = (q.missed || []);
+  return `
+  <div class="result-card" style="--pct:${pct}">
+    <div class="result-ring"><span class="result-ring-label mono">${pct}%</span></div>
+    <div class="result-title">${esc(q.custom.title)} complete</div>
+    <div class="result-sub">${q.correctCount} of ${total} correct${missed.length ? ' · worth revisiting: ' + missed.map(esc).join('; ') : ' · no misses, well done'}.</div>
+    <div class="result-actions">
+      <button class="btn-ghost" data-tab="practice">Back to Practice</button>
+      <button class="btn-primary" data-retry="1">${q.custom.kind === 'daily' ? 'Practise this set again' : 'New set'}</button>
+    </div>
+  </div>`;
 }
 
 function renderSubjectsView(){
@@ -11592,7 +11888,7 @@ function renderQuizView(){
 
   return `
   <div class="quiz-head">
-    <button class="icon-btn" data-nav="topics" data-course="${state.courseId}" data-subject="${state.subjectId}" data-chapter="${state.chapterId}">${ICONS.back} Exit</button>
+    ${q.custom ? `<button class="icon-btn" data-tab="practice">${ICONS.back} Exit</button>` : `<button class="icon-btn" data-nav="topics" data-course="${state.courseId}" data-subject="${state.subjectId}" data-chapter="${state.chapterId}">${ICONS.back} Exit</button>`}
     <div class="quiz-progress-track"><div class="quiz-progress-fill" style="width:${pctThroughQuiz}%"></div></div>
     ${calcAvailable() ? calcChipHTML() : ''}
     <div class="quiz-count mono">${inBonus ? 'Bonus' : `${q.index+1}/${shownTotal}`}</div>
@@ -11600,6 +11896,7 @@ function renderQuizView(){
   ${inBonus ? `<div class="bonus-flag">★ Bonus question — get it right to make up for a miss</div>` : ''}
   ${isBonus ? `<div class="bonus-flag">★ Milestone question</div>` : ''}
   <div class="q-card">
+    ${question.src ? `<div class="q-src">${esc(question.src)}</div>` : ''}
     <div class="q-text">${esc(question.q)}</div>
     <div class="options">
       ${question.options.map((opt,i)=>{
@@ -11626,6 +11923,7 @@ function renderQuizView(){
 }
 
 function renderResultsView(){
+  if(state.quiz && state.quiz.custom) return renderPracticeResultsView();
   const pct = state.lastScore;
   const course = findCourse(state.courseId);
   const subject = findSubject(course, state.subjectId);
@@ -11695,7 +11993,7 @@ function renderSavedView(){
   <div class="section-head">
     <div class="section-eyebrow">Saved</div>
     <div class="section-title">Saved Courses</div>
-    <div class="section-sub">Your pinned tests — tap <strong>Start</strong> to jump straight back in.</div>
+    <div class="section-sub">Your pinned tests — tap <strong>Continue</strong> to jump straight back in.</div>
   </div>
   <div class="course-grid">
     ${list.map(admitCardHTML).join('')}
@@ -11715,6 +12013,7 @@ function renderMain(){
     case 'mockResults': return renderMockResultsView();
     case 'progressView': return renderProgressView();
     case 'savedView': return renderSavedView();
+    case 'practiceView': return renderPracticeView();
     default: return renderCoursesView();
   }
 }
@@ -11752,6 +12051,14 @@ document.getElementById('app').addEventListener('click', (e)=>{
   if(e.target.closest('[data-msubmit]')){ submitMock(false); return; }
   if(e.target.closest('[data-mexit]')){ mockExit(); return; }
   if(e.target.closest('[data-mreview]')){ mockToggleReview(); return; }
+
+  const hFil = e.target.closest('[data-hfilter]');
+  if(hFil){ homeFilter = hFil.dataset.hfilter; render(); return; }
+  if(e.target.closest('[data-search-clear]')){ homeQuery = ''; render(); return; }
+  const pScope = e.target.closest('[data-pscope]');
+  if(pScope){ practiceScope = pScope.dataset.pscope; render(); return; }
+  const pStart = e.target.closest('[data-pstart]');
+  if(pStart){ startPractice(pStart.dataset.pstart); return; }
 
   const resumeBtn = e.target.closest('[data-resume]');
   if(resumeBtn){ resumeCourse(resumeBtn.dataset.resume); return; }
@@ -11802,6 +12109,13 @@ document.getElementById('app').addEventListener('click', (e)=>{
 
   const retryBtn = e.target.closest('[data-retry]');
   if(retryBtn){ retryQuiz(); return; }
+});
+
+document.getElementById('app').addEventListener('input', (e) => {
+  if(!e.target.matches || !e.target.matches('[data-home-search]')) return;
+  homeQuery = e.target.value;
+  const list = document.getElementById('home-list'); if(list) list.innerHTML = homeListHTML();   // update results only, so the keyboard stays open
+  const clr = document.querySelector('[data-search-clear]'); if(clr) clr.hidden = !homeQuery;
 });
 
 /* ================================================================
