@@ -231,6 +231,10 @@ nav.tabbar{
 .row-sub{ font-size:12px; color:var(--ink-soft); margin-top:2px; }
 .row-chev{ color:var(--rule); flex-shrink:0; }
 .row-chev svg{ width:18px;height:18px; }
+.row-icon.seg, .row-card.mastered .row-icon.seg{ background:var(--paper-raised); border:2px solid var(--card-border); display:flex; flex-direction:column-reverse; gap:3px; padding:5px; }
+.row-icon.seg i{ flex:1; border-radius:3px; background:var(--track); transition:background .4s; }
+.row-icon.seg i.on{ background:var(--gold); }
+.row-icon.seg.full i.on{ background:var(--teal); }
 .row-card.mastered .row-icon{ background:var(--correct-soft); color:var(--correct); }
 .badge{
   font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600; padding:3px 7px; border-radius:20px;
@@ -10088,10 +10092,32 @@ const COURSES = [
     id:'sat', name:'SAT', full:'Scholastic Assessment Test', icon:'S',
     subjects:[
       { id:'sat-eng', name:'English', type:'english', chapters:[
-        { id:'sat-eng-rw', name:'Reading and Writing', topics:[
-          {id:'sat-eng-rw-comp', name:'Reading Comprehension'},
-          {id:'sat-eng-rw-conventions', name:'Standard English Conventions'},
-          {id:'sat-eng-rw-vocab', name:'Vocabulary in Context'},
+        { id:'sat-eng-info', name:"Information and Ideas", topics:[
+          {id:"sat-eng-info-t1", name:"Command of Textual Evidence"},
+          {id:"sat-eng-info-t2", name:"Command of Quantitative Evidence"},
+          {id:"sat-eng-info-t3", name:"Central Ideas and Details"},
+          {id:"sat-eng-info-t4", name:"Inferences"},
+        ]},
+        { id:'sat-eng-craft', name:"Craft and Structure", topics:[
+          {id:"sat-eng-craft-t1", name:"Words in Context"},
+          {id:"sat-eng-craft-t2", name:"Text Structure and Purpose"},
+          {id:"sat-eng-craft-t3", name:"Cross-Text Connections"},
+        ]},
+        { id:'sat-eng-expr', name:"Expression of Ideas + Standard English Conventions", topics:[
+          {id:"sat-eng-expr-t1", name:"Transitions"},
+          {id:"sat-eng-expr-t2", name:"Rhetorical Synthesis"},
+          {id:"sat-eng-expr-t3", name:"Form, Structure, and Sense"},
+          {id:"sat-eng-expr-t4", name:"Boundaries"},
+        ]},
+        { id:'sat-eng-gram', name:"SAT Grammar Practice", topics:[
+          {id:"sat-eng-gram-t1", name:"Subject-verb agreement"},
+          {id:"sat-eng-gram-t2", name:"Pronoun-antecedent agreement"},
+          {id:"sat-eng-gram-t3", name:"Plurals and possessives"},
+          {id:"sat-eng-gram-t4", name:"Verb forms"},
+          {id:"sat-eng-gram-t5", name:"Subject-modifier placement"},
+          {id:"sat-eng-gram-t6", name:"Linking clauses"},
+          {id:"sat-eng-gram-t7", name:"Supplements"},
+          {id:"sat-eng-gram-t8", name:"Punctuation"},
         ]},
       ]},
       { id:'sat-math', name:'Mathematics', type:'math', chapters:[
@@ -10474,10 +10500,12 @@ function generateQuestionBank(topic, type){
   const rng = mulberry32(hashStr(topic.id));
   const templates = TEMPLATES[type] || TEMPLATES.logical;
   const bank = [];
-  for(let i=0;i<QUIZ_LENGTH;i++){
+  const bonusTopic = isBonusQuizTopic(topic.id);
+  const n = bonusTopic ? BONUS_MAIN_COUNT + 1 : QUIZ_LENGTH;
+  for(let i=0;i<n;i++){
     bank.push(templates[i % templates.length](topic.name, rng));
   }
-  return bank;
+  return bonusTopic ? pickRandomQuestions(bank, bank.length) : bank;
 }
 
 /* ================================================================
@@ -11184,6 +11212,21 @@ function subjectProgressPct(subject){
   const mastered = topics.filter(t=>progress[t.id]?.mastered).length;
   return Math.round((mastered/topics.length)*100);
 }
+/* ---- SAT points: every topic is worth 100 points (= its best quiz score %).
+   Subject / chapter total = number of topics x 100. ---- */
+function topicPoints(t){ return (progress[t.id] && progress[t.id].bestScore) || 0; }
+function pointsOf(topics){ return { got: topics.reduce((a,t)=>a+topicPoints(t),0), total: topics.length*100 }; }
+function subjectPoints(s){ return pointsOf(allTopicsOfSubject(s)); }
+function pointsCard(subject, course){
+  if(course.id !== 'sat') return '';
+  const P = subjectPoints(subject), pc = P.total ? Math.round(P.got/P.total*100) : 0;
+  return `<div style="background:var(--ink);color:#fff;border-radius:var(--radius);padding:14px 16px;margin:0 0 14px;box-shadow:var(--shadow)">
+    <div style="font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-soft);font-weight:700">${esc(subject.name)} score</div>
+    <div class="mono" style="font-size:28px;font-weight:600;margin:4px 0">${P.got} <span style="opacity:.6;font-size:18px">/ ${P.total}</span></div>
+    <div style="height:8px;background:rgba(255,255,255,.2);border-radius:6px;overflow:hidden"><div style="width:${pc}%;height:100%;background:linear-gradient(90deg,var(--teal),var(--gold))"></div></div>
+    <div style="font-size:12px;margin-top:8px;opacity:.8">${allTopicsOfSubject(subject).length} topics × 100 points · each topic counts your best quiz score</div>
+  </div>`;
+}
 function chapterProgressPct(chapter){
   if(!chapter.topics.length) return 0;
   const mastered = chapter.topics.filter(t=>progress[t.id]?.mastered).length;
@@ -11499,8 +11542,8 @@ function admitCardHTML(c){
         </div>
         <span class="star-btn ${isStarred?'active':''}" data-star="${c.id}">${isStarred?ICONS.starFilled:ICONS.star}</span>
       </div>
-      <div class="admit-stats">📚 ${n.subjects} Subject${n.subjects===1?'':'s'} · ${n.total} Topics</div>
-      <div class="admit-progress">
+      <div class="admit-stats">${c.soon ? '🚧 Coming soon' : `📚 ${n.subjects} Subject${n.subjects===1?'':'s'} · ${n.total} Topics`}</div>
+      <div class="admit-progress"${c.soon?' style="display:none"':''}>
         <div class="admit-progress-head"><span>${n.done} / ${n.total} topics mastered</span><span class="mono">${pct}%</span></div>
         <div class="progress-track"><div class="progress-fill" style="width:${barW}%"></div></div>
         <div class="admit-note">${note}</div>
@@ -11508,7 +11551,7 @@ function admitCardHTML(c){
       ${cont}
     </button>
     <div class="admit-cta">
-      <button class="cta-btn ${started?'':'start'}" data-resume="${c.id}">${started ? `Continue ${esc(c.name)} →` : 'Start preparing →'}</button>
+      <button class="cta-btn ${started?'':'start'}" data-resume="${c.id}">${c.soon ? 'Coming soon' : started ? `Continue ${esc(c.name)} →` : 'Start preparing →'}</button>
     </div>
   </div>`;
 }
@@ -11521,7 +11564,7 @@ function miniCardHTML(c){
     <button class="mini-main" data-nav="subjects" data-course="${c.id}">
       <div class="mini-name">${esc(c.name)}</div>
       <div class="mini-full">${esc(c.full)}</div>
-      <div class="mini-stats">📚 ${n.subjects} Subject${n.subjects===1?'':'s'} · ${n.total} Topics · ${n.done}/${n.total} mastered</div>
+      <div class="mini-stats">${c.soon ? '🚧 Coming soon' : `📚 ${n.subjects} Subject${n.subjects===1?'':'s'} · ${n.total} Topics · ${n.done}/${n.total} mastered`}</div>
     </button>
     <span class="star-btn ${starred.has(c.id)?'active':''}" data-star="${c.id}" aria-label="Pin ${esc(c.name)}">${starred.has(c.id)?ICONS.starFilled:ICONS.star}</span>
   </div>`;
@@ -11801,7 +11844,7 @@ function renderSubjectsView(){
         <div class="row-icon">${esc(s.name[0])}</div>
         <div class="row-body">
           <div class="row-title">${esc(s.name)}</div>
-          <div class="row-sub">${s.chapters.length} chapters · ${pct}% mastered</div>
+          <div class="row-sub">${s.chapters.length} chapters · ${pct}% mastered${course.id==='sat' ? ` · ${subjectPoints(s).got} / ${subjectPoints(s).total} pts` : ''}</div>
         </div>
         <span class="row-chev">${ICONS.chevron}</span>
       </button>`;
@@ -11819,6 +11862,7 @@ function renderChaptersView(){
     <div class="section-title">Chapters</div>
     <div class="section-sub">${subject.chapters.length} chapters in this subject.</div>
   </div>
+  ${pointsCard(subject, course)}
   <div class="row-list">
     ${subject.chapters.map(ch=>{
       const pct = chapterProgressPct(ch);
@@ -11828,7 +11872,7 @@ function renderChaptersView(){
         <div class="row-icon">${mastered ? '✓' : esc(String(ch.topics.length))}</div>
         <div class="row-body">
           <div class="row-title">${esc(ch.name)}</div>
-          <div class="row-sub">${ch.topics.length} topics · ${pct}% mastered</div>
+          <div class="row-sub">${ch.topics.length} topics · ${pct}% mastered${course.id==='sat' ? ` · ${pointsOf(ch.topics).got} / ${pointsOf(ch.topics).total} pts` : ''}</div>
         </div>
         <span class="row-chev">${ICONS.chevron}</span>
       </button>`;
@@ -11837,6 +11881,10 @@ function renderChaptersView(){
   ${(course.id==='sat' && subject.id==='sat-math') ? renderMockRow('sat') : ''}`;
 }
 
+function segIcon(t){
+  const sc = topicPoints(t), n = sc>=100 ? 3 : sc>=80 ? 2 : sc>0 ? 1 : 0;   // 100 = all 3 parts, 80-99 = two thirds, below 80 = one part, not attempted = empty
+  return `<div class="row-icon seg ${sc>=80?'full':''}" title="${sc} / 100 points">${[0,1,2].map(i=>`<i class="${i<n?'on':''}"></i>`).join('')}</div>`;
+}
 function renderTopicsView(){
   const course = findCourse(state.courseId);
   const subject = findSubject(course, state.subjectId);
@@ -11858,10 +11906,10 @@ function renderTopicsView(){
       const groupHead = (t.group && (ti===0 || chapter.topics[ti-1].group !== t.group)) ? `<div class="topic-group">${esc(t.group)}</div>` : '';
       return `${groupHead}
       <button class="row-card ${mastered?'mastered':''}" data-quiz="${t.id}" data-course="${course.id}" data-subject="${subject.id}" data-chapter="${chapter.id}">
-        <div class="row-icon">${mastered ? '✓' : ICONS.book}</div>
+        ${segIcon(t)}
         <div class="row-body">
           <div class="row-title">${esc(t.name)}</div>
-          <div class="row-sub">${started ? `Best score: ${p.bestScore}%` : 'Not started yet'}</div>
+          <div class="row-sub">${started ? (course.id==='sat' ? `${p.bestScore} / 100 points` : `Best score: ${p.bestScore}%`) : (course.id==='sat' ? '0 / 100 points' : 'Not started yet')}</div>
         </div>
         ${mastered ? '<span class="badge mastered">Mastered</span>' : started ? '<span class="badge practicing">Practicing</span>' : ''}
       </button>`;
@@ -11869,7 +11917,7 @@ function renderTopicsView(){
   </div>
   <div class="mastery-block">
     <div class="m-eyebrow">Chapter Mastery</div>
-    <h3>${pct}% complete</h3>
+    <h3>${pct}% complete${course.id==='sat' ? ` · ${pointsOf(chapter.topics).got} / ${pointsOf(chapter.topics).total} pts` : ''}</h3>
     <p>Master every topic in this chapter by scoring ${MASTERY_THRESHOLD}% or higher on its quiz.</p>
     <div class="m-row">
       <button class="btn-ghost" data-nav="chapters" data-course="${course.id}" data-subject="${subject.id}">Back to chapters</button>
@@ -12123,6 +12171,11 @@ document.getElementById('app').addEventListener('input', (e) => {
 /* ================================================================
    INIT
    ================================================================ */
+/* ---- SAT · English: 95 MCQs, 19 topics x 5 questions, 4 chapters ---- */
+Object.assign(CUSTOM_QUESTION_BANKS, {"sat-eng-info-t1": [{"q": "A city report states that after a protected bike lane was installed, weekday bicycle traffic increased by 38 percent while traffic on the adjacent road changed very little. Which finding best supports the report's conclusion that the bike lane encouraged cycling?", "options": ["Bicycle traffic increased substantially after the protected lane was installed.", "The adjacent road carried roughly the same amount of traffic as before.", "The bike lane was painted a bright color.", "The report was published by the city's transportation department."], "correct": 0, "explain": "The best answer is “Bicycle traffic increased substantially after the protected lane was installed.”."}, {"q": "Researchers studying a desert plant found that plants receiving morning shade retained more water during the hottest part of the day than plants exposed to full morning sun. Which detail best supports the claim that morning shade helps the plants conserve water?", "options": ["The shaded plants retained more water during the hottest part of the day.", "The plants were native to a desert environment.", "The researchers measured the plants every afternoon.", "The study included plants of different ages."], "correct": 0, "explain": "The best answer is “The shaded plants retained more water during the hottest part of the day.”."}, {"q": "A historian argues that a port city became culturally diverse because merchants from many regions regularly settled there. Which evidence most directly supports the historian's claim?", "options": ["Records show that merchants from several regions established permanent businesses near the port.", "The city's harbor was expanded in the nineteenth century.", "The city had a large population of fishermen.", "Many buildings near the harbor were made of stone."], "correct": 0, "explain": "The best answer is “Records show that merchants from several regions established permanent businesses near the port.”."}, {"q": "An article claims that rooftop gardens can reduce the temperature of buildings. Which evidence most directly supports that claim?", "options": ["Measurements show that buildings with rooftop gardens had cooler upper floors than similar buildings without them.", "Several residents said they enjoyed the appearance of rooftop gardens.", "The gardens contained flowers, herbs, and small shrubs.", "The city offered grants to residents who installed gardens."], "correct": 0, "explain": "The best answer is “Measurements show that buildings with rooftop gardens had cooler upper floors than similar buildings without them.”."}, {"q": "A scientist concludes that a particular bird species uses its song to warn nearby birds of predators. Which observation best supports this conclusion?", "options": ["Birds produced the warning song more frequently when a model predator was placed nearby.", "The birds sang at dawn and again near sunset.", "The species lives in forests with many different bird species.", "Young birds began singing several weeks after hatching."], "correct": 0, "explain": "The best answer is “Birds produced the warning song more frequently when a model predator was placed nearby.”."}], "sat-eng-info-t2": [{"q": "A researcher records the number of seeds that germinated at four temperatures: 10°C: 12; 15°C: 21; 20°C: 34; 25°C: 31. Which temperature produced the greatest number of germinated seeds?", "options": ["10°C", "15°C", "20°C", "25°C"], "correct": 2, "explain": "The best answer is “20°C”."}, {"q": "A table shows average daily water use per household: 2018: 310 L; 2019: 302 L; 2020: 295 L; 2021: 281 L. Which statement is best supported?", "options": ["Water use increased every year.", "Water use decreased overall from 2018 to 2021.", "Water use was unchanged from 2018 to 2020.", "Water use decreased only after 2020."], "correct": 1, "explain": "The best answer is “Water use decreased overall from 2018 to 2021.”."}, {"q": "A study reports that students who reviewed vocabulary for 20 minutes remembered 72% of the words, while students who reviewed for 10 minutes remembered 54%. Which claim is supported by the data?", "options": ["The longer review period was associated with greater word retention.", "Every student who reviewed for 20 minutes remembered every word.", "Reviewing for 10 minutes prevents students from learning vocabulary.", "Exactly 18% more students studied for 20 minutes."], "correct": 0, "explain": "The best answer is “The longer review period was associated with greater word retention.”."}, {"q": "A graph shows monthly visitors to a museum: January 1,200; February 1,350; March 1,100; April 1,600. Which month had the highest attendance?", "options": ["January", "February", "March", "April"], "correct": 3, "explain": "The best answer is “April”."}, {"q": "A scientist compares two fertilizer treatments. Treatment X produces plants averaging 42 cm tall; Treatment Y produces plants averaging 35 cm tall. Which conclusion is most directly supported?", "options": ["The plants receiving Treatment X were taller on average than those receiving Treatment Y.", "Treatment X will work for every plant species.", "Treatment Y prevents plant growth.", "All plants receiving Treatment X reached exactly 42 cm."], "correct": 0, "explain": "The best answer is “The plants receiving Treatment X were taller on average than those receiving Treatment Y.”."}], "sat-eng-info-t3": [{"q": "Passage: Urban trees can provide shade, reduce storm-water runoff, and create habitats for birds. For these reasons, many cities are expanding tree-planting programs. What is the main idea?", "options": ["Cities are removing most existing trees.", "Urban tree programs can provide several environmental benefits.", "Birds are the only animals that benefit from trees.", "Storm-water runoff occurs only in cities."], "correct": 1, "explain": "The best answer is “Urban tree programs can provide several environmental benefits.”."}, {"q": "Passage: Before digital maps became common, travelers often relied on printed atlases. Although atlases required careful planning, they could provide a broad view of a region that was difficult to obtain from small local maps. What is the main idea?", "options": ["Printed atlases were useless for travelers.", "Digital maps were invented before printed atlases.", "Printed atlases offered travelers a broad geographic perspective.", "Local maps were always more accurate than atlases."], "correct": 2, "explain": "The best answer is “Printed atlases offered travelers a broad geographic perspective.”."}, {"q": "Passage: Some historians once believed that a particular ancient settlement was abandoned suddenly. New archaeological evidence, however, shows that buildings were repaired and food was stored over several decades. What does the passage mainly indicate?", "options": ["The settlement was never inhabited.", "New evidence challenges the idea of a sudden abandonment.", "Archaeologists no longer study ancient settlements.", "Food storage was impossible in the settlement."], "correct": 1, "explain": "The best answer is “New evidence challenges the idea of a sudden abandonment.”."}, {"q": "Passage: A community library introduced a mobile lending service that visits neighborhoods far from the main building. Within six months, borrowing increased most in those neighborhoods. What is the central idea?", "options": ["Libraries are becoming smaller.", "The mobile service improved access to library materials.", "People stopped visiting the main library.", "The library removed its collection."], "correct": 1, "explain": "The best answer is “The mobile service improved access to library materials.”."}, {"q": "Passage: Although solar panels can generate electricity without directly producing carbon dioxide during operation, their efficiency varies with sunlight. Engineers therefore develop systems that combine solar generation with batteries and other energy sources. What is the main point?", "options": ["Solar panels never produce useful electricity.", "Engineers are designing systems to address the variable output of solar power.", "Batteries cannot store electricity.", "Solar panels work only at night."], "correct": 1, "explain": "The best answer is “Engineers are designing systems to address the variable output of solar power.”."}], "sat-eng-info-t4": [{"q": "Passage: Maya usually arrived early to the laboratory, but on Tuesday she arrived carrying a raincoat and wet shoes. The laboratory windows were covered with droplets. What can reasonably be inferred?", "options": ["It had recently rained.", "The laboratory was closed.", "Maya had forgotten her shoes.", "The laboratory was located underground."], "correct": 0, "explain": "The best answer is “It had recently rained.”."}, {"q": "Passage: The bakery sold out of its new bread by noon for three consecutive days. On the fourth day, the owner doubled the amount baked before opening. What can be inferred?", "options": ["The owner expected strong demand for the bread.", "The bakery planned to stop selling bread.", "Customers disliked the new bread.", "The bakery had run out of ovens."], "correct": 0, "explain": "The best answer is “The owner expected strong demand for the bread.”."}, {"q": "Passage: A species of frog was found only near streams shaded by dense vegetation. Researchers later discovered that these streams remained cooler than nearby exposed streams. What inference is best supported?", "options": ["The frogs may depend on cooler stream conditions.", "The frogs cannot survive near water.", "Vegetation always harms frogs.", "The exposed streams contain no water."], "correct": 0, "explain": "The best answer is “The frogs may depend on cooler stream conditions.”."}, {"q": "Passage: At the beginning of the experiment, both groups of seedlings were similar in height. After six weeks, the seedlings receiving fertilizer were taller on average. What can be inferred?", "options": ["The fertilizer may have contributed to the difference in growth.", "The unfertilized seedlings received no sunlight.", "Every fertilized seedling grew at the same rate.", "The experiment lasted exactly six months."], "correct": 0, "explain": "The best answer is “The fertilizer may have contributed to the difference in growth.”."}, {"q": "Passage: A novelist's early notebooks contain several versions of characters that later appear in her published novel. The notebook versions have different names and backgrounds but similar conflicts. What can be inferred?", "options": ["The novelist developed some characters and conflicts over time.", "The published novel was never revised.", "The notebook characters were written by another author.", "The novel contains no fictional characters."], "correct": 0, "explain": "The best answer is “The novelist developed some characters and conflicts over time.”."}], "sat-eng-craft-t1": [{"q": "In the sentence, “The scientist's explanation was concise, avoiding unnecessary detail,” what does “concise” most nearly mean?", "options": ["brief", "uncertain", "technical", "persuasive"], "correct": 0, "explain": "The best answer is “brief”."}, {"q": "In the sentence, “The committee sought to mitigate the effects of flooding by restoring wetlands,” what does “mitigate” most nearly mean?", "options": ["reduce", "predict", "measure", "describe"], "correct": 0, "explain": "The best answer is “reduce”."}, {"q": "In the sentence, “The artist's later works depart from the geometric style of her early paintings,” what does “depart” most nearly mean?", "options": ["move away from", "copy exactly", "explain clearly", "restore completely"], "correct": 0, "explain": "The best answer is “move away from”."}, {"q": "In the sentence, “The discovery provided a novel explanation for the phenomenon,” what does “novel” most nearly mean?", "options": ["new", "ordinary", "lengthy", "controversial"], "correct": 0, "explain": "The best answer is “new”."}, {"q": "In the sentence, “The manager's remarks were ambiguous, leaving employees unsure of the policy,” what does “ambiguous” most nearly mean?", "options": ["unclear", "enthusiastic", "detailed", "repeated"], "correct": 0, "explain": "The best answer is “unclear”."}], "sat-eng-craft-t2": [{"q": "Passage: First, the author describes how a wetland filters pollutants from water. The author then explains how draining wetlands can reduce this benefit. Why does the author organize the passage this way?", "options": ["To explain a function and then show how human activity can affect it", "To compare two unrelated ecosystems", "To present a historical biography", "To list several recreational activities"], "correct": 0, "explain": "The best answer is “To explain a function and then show how human activity can affect it”."}, {"q": "Passage: A writer begins with a common belief about an ancient invention, then presents archaeological evidence that challenges that belief. What is the primary purpose of this structure?", "options": ["To introduce a claim and then question it with evidence", "To describe a process in chronological order", "To provide instructions for making the invention", "To entertain readers with a fictional story"], "correct": 0, "explain": "The best answer is “To introduce a claim and then question it with evidence”."}, {"q": "Passage: The first paragraph introduces a problem faced by coastal communities. The second paragraph describes two engineering solutions. The final paragraph discusses limitations of those solutions. What is the overall structure?", "options": ["Problem, possible solutions, and limitations", "Cause, biography, and conclusion", "Definition, quotation, and advertisement", "Historical timeline followed by a recipe"], "correct": 0, "explain": "The best answer is “Problem, possible solutions, and limitations”."}, {"q": "Passage: A scientist describes an experiment, reports the results, and then explains what the results suggest about plant growth. What is the purpose of the final part?", "options": ["To interpret the findings", "To introduce the experimental materials", "To repeat the title", "To provide unrelated background"], "correct": 0, "explain": "The best answer is “To interpret the findings”."}, {"q": "Passage: The author opens by describing a single farmer's experience with drought and then uses rainfall data from an entire region. Why use this structure?", "options": ["To move from a specific example to broader evidence", "To replace evidence with an anecdote", "To show that regional data are irrelevant", "To present events in random order"], "correct": 0, "explain": "The best answer is “To move from a specific example to broader evidence”."}], "sat-eng-craft-t3": [{"q": "Text 1: A researcher argues that public parks improve community well-being. Text 2: Another researcher agrees that parks can help communities but argues that access matters more than the total number of parks. How do the texts differ?", "options": ["Text 1 emphasizes the benefits of parks, while Text 2 emphasizes equitable access to them.", "Text 1 rejects parks, while Text 2 rejects communities.", "Both texts argue that parks have no benefits.", "Text 1 discusses transportation, while Text 2 discusses astronomy."], "correct": 0, "explain": "The best answer is “Text 1 emphasizes the benefits of parks, while Text 2 emphasizes equitable access to them.”."}, {"q": "Text 1: A historian says a city's growth was mainly caused by its port. Text 2: Another historian says the port mattered but argues that nearby railroads were equally important. What is the relationship?", "options": ["Text 2 qualifies the explanation offered in Text 1.", "Text 2 completely repeats Text 1.", "Text 1 directly quotes Text 2.", "The texts discuss unrelated cities."], "correct": 0, "explain": "The best answer is “Text 2 qualifies the explanation offered in Text 1.”."}, {"q": "Text 1: An article argues that remote work increases flexibility. Text 2: A study finds that remote work can increase flexibility but may make collaboration harder for some teams. Which statement best describes the texts?", "options": ["Text 2 adds a limitation to the benefit described in Text 1.", "Text 2 denies that remote work can be flexible.", "Text 1 focuses on collaboration while Text 2 focuses on weather.", "Both texts argue exactly the same point without qualification."], "correct": 0, "explain": "The best answer is “Text 2 adds a limitation to the benefit described in Text 1.”."}, {"q": "Text 1: A scientist proposes that a bird migrates because of temperature changes. Text 2: Another scientist presents evidence that food availability may be a stronger factor. What does Text 2 do?", "options": ["It offers an alternative explanation for the same behavior.", "It confirms that temperature is the only factor.", "It changes the topic to bird anatomy.", "It provides instructions for tracking birds."], "correct": 0, "explain": "The best answer is “It offers an alternative explanation for the same behavior.”."}, {"q": "Text 1: A critic praises a novel's complex structure. Text 2: Another critic agrees about the structure but argues that it makes the novel difficult for some readers to follow. How are the texts related?", "options": ["Text 2 agrees with Text 1's observation but adds a criticism.", "Text 2 says the novel has no structure.", "Text 1 discusses a different novel.", "Both critics reject the novel."], "correct": 0, "explain": "The best answer is “Text 2 agrees with Text 1's observation but adds a criticism.”."}], "sat-eng-expr-t1": [{"q": "The first experiment produced inconsistent results. ______, the researchers repeated it under more carefully controlled conditions.", "options": ["However", "For example", "As a result", "In contrast"], "correct": 2, "explain": "The best answer is “As a result”."}, {"q": "The museum's collection includes paintings from several countries. ______, its sculpture collection is almost entirely local.", "options": ["Similarly", "In contrast", "Therefore", "For example"], "correct": 1, "explain": "The best answer is “In contrast”."}, {"q": "The new battery is inexpensive to manufacture. ______, it can store more energy than the older model.", "options": ["Moreover", "Instead", "Nevertheless", "Otherwise"], "correct": 0, "explain": "The best answer is “Moreover”."}, {"q": "The trail was closed after heavy rainfall. ______, hikers were advised to use an alternate route.", "options": ["Consequently", "Meanwhile", "For instance", "Likewise"], "correct": 0, "explain": "The best answer is “Consequently”."}, {"q": "Many insects are active during the day. ______, several moth species are most active at night.", "options": ["In addition", "For example", "In contrast", "As a result"], "correct": 2, "explain": "The best answer is “In contrast”."}], "sat-eng-expr-t2": [{"q": "A student wants to emphasize that a city library's reading program increased participation. Notes: 2023 participants: 240; 2024 participants: 390. Which choice best uses the notes?", "options": ["The library had a reading program in both 2023 and 2024.", "Participation in the library's reading program increased from 240 people in 2023 to 390 in 2024.", "The library's program took place in 2023 and 2024.", "More than 200 people participated in the program."], "correct": 1, "explain": "The best answer is “Participation in the library's reading program increased from 240 people in 2023 to 390 in 2024.”."}, {"q": "Notes: A bird species nests on cliff ledges; the ledges protect nests from ground predators; researchers observed fewer nest attacks there. Which sentence best emphasizes the protective role of the ledges?", "options": ["The birds build nests on cliff ledges.", "Researchers observed the birds nesting on cliffs.", "Cliff ledges may protect the birds' nests from ground predators, as fewer attacks were observed there.", "The birds are studied by researchers."], "correct": 2, "explain": "The best answer is “Cliff ledges may protect the birds' nests from ground predators, as fewer attacks were observed there.”."}, {"q": "Notes: A novelist was born in 1912; she published her first novel in 1938; that novel later received a major award. Which sentence best emphasizes the timeline?", "options": ["The novelist was born in 1912 and published her first novel in 1938, which later received a major award.", "The novelist received an award at some point.", "The novelist was born in 1912.", "Her first novel was popular."], "correct": 0, "explain": "The best answer is “The novelist was born in 1912 and published her first novel in 1938, which later received a major award.”."}, {"q": "Notes: A school installed solar panels; electricity costs fell 18% the following year; the panels also provide shade over part of the parking area. Which sentence best emphasizes the financial benefit?", "options": ["The school installed solar panels over part of the parking area.", "The solar panels provide shade and use sunlight.", "After installing solar panels, the school saw its electricity costs fall by 18%.", "The panels were installed the following year."], "correct": 2, "explain": "The best answer is “After installing solar panels, the school saw its electricity costs fall by 18%.”."}, {"q": "Notes: A river restoration project removed a concrete barrier; fish began reaching upstream habitat; the project also improved water flow. Which sentence best emphasizes the effect on fish?", "options": ["The river restoration project removed a concrete barrier.", "The project changed the river's water flow.", "After the barrier was removed, fish were able to reach upstream habitat.", "The river contains several fish species."], "correct": 2, "explain": "The best answer is “After the barrier was removed, fish were able to reach upstream habitat.”."}], "sat-eng-expr-t3": [{"q": "Neither the coach nor the players ______ willing to cancel the practice.", "options": ["was", "were", "has been", "is"], "correct": 1, "explain": "The best answer is “were”."}, {"q": "The collection of rare maps ______ displayed in the main gallery.", "options": ["are", "were", "have been", "is"], "correct": 3, "explain": "The best answer is “is”."}, {"q": "By the time the researchers arrived, the storm ______.", "options": ["ends", "has ended", "had ended", "will end"], "correct": 2, "explain": "The best answer is “had ended”."}, {"q": "The engineers ______ several designs before selecting the final one.", "options": ["test", "have tested", "testing", "tested"], "correct": 3, "explain": "The best answer is “tested”."}, {"q": "The new telescope, along with two smaller instruments, ______ scheduled for installation next month.", "options": ["are", "were", "have been", "is"], "correct": 3, "explain": "The best answer is “is”."}], "sat-eng-expr-t4": [{"q": "The museum opened a new exhibit in May ______ it quickly attracted thousands of visitors.", "options": [", and", "; and", "; it", "it"], "correct": 0, "explain": "The best answer is “, and”."}, {"q": "The experiment was successful ______ however, the researchers repeated it to verify the results.", "options": [", however", "; however,", "however;", "however,"], "correct": 1, "explain": "The best answer is “; however,”."}, {"q": "The river supports several fish species ______ its surrounding wetlands also provide habitat for birds.", "options": [", and", ";", "and", "; and"], "correct": 0, "explain": "The best answer is “, and”."}, {"q": "The researchers collected soil samples from three locations ______ each sample was tested separately.", "options": [";", "; and", "and;", "."], "correct": 0, "explain": "The best answer is “;”."}, {"q": "The telescope can detect extremely faint objects ______ this ability allows astronomers to study distant galaxies.", "options": [", and", ";", "and", "; and"], "correct": 1, "explain": "The best answer is “;”."}], "sat-eng-gram-t1": [{"q": "The collection of photographs ______ in a climate-controlled room.", "options": ["are stored", "is stored", "were stored", "have been stored"], "correct": 1, "explain": "The best answer is “is stored”."}, {"q": "The scientists who conduct the experiments ______ careful records.", "options": ["keeps", "keep", "keeping", "has kept"], "correct": 1, "explain": "The best answer is “keep”."}, {"q": "Each of the proposed designs ______ a different solution to the problem.", "options": ["offer", "offers", "offering", "have offered"], "correct": 1, "explain": "The best answer is “offers”."}, {"q": "A series of lectures ______ scheduled for next month.", "options": ["are", "were", "is", "have been"], "correct": 2, "explain": "The best answer is “is”."}, {"q": "The effects of the new policy ______ difficult to measure at first.", "options": ["was", "is", "has been", "were"], "correct": 3, "explain": "The best answer is “were”."}], "sat-eng-gram-t2": [{"q": "When the students finished the project, ______ submitted it to the teacher.", "options": ["he", "she", "they", "it"], "correct": 2, "explain": "The best answer is “they”."}, {"q": "The committee announced ______ decision after reviewing the evidence.", "options": ["their", "its", "they're", "them"], "correct": 1, "explain": "The best answer is “its”."}, {"q": "Every researcher must label ______ samples clearly.", "options": ["their", "his or her", "they", "them"], "correct": 1, "explain": "The best answer is “his or her”."}, {"q": "The two machines were tested to determine whether ______ performed equally well.", "options": ["it", "its", "they", "them"], "correct": 2, "explain": "The best answer is “they”."}, {"q": "The company revised ______ policy after receiving feedback from customers.", "options": ["their", "they're", "its", "it"], "correct": 2, "explain": "The best answer is “its”."}], "sat-eng-gram-t3": [{"q": "The two ______ findings were published in the same journal.", "options": ["scientist's", "scientists", "scientists'", "scientists's"], "correct": 2, "explain": "The best answer is “scientists'”."}, {"q": "The museum displayed several ancient ______.", "options": ["artifact", "artifacts", "artifact's", "artifacts'"], "correct": 1, "explain": "The best answer is “artifacts”."}, {"q": "The ______ wingspan was measured at nearly two meters.", "options": ["bird", "birds", "bird's", "birds'"], "correct": 2, "explain": "The best answer is “bird's”."}, {"q": "Several ______ were planted along the road.", "options": ["tree's", "trees", "trees'", "tree"], "correct": 1, "explain": "The best answer is “trees”."}, {"q": "The three ______ experiments produced similar results.", "options": ["researchers", "researcher's", "researchers'", "researchers's"], "correct": 2, "explain": "The best answer is “researchers'”."}], "sat-eng-gram-t4": [{"q": "By next June, the engineers ______ the bridge for three years.", "options": ["will have been studying", "study", "studied", "have studied"], "correct": 0, "explain": "The best answer is “will have been studying”."}, {"q": "Last year, the laboratory ______ a new testing method.", "options": ["develops", "has developed", "developed", "will develop"], "correct": 2, "explain": "The best answer is “developed”."}, {"q": "The researchers ______ the data before they published the report.", "options": ["analyze", "had analyzed", "will analyze", "are analyzing"], "correct": 1, "explain": "The best answer is “had analyzed”."}, {"q": "Since 2022, the museum ______ its collection of digital archives.", "options": ["expanded", "has expanded", "will expand", "expanding"], "correct": 1, "explain": "The best answer is “has expanded”."}, {"q": "At the moment, the technician ______ the equipment.", "options": ["checks", "checked", "is checking", "has checked"], "correct": 2, "explain": "The best answer is “is checking”."}], "sat-eng-gram-t5": [{"q": "Walking through the forest, ______.", "options": ["the birdsong could be heard by the hikers", "the hikers heard birdsong", "birds sang loudly", "the forest seemed peaceful to the hikers"], "correct": 1, "explain": "The best answer is “the hikers heard birdsong”."}, {"q": "Designed for long-distance travel, ______.", "options": ["the new train has comfortable seats", "the seats are comfortable", "engineers tested the train", "travelers liked the train"], "correct": 0, "explain": "The best answer is “the new train has comfortable seats”."}, {"q": "After reviewing the data, ______.", "options": ["the researchers changed their conclusion", "the conclusion was changed by the data", "the data appeared confusing", "the report was published"], "correct": 0, "explain": "The best answer is “the researchers changed their conclusion”."}, {"q": "To reduce energy use, ______.", "options": ["the building's lights were replaced with efficient bulbs", "efficient bulbs were purchased by the manager", "the manager installed efficient bulbs", "energy use was reduced"], "correct": 2, "explain": "The best answer is “the manager installed efficient bulbs”."}, {"q": "While crossing the bridge, ______.", "options": ["the sunset was photographed by Maya", "Maya photographed the sunset", "the sunset appeared orange", "the bridge was crowded"], "correct": 1, "explain": "The best answer is “Maya photographed the sunset”."}], "sat-eng-gram-t6": [{"q": "The rainfall was unusually heavy ______ the river rose rapidly.", "options": [", so", "; because", "so;", "because,"], "correct": 0, "explain": "The best answer is “, so”."}, {"q": "The team wanted to reach the summit ______ the weather became dangerous.", "options": ["but", "and", "because", "therefore"], "correct": 0, "explain": "The best answer is “but”."}, {"q": "The device is inexpensive ______ it is also durable.", "options": ["; however,", "however", ", however", "however,"], "correct": 0, "explain": "The best answer is “; however,”."}, {"q": "The researchers repeated the experiment ______ the first results were unexpected.", "options": ["because", "and because", "; because", "because;"], "correct": 0, "explain": "The best answer is “because”."}, {"q": "The road was closed ______ construction crews could safely repair the bridge.", "options": ["so that", "although", "unless", "whereas"], "correct": 0, "explain": "The best answer is “so that”."}], "sat-eng-gram-t7": [{"q": "The novel ______ a story about migration and memory ______ was published last spring.", "options": [", which explores,", "which explores", ", which explores", "which explores,"], "correct": 0, "explain": "The best answer is “, which explores,”."}, {"q": "The scientist, ______, presented the findings at the conference.", "options": ["a specialist in marine biology", "a specialist in marine biology,", "who a specialist in marine biology", "being a specialist in marine biology"], "correct": 0, "explain": "The best answer is “a specialist in marine biology”."}, {"q": "The new bridge ______ completed in 2025 ______ connects the two neighborhoods.", "options": [", which was,", ", which was", "which was,", "which was"], "correct": 0, "explain": "The best answer is “, which was,”."}, {"q": "The sculpture ______ created by a local artist ______ stands near the entrance.", "options": ["created by a local artist", "created by a local artist,", "which created by a local artist", ", created by a local artist"], "correct": 0, "explain": "The best answer is “created by a local artist”."}, {"q": "The research team ______ after months of testing ______ released its findings.", "options": [", after months of testing,", "after months of testing", ", after months of testing", "after months of testing,"], "correct": 0, "explain": "The best answer is “, after months of testing,”."}], "sat-eng-gram-t8": [{"q": "The researcher brought three items to the field site ______ a notebook, a camera, and a measuring device.", "options": [":", ";", "(no punctuation)", ","], "correct": 0, "explain": "The best answer is “:”."}, {"q": "The results were promising ______ however, the study requires further testing.", "options": [".", ";", ",", ":"], "correct": 1, "explain": "The best answer is “;”."}, {"q": "The experiment produced an unexpected result ______ the control group improved more than expected.", "options": [":", ";", ",", "."], "correct": 0, "explain": "The best answer is “:”."}, {"q": "The two materials differ in one important way ______ glass is transparent, whereas concrete is not.", "options": [":", ";", ",", "."], "correct": 0, "explain": "The best answer is “:”."}, {"q": "The museum's newest exhibit ______ featuring paintings from the 1920s ______ opens Saturday.", "options": [", featuring paintings from the 1920s,", "featuring paintings from the 1920s", "; featuring paintings from the 1920s,", "featuring paintings from the 1920s,"], "correct": 0, "explain": "The best answer is “, featuring paintings from the 1920s,”."}]});
+['ecat','fast-nuces','lums-lcat','nust-net'].forEach(id=>{ const c = COURSES.find(x=>x.id===id); if(c){ c.soon = true; c.subjects = []; } });   // content not uploaded yet
+COURSES.push({ id:'usat', name:'USAT', full:'USAT Entry Test', icon:'U', soon:true, subjects:[] });
+try{ COURSE_EMOJI.usat = '🎯'; }catch(e){}
 render();
 try{ navKeys[0] = navKey(navSnap()); history.replaceState(navSafeState(0), ''); }catch(e){}
 
@@ -12132,6 +12185,141 @@ if('serviceWorker' in navigator){
     navigator.serviceWorker.register('sw.js').catch(()=>{ /* offline support unavailable — app still works online */ });
   });
 }
+</script>
+<style id="engage-css">
+#xpbar{margin-top:10px;display:flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;color:var(--ink-soft);cursor:pointer}
+#xpbar .lv{background:var(--ink);color:var(--gold-soft);border-radius:12px;padding:3px 9px;white-space:nowrap}
+#xpbar .trk{flex:1;height:8px;background:var(--track);border-radius:6px;overflow:hidden}
+#xpbar .fil{display:block;height:100%;background:linear-gradient(90deg,var(--teal),var(--gold));border-radius:6px;transition:width .7s cubic-bezier(.2,.8,.2,1)}
+.eg-toast{position:fixed;left:50%;top:12px;transform:translate(-50%,-140px);z-index:100;background:var(--ink);color:#fff;padding:10px 16px;border-radius:14px;font-weight:600;font-size:14px;box-shadow:var(--shadow);transition:transform .45s cubic-bezier(.2,1.2,.3,1);max-width:90vw;text-align:center;pointer-events:none}
+.eg-toast.show{transform:translate(-50%,0)}
+.eg-xp{position:fixed;z-index:100;left:50%;top:42%;font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:26px;color:var(--teal-deep);pointer-events:none;animation:egUp 1.1s ease-out forwards;text-shadow:0 2px 0 #fff}
+@keyframes egUp{from{opacity:1;transform:translate(-50%,0) scale(.8)}to{opacity:0;transform:translate(-50%,-90px) scale(1.3)}}
+.eg-c{position:fixed;z-index:99;width:9px;height:14px;top:-20px;pointer-events:none;animation:egFall linear forwards}
+@keyframes egFall{to{transform:translateY(110vh) rotate(720deg)}}
+#eg-modal{position:fixed;inset:0;z-index:90;background:rgba(18,24,43,.55);display:flex;align-items:flex-end;justify-content:center}
+#eg-modal .sheet{background:var(--paper);width:100%;max-width:640px;max-height:85vh;overflow:auto;border-radius:20px 20px 0 0;padding:20px 18px 28px;animation:egSheet .3s ease-out}
+@keyframes egSheet{from{transform:translateY(60px);opacity:0}}
+#eg-modal h2{margin:0 0 4px;font-size:22px}
+.eg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.eg-b{background:var(--paper-raised);border:1.5px solid var(--card-border);border-radius:12px;padding:10px 6px;text-align:center;font-size:11px;color:var(--ink-soft)}
+.eg-b .i{font-size:28px;display:block}
+.eg-b b{display:block;color:var(--ink);font-size:12px;margin:2px 0}
+.eg-b.lock{opacity:.4;filter:grayscale(1)}
+.eg-row{display:flex;justify-content:space-between;gap:10px;margin-top:14px}
+.eg-row button{flex:1;padding:11px;border-radius:10px;border:1.5px solid var(--card-border);background:var(--paper-raised);font-weight:600;color:var(--ink)}
+</style>
+<script id="engage-js">
+(function(){
+const XK='merit_xp_v1';
+let X; try{X=JSON.parse(localStorage.getItem(XK))||{};}catch(e){X={};}
+X.xp=X.xp||0; X.badges=X.badges||{}; X.goalDay=X.goalDay||''; if(X.sound===undefined) X.sound=true;
+const save=()=>{try{localStorage.setItem(XK,JSON.stringify(X));}catch(e){}};
+const lvOf=xp=>Math.floor(Math.sqrt(xp/50))+1, base=l=>50*(l-1)*(l-1);
+const TITLES=['Rookie','Learner','Scholar','Achiever','Strategist','Sharpshooter','Specialist','Expert','Master','Legend'];
+const title=l=>TITLES[Math.min(l-1,TITLES.length-1)];
+const CHEER=['Every question makes you sharper.','Small daily wins beat last-minute cramming.','Mistakes are just data — review and move on.','You are building real exam stamina.','Consistency is your superpower.'];
+let combo=0;
+
+/* ---------- sound + haptics ---------- */
+let ac;
+function beep(f,d,t){ if(!X.sound) return; try{ ac=ac||new (window.AudioContext||window.webkitAudioContext)(); const o=ac.createOscillator(),g=ac.createGain(); o.type=t||'sine'; o.frequency.value=f; g.gain.setValueAtTime(.08,ac.currentTime); g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+d); o.connect(g); g.connect(ac.destination); o.start(); o.stop(ac.currentTime+d); }catch(e){} }
+function buzz(n){ try{ if(X.sound && navigator.vibrate) navigator.vibrate(n); }catch(e){} }
+
+/* ---------- toasts, floating XP, confetti ---------- */
+const queue=[]; let busy=false;
+function toast(msg){ queue.push(msg); if(!busy) next(); }
+function next(){ const m=queue.shift(); if(!m){busy=false;return;} busy=true; const t=document.createElement('div'); t.className='eg-toast'; t.textContent=m; document.body.appendChild(t); requestAnimationFrame(()=>requestAnimationFrame(()=>t.classList.add('show'))); setTimeout(()=>{t.classList.remove('show'); setTimeout(()=>{t.remove(); next();},450);},2100); }
+function pop(txt){ const p=document.createElement('div'); p.className='eg-xp'; p.textContent=txt; document.body.appendChild(p); setTimeout(()=>p.remove(),1150); }
+function confetti(n){ const cols=['#00B8A9','#AD8A2E','#F2641A','#12182B','#2F7D5C','#ff0011']; for(let i=0;i<n;i++){ const c=document.createElement('div'); c.className='eg-c'; c.style.left=Math.random()*100+'vw'; c.style.background=cols[i%cols.length]; c.style.animationDuration=(1.3+Math.random()*1.4)+'s'; c.style.animationDelay=(Math.random()*.4)+'s'; document.body.appendChild(c); setTimeout(()=>c.remove(),3400); } }
+
+/* ---------- XP + badges ---------- */
+const answers=()=>Object.values(activity.days||{}).reduce((a,b)=>a+b,0);
+const masteredN=()=>Object.values(progress||{}).filter(p=>p&&p.mastered).length;
+const BADGES=[
+ {id:'first',i:'🌱',n:'First Step',d:'Answer 1 question',t:()=>answers()>=1},
+ {id:'a50',i:'📚',n:'Bookworm',d:'Answer 50 questions',t:()=>answers()>=50},
+ {id:'a250',i:'🧠',n:'Brainiac',d:'Answer 250 questions',t:()=>answers()>=250},
+ {id:'a1000',i:'🏛️',n:'Question Titan',d:'Answer 1000 questions',t:()=>answers()>=1000},
+ {id:'s3',i:'🔥',n:'On Fire',d:'3-day streak',t:()=>streakCount()>=3},
+ {id:'s7',i:'⚡',n:'Unstoppable',d:'7-day streak',t:()=>streakCount()>=7},
+ {id:'s30',i:'👑',n:'Habit King',d:'30-day streak',t:()=>streakCount()>=30},
+ {id:'c5',i:'🎯',n:'Combo x5',d:'5 correct in a row',t:()=>(X.maxCombo||0)>=5},
+ {id:'c10',i:'🚀',n:'Combo x10',d:'10 correct in a row',t:()=>(X.maxCombo||0)>=10},
+ {id:'p1',i:'💯',n:'Flawless',d:'Perfect quiz',t:()=>(X.perfect||0)>=1},
+ {id:'m1',i:'🏅',n:'Mastery',d:'Master 1 topic',t:()=>masteredN()>=1},
+ {id:'m10',i:'🎓',n:'Topic Hunter',d:'Master 10 topics',t:()=>masteredN()>=10},
+ {id:'l5',i:'⭐',n:'Level 5',d:'Reach level 5',t:()=>lvOf(X.xp)>=5}
+];
+function award(n){ const b=lvOf(X.xp); X.xp+=n; const a=lvOf(X.xp); if(a>b){ toast('🎉 Level '+a+' — '+title(a)+'!'); confetti(70); beep(523,.15); setTimeout(()=>beep(784,.25),150); } bar(); }
+function checkBadges(){ BADGES.forEach(b=>{ if(!X.badges[b.id] && b.t()){ X.badges[b.id]=dayKey(); toast(b.i+' Badge unlocked: '+b.n); award(30); confetti(40); } }); save(); }
+
+/* ---------- XP bar in the top bar ---------- */
+function setT(el,v){ if(el&&el.textContent!==v) el.textContent=v; }
+function bar(){
+  const h=document.querySelector('header.topbar'); if(!h) return;
+  let b=document.getElementById('xpbar');
+  if(!b){ b=document.createElement('div'); b.id='xpbar'; b.title='Tap to see your badges'; b.innerHTML='<span class="lv"></span><span class="trk"><span class="fil"></span></span><span class="xp"></span>'; h.appendChild(b); }
+  const l=lvOf(X.xp), lo=base(l), hi=base(l+1);
+  setT(b.querySelector('.lv'),'Lv '+l+' · '+title(l));
+  setT(b.querySelector('.xp'),X.xp+' XP');
+  const w=Math.round((X.xp-lo)/(hi-lo)*100)+'%'; const f=b.querySelector('.fil'); if(f.style.width!==w) f.style.width=w;
+}
+new MutationObserver(()=>requestAnimationFrame(bar)).observe(document.getElementById('app'),{childList:true,subtree:true});
+
+/* ---------- badge / level sheet ---------- */
+function sheet(){
+  const l=lvOf(X.xp), need=base(l+1)-X.xp, got=Object.keys(X.badges).length;
+  const m=document.createElement('div'); m.id='eg-modal';
+  m.innerHTML='<div class="sheet"><h2 class="serif">Level '+l+' · '+title(l)+'</h2><div style="color:var(--ink-soft);font-size:13.5px">'+X.xp+' XP · '+need+' XP to next level · 🔥 '+streakCount()+'-day streak · '+got+'/'+BADGES.length+' badges</div><div class="eg-grid">'+BADGES.map(b=>'<div class="eg-b '+(X.badges[b.id]?'':'lock')+'"><span class="i">'+b.i+'</span><b>'+b.n+'</b>'+b.d+'</div>').join('')+'</div><div style="margin-top:14px;font-size:12.5px;color:var(--ink-soft)">+10 XP per correct answer, +3 for trying, combo bonuses from 3 in a row, +25 perfect quiz, +40 topic mastered, +50 daily goal.</div><div class="eg-row"><button data-snd>Sound &amp; vibration: '+(X.sound?'On':'Off')+'</button><button data-x>Close</button></div></div>';
+  m.addEventListener('click',e=>{ if(e.target===m||e.target.closest('[data-x]')) m.remove(); else if(e.target.closest('[data-snd]')){ X.sound=!X.sound; save(); m.remove(); sheet(); } });
+  document.body.appendChild(m);
+}
+document.addEventListener('click',e=>{ if(e.target.closest('#xpbar')) sheet(); });
+
+/* ---------- hook into the existing quiz flow ---------- */
+const _ca=checkAnswer;
+checkAnswer=function(){
+  const q=state.quiz;
+  if(!q||q.locked||q.selected===null) return _ca();
+  const ok=q.selected===q.bank[q.index].correct;
+  _ca();
+  if(ok){
+    combo++; X.maxCombo=Math.max(X.maxCombo||0,combo);
+    const g=10+(combo>=3?Math.min(combo,10):0);
+    award(g); pop('+'+g+' XP'); beep(660,.12); setTimeout(()=>beep(880,.16),110); buzz(25);
+    if(combo>=3) toast('🔥 '+combo+' in a row!');
+    if(combo%5===0) confetti(40);
+  } else { combo=0; award(3); pop('+3 XP for trying'); beep(220,.25,'triangle'); buzz([40,30,40]); }
+  if(todayCount()===dailyGoal() && X.goalDay!==dayKey()){ X.goalDay=dayKey(); award(50); toast('🎯 Daily goal complete! +50 XP'); confetti(80); }
+  checkBadges();
+};
+const _fq=finishQuiz;
+finishQuiz=function(){
+  const q=state.quiz, m0=masteredN();
+  _fq();
+  if(!q) return;
+  const total=q.correctCount+q.wrongCount;
+  if(q.wrongCount===0 && total>=3){ X.perfect=(X.perfect||0)+1; award(25); toast('💯 Perfect quiz! +25 XP'); confetti(90); }
+  else if(total && q.correctCount/total>=.6){ confetti(30); toast(CHEER[Math.floor(Math.random()*CHEER.length)]); }
+  else toast('Review the explanations — that is where growth happens.');
+  if(masteredN()>m0){ award(40); toast('🏅 Topic mastered! +40 XP'); confetti(100); }
+  combo=0; checkBadges();
+};
+/* ---- Coming-soon courses: block navigation and tell the student ---- */
+document.getElementById('app').addEventListener('click',e=>{
+  if(e.target.closest('[data-star]')) return;
+  const el = e.target.closest('[data-nav="subjects"],[data-resume],[data-quiz]'); if(!el) return;
+  const id = el.dataset.course || el.dataset.resume; const c = COURSES.find(x=>x.id===id);
+  if(!c || !c.soon) return;
+  e.stopPropagation(); e.preventDefault();
+  const m=document.createElement('div'); m.id='eg-modal';
+  m.innerHTML='<div class="sheet" style="text-align:center"><div style="font-size:44px">🚧</div><h2 class="serif">'+c.name+' is coming soon</h2><div style="color:var(--ink-soft);font-size:14px;margin-top:6px">Its questions and lessons will be uploaded soon. Meanwhile, keep your streak going with SAT or MDCAT.</div><div class="eg-row"><button data-x>Got it</button></div></div>';
+  m.addEventListener('click',ev=>{ if(ev.target===m||ev.target.closest('[data-x]')) m.remove(); });
+  document.body.appendChild(m);
+},true);
+bar(); setTimeout(checkBadges,600);
+})();
 </script>
 </body>
 </html>
