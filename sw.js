@@ -7,7 +7,7 @@
    other cached file) so returning users get the new version instead
    of a stale cached copy. Old caches are cleaned up automatically.
    ================================================================ */
-const CACHE_NAME = 'merit-cache-v13';
+const CACHE_NAME = 'merit-cache-v18';
 const APP_SHELL = [
   './',
   './index.html',
