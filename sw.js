@@ -6,7 +6,7 @@
    Bump CACHE_NAME whenever you change any file in APP_SHELL, so
    phones pick up the new service worker straight away.
    ================================================================ */
-const CACHE_NAME = 'merit-cache-v20';
+const CACHE_NAME = 'merit-cache-v21';
 const FONT_CACHE = 'merit-fonts-v1';           // Google Fonts, kept so the app looks right offline
 const APP_SHELL = [
   './',
